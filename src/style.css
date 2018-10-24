@@ -1,0 +1,33 @@
+dg-login {
+  height: 470px;
+  width: 440px;
+  border-radius: 15px;
+  background-color: #001d40;
+  background-image: radial-gradient(#28bae2, #001d40);
+  display: block; }
+  dg-login > div:not(#compatibleBrowsers) {
+    padding: 48px; }
+    dg-login > div:not(#compatibleBrowsers) img {
+      width: 130px; }
+      dg-login > div:not(#compatibleBrowsers) img#dglogo {
+        margin-top: 20px;
+        margin-bottom: 20px; }
+    dg-login > div:not(#compatibleBrowsers) input {
+      height: 40px; }
+  dg-login #compatibleBrowsers {
+    position: absolute;
+    right: 70px;
+    bottom: 30px; }
+
+p,
+h3 {
+  color: #ffffff;
+  background-color: #ebb6eb !important;
+  margin: 0 0 10px;
+  padding: 0;
+  -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+          box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75); }
+  p span,
+  h3 span {
+    color: #410404;
+    border: 5px solid red; }
