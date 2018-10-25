@@ -3,9 +3,9 @@ var a = 'hoi';
 console.log(b);
 
 function cs_ve() {
-function cvw_ve() {
-    console.log();
-}
+    function cvw_ve() {
+        console.log();
+    }
 }
 const test = [
     1,
