@@ -35,7 +35,7 @@ const paths =  {
 };
 
 
-gulp.task('precommit', function(){
+gulp.task('commit', function(){
     let jslint = gulp.src([paths.development.scripts], { base: './' })
         .pipe(eslint({ 
             config: styleguides, 

@@ -32,9 +32,9 @@
   "scripts": {
     "lint": "./node_modules/.bin/eslint --fix src/assets/scripts/**/*.js",
     "stylelint": "./node_modules/.bin/stylelint --fix src/assets/styles/**/*.scss",
-    "lintprecommit": "gulp precommit"
+    "test": "gulp commit"
   },
-  "precommit": "lintprecommit",
+  "precommit": "test",
   "author": "Guido",
   "license": "ISC"
 }
