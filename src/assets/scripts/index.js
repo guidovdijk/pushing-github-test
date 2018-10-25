@@ -3,7 +3,7 @@ var a = 'hoi';
 console.log(b);
 
 function ce() {
-    function cv_wc() {
+    function cv_awc() {
         console.log();
     }
 }

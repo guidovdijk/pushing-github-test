@@ -35,8 +35,8 @@ const paths =  {
 };
 
 
-gulp.task('commit', function(){
-    let jslint = gulp.src([paths.development.scripts], { base: './' })
+gulp.task('commitJs', function(){
+    return gulp.src([paths.development.scripts], { base: './' })
         .pipe(eslint({ 
             config: styleguides, 
             failAfterError: true,
@@ -44,8 +44,10 @@ gulp.task('commit', function(){
         }))
         .pipe(eslint.formatEach())
         .pipe(gulp.dest('./'));
+});
 
-    let stylelint = gulp.src([paths.development.styles], { base: './' })
+gulp.task('commitScss', function(){
+    return gulp.src([paths.development.styles], { base: './' })
         .pipe(gulpStylelint({
             fix: true,
             failAfterError: true,
@@ -53,9 +55,11 @@ gulp.task('commit', function(){
                 {formatter: 'string', console: true}
             ]
         }))
-        .pipe(gulp.dest('./'))
-    
-    return [jslint, stylelint];
+        .pipe(gulp.dest('./'));
+});
+
+gulp.task('commit', function(callback){
+    runSequence('commitJs', 'commitScss', callback);
 });
 
 gulp.task('JsLint', function () {
