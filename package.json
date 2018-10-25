@@ -25,6 +25,7 @@
     "gulp-uglify": "^3.0.1",
     "gulp-useref": "^3.1.5",
     "husky": "^1.1.2",
+    "lint-staged": "^7.3.0",
     "postcss-reporter": "^6.0.0",
     "run-sequence": "^2.2.1",
     "stylelint": "^9.6.0"
@@ -34,9 +35,13 @@
     "stylelint": "./node_modules/.bin/stylelint --fix src/assets/styles/**/*.scss --max-warnings=0",
     "test": "gulp commit"
   },
+  "lint-staged": {
+    "js": "npm run lint -s",
+    "scss": "npm run stylelint -s"
+  },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run test -s"
+      "pre-commit": "lint-staged"
     }
   },
   "author": "Guido",
