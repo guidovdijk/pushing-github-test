@@ -40,7 +40,7 @@
   "husky": {
     "silent": true,
     "hooks": {
-      "pre-commit": "gulp commit"
+      "pre-commit": "npm run -s precommit"
     }
   },
   "author": "Guido",
