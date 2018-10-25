@@ -3,9 +3,9 @@ var a = 'hoi';
 console.log(b);
 
 function hallo_tscsct() {
-    function test_brcsanch() {
-        console.log();
-    }
+function test_brcsanch() {
+    console.log();
+}
 }
 const test = [
     1,

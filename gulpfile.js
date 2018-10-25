@@ -39,8 +39,8 @@ gulp.task('commit', function(){
     let jslint = gulp.src([paths.development.scripts], { base: './' })
         .pipe(eslint({ 
             config: styleguides, 
-            fix: true,
-            failAfterError: true
+            failAfterError: true,
+            fix: true
         }))
         .pipe(eslint.formatEach())
         .pipe(gulp.dest('./'));
