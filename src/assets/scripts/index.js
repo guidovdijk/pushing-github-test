@@ -2,8 +2,8 @@ var a = 'hoi';
 
 console.log(b);
 
-function hallo_tscsct() {
-    function test_brcsanch() {
+function cs1() {
+    function cvw1() {
         console.log();
     }
 }
