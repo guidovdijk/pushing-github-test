@@ -31,17 +31,12 @@
     "stylelint": "^9.6.0"
   },
   "scripts": {
-    "precommit": "lint-staged"
+    "preprecommit": "lint-staged",
+    "precommit": "npm run -s preprecommit || echo 'some-script failed'"
   },
   "lint-staged": {
     "src/assets/scripts/**/*.js": "./node_modules/.bin/eslint --fix --max-warnings=0",
     "src/assets/styles/**/*.scss": "./node_modules/.bin/stylelint --fix --max-warnings=0"
-  },
-  "husky": {
-    "silent": true,
-    "hooks": {
-      "pre-commit": "npm run -s precommit"
-    }
   },
   "author": "Guido",
   "license": "ISC"
