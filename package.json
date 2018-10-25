@@ -32,11 +32,11 @@
   "scripts": {
     "lint": "./node_modules/.bin/eslint --fix src/assets/scripts/**/*.js --max-warnings=0",
     "stylelint": "./node_modules/.bin/stylelint --fix src/assets/styles/**/*.scss --max-warnings=0",
-    "gulpprecommit": "gulp commit && git add ."
+    "test": "start npm run lint && start npm run stylelint"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run gulpprecommit"
+      "pre-commit": "npm run test -s"
     }
   },
   "author": "Guido",

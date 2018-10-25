@@ -33,7 +33,7 @@
             "always"
         ],
         "camelcase": [
-            2, 
+            1, 
             {
                 "properties": "always"
             }
