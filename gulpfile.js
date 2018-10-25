@@ -38,7 +38,7 @@ const paths =  {
 gulp.task('commit', function(){
     let jslint = gulp.src([paths.development.scripts])
         .pipe(eslint({ 
-            config:styleguides, 
+            config: styleguides, 
             fix: true,
             maxWarnings: 0,
             failOnError: true,

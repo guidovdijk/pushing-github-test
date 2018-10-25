@@ -11,6 +11,7 @@
     "browser-sync": "^2.26.3",
     "del": "^3.0.0",
     "eslint": "^5.7.0",
+    "git-pre-commit": "^2.1.4",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^6.0.0",
     "gulp-cache": "^1.0.2",
@@ -25,18 +26,14 @@
     "gulp-uglify": "^3.0.1",
     "gulp-useref": "^3.1.5",
     "postcss-reporter": "^6.0.0",
-    "pre-commit": "^1.2.2",
     "run-sequence": "^2.2.1",
     "stylelint": "^9.6.0"
   },
   "scripts": {
     "lint": "./node_modules/.bin/eslint --fix src/assets/scripts/**/*.js",
     "stylelint": "./node_modules/.bin/stylelint --fix src/assets/styles/**/*.scss",
-    "beforeCommit": "echo 'post-commit started'"
+    "precommit": "gulp commit"
   },
-  "pre-commit": [
-    "beforeCommit"
-  ],
   "author": "Guido",
   "license": "ISC"
 }
