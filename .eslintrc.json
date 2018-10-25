@@ -9,23 +9,19 @@
     },
     "rules": {
         "indent": [
-            1,
+            2,
             4
         ],
         "array-element-newline": [
-            1,
+            2,
             { "multiline": true, "minItems": 3 }
         ],
-        "array-bracket-newline": [
-            1,
-            { "minItems": 0 } 
-        ],
         "linebreak-style": [
-            1,
+            2,
             "windows"
         ],
         "quotes": [
-            1,
+            2,
             "single"
         ],
         "semi": [
@@ -33,7 +29,7 @@
             "always"
         ],
         "camelcase": [
-            1, 
+            2, 
             {
                 "properties": "always"
             }

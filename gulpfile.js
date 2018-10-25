@@ -52,6 +52,7 @@ gulp.task('commitScss', function(){
         .pipe(gulpStylelint({
             fix: true,
             failAfterError: true,
+            maxWarning: 0,
             reporters: [
                 {formatter: 'string', console: true}
             ]

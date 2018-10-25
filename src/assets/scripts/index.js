@@ -2,8 +2,8 @@ var a = 'hoi';
 
 console.log(b);
 
-function ce_fe() {
-    function cv_dqwaawc() {
+function ce_fecs() {
+    function cv_dqwfaawc() {
         console.log();
     }
 }

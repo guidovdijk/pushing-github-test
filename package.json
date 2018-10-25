@@ -31,17 +31,16 @@
     "stylelint": "^9.6.0"
   },
   "scripts": {
-    "lint": "./node_modules/.bin/eslint --fix src/assets/scripts/**/*.js --max-warnings=0",
-    "stylelint": "./node_modules/.bin/stylelint --fix src/assets/styles/**/*.scss --max-warnings=0",
-    "test": "gulp commit"
+    "precommit": "lint-staged"
   },
   "lint-staged": {
-    "js": "npm run lint -s",
-    "scss": "npm run stylelint -s"
+    "src/assets/scripts/**/*.js": "./node_modules/.bin/eslint --fix --max-warnings=0",
+    "src/assets/styles/**/*.scss": "./node_modules/.bin/stylelint --fix --max-warnings=0"
   },
   "husky": {
+    "silent": true,
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "gulp commit"
     }
   },
   "author": "Guido",
