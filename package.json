@@ -37,7 +37,7 @@
   },
   "precommit.silent": true,
   "pre-commit": [
-    "npm run testing"
+    "testing"
   ],
   "author": "Guido",
   "license": "ISC"
