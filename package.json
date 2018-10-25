@@ -8,6 +8,7 @@
     "stylelint-scss": "^3.3.1"
   },
   "devDependencies": {
+    "husky": "^1.1.2",
     "browser-sync": "^2.26.3",
     "del": "^3.0.0",
     "eslint": "^5.7.0",
@@ -24,15 +25,14 @@
     "gulp-stylelint": "^7.0.0",
     "gulp-uglify": "^3.0.1",
     "gulp-useref": "^3.1.5",
-    "husky": "^1.1.2",
     "postcss-reporter": "^6.0.0",
-    "pre-commit": "^1.2.2",
     "run-sequence": "^2.2.1",
     "stylelint": "^9.6.0"
   },
   "scripts": {
     "lint": "./node_modules/.bin/eslint --fix src/assets/scripts/**/*.js",
     "stylelint": "./node_modules/.bin/stylelint --fix src/assets/styles/**/*.scss",
+    "gulpcommit": "gulp commit"
   },
   "husky": {
     "hooks": {
