@@ -3,7 +3,7 @@ var a = 'hoi';
 console.log(b);
 
 function hallo_test() {
-    function test() {
+    function test_branch() {
         console.log();
     }
 }
