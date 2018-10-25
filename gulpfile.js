@@ -40,7 +40,8 @@ gulp.task('commitJs', function(){
         .pipe(eslint({ 
             config: styleguides, 
             failAfterError: true,
-            fix: true
+            fix: true,
+            maxWarning: 0
         }))
         .pipe(eslint.formatEach())
         .pipe(gulp.dest('./'));
