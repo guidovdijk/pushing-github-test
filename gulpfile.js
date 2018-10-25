@@ -36,16 +36,16 @@ const paths =  {
 
 
 gulp.task('commit', function(){
-    let jslint = gulp.src([paths.development.scripts])
+    let jslint = gulp.src([paths.development.scripts], { base: './' })
         .pipe(eslint({ 
             config: styleguides, 
             fix: true,
-            maxWarnings: 0,
-            failOnError: true,
+            failOnError: true
         }))
-        .pipe(eslint.formatEach());
+        .pipe(eslint.formatEach())
+        .pipe(gulp.dest('./'));
 
-    let stylelint = gulp.src([paths.development.styles])
+    let stylelint = gulp.src([paths.development.styles], { base: './' })
         .pipe(gulpStylelint({
             fix: true,
             failAfterError: true,
@@ -53,6 +53,7 @@ gulp.task('commit', function(){
                 {formatter: 'string', console: true}
             ]
         }))
+        .pipe(gulp.dest('./'))
     
     return [jslint, stylelint];
 });
@@ -76,7 +77,7 @@ gulp.task('SassLint', function(){
         .pipe(gulp.dest('./'));
 });
 
-gulp.task('sass', ['SassLint'], function() {
+gulp.task('sass', function() {
     return gulp.src(paths.development.styles)
         .pipe(sass())
         .pipe(prefix('last 2 versions'))
