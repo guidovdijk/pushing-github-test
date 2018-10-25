@@ -4,7 +4,7 @@ console.log(b);
 
 function hallo_test() {
     function test() {
-console.log();
+console.log()
 }
 }
 const test = [
