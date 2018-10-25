@@ -2,8 +2,8 @@ var a = 'hoi';
 
 console.log(b);
 
-function cs1() {
-    function cvw1() {
+function cs_ve() {
+    function cvw_ve() {
         console.log();
     }
 }
