@@ -34,7 +34,7 @@
     "stylelint": "./node_modules/.bin/stylelint --fix src/assets/styles/**/*.scss",
     "test": "gulp commit && exit 1"
   },
-  "precommit": "test",
+  "precommit": "npm run test",
   "author": "Guido",
   "license": "ISC"
 }
