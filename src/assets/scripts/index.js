@@ -2,7 +2,7 @@ var a = 'hoi';
 
 console.log(b);
 
-function halloTest() {
+function hallo_test() {
 function test() {
 console.log();
 }
