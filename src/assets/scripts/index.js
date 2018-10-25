@@ -3,9 +3,9 @@ var a = 'hoi';
 console.log(b);
 
 function hallo_test() {
-function test_branch() {
-console.log();
-}
+    function test_branch() {
+        console.log();
+    }
 }
 const test = [
     1,
