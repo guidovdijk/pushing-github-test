@@ -65,7 +65,7 @@ gulp.task('JsLint', function () {
 });
 
 gulp.task('SassLint', function(){
-    return gulp.src(paths.development.styles)
+    return gulp.src(paths.development.styles, { base: './' })
         .pipe(gulpStylelint({
             fix: true,
             failAfterError: false,
@@ -73,6 +73,7 @@ gulp.task('SassLint', function(){
                 {formatter: 'verbose', console: true}
             ]
         }))
+        .pipe(gulp.dest('./'));
 });
 
 gulp.task('sass', ['SassLint'], function() {

@@ -11,6 +11,7 @@
         "block-no-empty": true,
         "block-closing-brace-newline-before": "always",
         "block-closing-brace-newline-after": "always",
+        "block-opening-brace-newline-after": "always",
         
         "color-hex-case": "lower",
         "color-hex-length": "long",

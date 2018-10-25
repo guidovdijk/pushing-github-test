@@ -1,5 +1,5 @@
 @import './text.scss';
-$test: #ffffff;
+$test: #FFF;
 
 p,
 h3 {
@@ -7,9 +7,6 @@ h3 {
     background-color: rgb(235, 182, 235) !important;
     margin: 0 0 10px;
     padding: 0;
-    box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
-    span {
-    color: rgb(65, 4, 4);
-    border: 5px solid rgb(172, 23, 23);
-    }
+    box-shadow: 10px 10px 5px 0 rgba(0, 0, 0, .75);
+    span {color: rgb(65, 4, 4);border: 5px solid rgb(231, 152, 152);}
 }
