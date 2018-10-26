@@ -3,7 +3,7 @@ var a = 'hoi';
 console.log(b);
 
 function ceecs() { 
-    function cvqwftsaawc() {
+    function cvwftsaawc() {
         console.log();
     }
 }

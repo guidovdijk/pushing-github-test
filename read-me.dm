@@ -13,7 +13,22 @@ To see all branches type: git branch
 
 --  Switch branch  --.
 
-    -1: git checkout [name_of_your_new_branch]
+    -1: git checkout [name_of_your_branch]
+
+
+--  Merge branch  --.
+
+    -1: Go to the branch you want to update (In this example we're gonna update Master with another branch, you go to master)
+        git checkout [name_of_your_branch]
+
+    -2: Get the newest version of that branch.
+        git pull origin [name_of_your_branch]
+
+    -3: Merge with the branch you want.
+        git merge [name_of_the_branch_you_want_to_merge]
+
+    -4: Push the updated branch to github
+        git push [name_of_your_updated_branch]
 
 
 --  Delete branch (WARNING)  --.
