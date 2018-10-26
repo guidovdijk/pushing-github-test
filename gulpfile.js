@@ -99,7 +99,7 @@ gulp.task('jsAndHtmlMinify', function(){
         .pipe(gulpIf('*.js', 
             minify({
                 mangle: {
-                keepClassName: true
+                    keepClassName: true
                 }
             })
         ))
