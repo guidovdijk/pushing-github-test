@@ -14,7 +14,11 @@
         ],
         "array-element-newline": [
             2,
-            { "multiline": true, "minItems": 3 }
+            { "minItems": 4 }
+        ],
+        "array-bracket-newline": [
+            2,
+            { "minItems": 4 }
         ],
         "linebreak-style": [
             2,
@@ -27,6 +31,17 @@
         "semi": [
             "warn",
             "always"
+        ],
+        "no-multi-spaces": [
+            2,
+            {
+                "ignoreEOLComments": true,
+                "exceptions": { 
+                    "Property": true,
+                    "VariableDeclarator": true,
+                    "ImportDeclaration": true
+                }
+            }
         ],
         "camelcase": [
             2, 

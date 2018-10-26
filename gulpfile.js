@@ -35,49 +35,29 @@ const paths =  {
 };
 
 
-gulp.task('commitJs', function(){
-    return gulp.src([paths.development.scripts], { base: './' })
-        .pipe(eslint({ 
-            config: styleguides, 
-            failAfterError: true,
-            fix: true,
-            maxWarning: 0
-        }))
-        .pipe(eslint.formatEach())
-        .pipe(gulp.dest('./'));
-});
+gulp.task('prettify', function(callback){
+    runSequence('SassLint', 'JsLint', callback);
+})
 
-gulp.task('commitScss', function(){
-    return gulp.src([paths.development.styles], { base: './' })
-        .pipe(gulpStylelint({
-            fix: true,
-            failAfterError: true,
-            maxWarning: 0,
-            reporters: [
-                {formatter: 'string', console: true}
-            ]
-        }))
-        .pipe(gulp.dest('./'));
-});
-
-gulp.task('commit', function(callback){
-    runSequence('commitJs', 'commitScss', callback);
-});
-
-gulp.task('JsLint', function () {
+gulp.task('jsLint', function () {
     return gulp.src(paths.development.scripts, {base: './'})
-        .pipe(eslint({config:styleguides, fix: true}))
+        .pipe(eslint({
+            config:styleguides, 
+            fix: true
+        }))
         .pipe(eslint.formatEach())
         .pipe(gulp.dest('./'))
 });
 
-gulp.task('SassLint', function(){
+gulp.task('sassLint', function(){
     return gulp.src(paths.development.styles, { base: './' })
         .pipe(gulpStylelint({
             fix: true,
             failAfterError: false,
             reporters: [
-                {formatter: 'verbose', console: true}
+                {
+                    formatter: 'string', console: true
+                }
             ]
         }))
         .pipe(gulp.dest('./'));
@@ -101,10 +81,16 @@ gulp.task('browserSync', function() {
     });
 });
 
-gulp.task('watch', ['browserSync', 'sass', 'JsLint'], function (){
+gulp.task('watch', ['browserSync', 'sass'], function (){
     gulp.watch(paths.development.styles, ['sass']); 
     gulp.watch(paths.development.html, browserSync.reload); 
-    gulp.watch(paths.development.scripts, ['JsLint']); 
+    gulp.watch(paths.development.scripts, browserSync.reload); 
+});
+
+gulp.task('watch:autofix', ['browserSync', 'sassLint', 'sass', 'jsLint'], function (){
+    gulp.watch(paths.development.styles, ['sassLint', 'sass']); 
+    gulp.watch(paths.development.html, browserSync.reload); 
+    gulp.watch(paths.development.scripts, ['jsLint']); 
 });
 
 gulp.task('jsAndHtmlMinify', function(){

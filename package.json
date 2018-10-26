@@ -31,12 +31,20 @@
     "stylelint": "^9.6.0"
   },
   "scripts": {
-    "preprecommit": "lint-staged",
-    "precommit": "npm run -s preprecommit || echo 'some-script failed'"
+    "precommit": "lint-staged"
   },
   "lint-staged": {
     "src/assets/scripts/**/*.js": "./node_modules/.bin/eslint --fix --max-warnings=0",
     "src/assets/styles/**/*.scss": "./node_modules/.bin/stylelint --fix --max-warnings=0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guidovdijk/push-to-github"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run -s precommit"
+    }
   },
   "author": "Guido",
   "license": "ISC"

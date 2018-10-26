@@ -2,7 +2,7 @@ dg-login {
   height: 470px;
   width: 440px;
   border-radius: 15px;
-  background-color: #001d40;
+  background-color: red;
   background-image: radial-gradient(#28bae2, #001d40);
   display: block; }
   dg-login > div:not(#compatibleBrowsers) {
@@ -21,13 +21,13 @@ dg-login {
 
 p,
 h3 {
-  color: #FFF;
-  background-color: #ebb6eb !important;
+  color: #ffffff;
+  background-color: #b685b6 !important;
   margin: 0 0 10px;
   padding: 0;
-  -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
-          box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75); }
+  -webkit-box-shadow: 10px 10px 5px 0 rgba(0, 0, 0, 0.75);
+          box-shadow: 10px 10px 5px 0 rgba(0, 0, 0, 0.75); }
   p span,
   h3 span {
-    color: #410404;
+    color: red;
     border: 5px solid #e79898; }
