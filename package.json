@@ -39,7 +39,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/guidovdijk/push-to-github"
+    "url": "https://github.com/guidovdijk/push-to-github.git"
   },
   "husky": {
     "hooks": {
