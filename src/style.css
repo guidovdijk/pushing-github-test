@@ -25,8 +25,8 @@ h3 {
   background-color: #b685b6 !important;
   margin: 0 0 10px;
   padding: 0;
-  -webkit-box-shadow: 10px 10px 5px 0 rgba(0, 0, 0, 0.15);
-          box-shadow: 10px 10px 5px 0 rgba(0, 0, 0, 0.15); }
+  -webkit-box-shadow: 10px 10px 5px 0 rgba(197, 42, 158, 0.15);
+          box-shadow: 10px 10px 5px 0 rgba(197, 42, 158, 0.15); }
   p span,
   h3 span {
     color: red;
