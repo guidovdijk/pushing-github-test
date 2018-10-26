@@ -1,3 +1,7 @@
+--  SETUP  --
+    
+    -1: git remote add origin https://github.com/guidovdijk/pushing-github-test.git
+
 --  BRANCHES  --
 
 To see all branches type: git branch

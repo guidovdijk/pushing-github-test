@@ -2,7 +2,6 @@ const gulp = require('gulp'),
 cleanCSS = require('gulp-clean-css'),
 sass = require('gulp-sass'),
 htmlmin = require('gulp-htmlmin'),
-uglify = require('gulp-uglify'),
 browserSync = require('browser-sync').create(),
 useref = require('gulp-useref'),
 gulpIf = require('gulp-if'),
@@ -12,7 +11,8 @@ imagemin = require('gulp-imagemin'),
 cache = require('gulp-cache'),
 eslint = require('gulp-eslint'),
 gulpStylelint = require('gulp-stylelint'),
-prefix = require('gulp-autoprefixer');
+prefix = require('gulp-autoprefixer'),
+minify = require("gulp-babel-minify");
 
 const styleguides = require('./.eslintrc.json');
 
@@ -96,7 +96,13 @@ gulp.task('watch:autofix', ['browserSync', 'sassLint', 'sass', 'jsLint'], functi
 gulp.task('jsAndHtmlMinify', function(){
     return gulp.src(paths.development.html)
         .pipe(useref())
-        .pipe(gulpIf('*.js', uglify()))
+        .pipe(gulpIf('*.js', 
+            minify({
+                mangle: {
+                keepClassName: true
+                }
+            })
+        ))
         .pipe(htmlmin({ 
             collapseWhitespace: true,
             removeComments: true

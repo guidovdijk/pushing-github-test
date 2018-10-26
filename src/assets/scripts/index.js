@@ -7,8 +7,8 @@ function ceecs() {
         console.log();
     }
 }
-const test = [
-    1,
+//fwefwf
+let test = [
     2,
     3,
     4
