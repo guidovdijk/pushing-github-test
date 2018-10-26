@@ -2,7 +2,7 @@ var a = 'hoi';
 
 console.log(b);
 
-function ceecs() { 
+function cedwecs() { 
     function cvwftsaawc() {
         console.log();
     }

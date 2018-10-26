@@ -44,7 +44,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run -s precommit && echo '_______________________________________'"
+      "pre-commit": "npm run -s precommit && echo '===== COMMIT SUCCESFULL ====='"
     }
   },
   "author": "Guido",
