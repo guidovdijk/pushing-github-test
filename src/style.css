@@ -29,5 +29,5 @@ h3 {
           box-shadow: 10px 10px 5px 0 rgba(0, 0, 0, 0.15); }
   p span,
   h3 span {
-    color: #972f2f;
+    color: red;
     border: 5px solid #e79898; }
