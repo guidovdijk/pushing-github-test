@@ -8,8 +8,4 @@ function ceecs() {
     }
 }
 //fwefwf
-let test = [
-    2,
-    3,
-    4
-];
+let test = [2, 3, 4];
