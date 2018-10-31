@@ -1,0 +1,45 @@
+{ 
+    "main": "App.scss",
+    "components": [
+        "_aside.scss",
+        {
+            "nav": [
+                "_navbar.scss"
+            ]
+        },
+        {
+            "footer": [
+                "_footer.scss",
+                {
+                    "test": [
+                        "_test1.scss",
+                        "_test2.scss",
+                        "_test3.scss"
+                    ]
+                }
+            ]
+        },
+        {
+            "cards": [
+                "_product.scss",
+                "_item.scss",
+                "_hero.scss",
+                {
+                    "title": [
+                        "_typography.scss",
+                        "_color.scss",
+                        {
+                            "test": [
+                                "_test1.scss"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "lists": [
+        "_list.scss",
+        "_list-items.scss"
+    ]
+}

@@ -12,9 +12,12 @@ cache = require('gulp-cache'),
 eslint = require('gulp-eslint'),
 gulpStylelint = require('gulp-stylelint'),
 prefix = require('gulp-autoprefixer'),
-minify = require("gulp-babel-minify");
+minify = require("gulp-babel-minify"),
+fse = require('fs-extra'),
+prompt = require('gulp-prompt');
 
-const styleguides = require('./.eslintrc.json');
+const styleguides = require('./.eslintrc.json'),
+directories = require('./scss-files.json');
 
 const paths =  {
     production: {
@@ -23,6 +26,7 @@ const paths =  {
     },
     development: {
         folder: 'src',
+        styleFolder: 'test/styles/',
         scripts: 'src/assets/scripts/**/*.js',
         styles: 'src/assets/styles/**/*.scss',
         html: 'src/**/*.html',
@@ -34,10 +38,165 @@ const paths =  {
     }
 };
 
-
 gulp.task('prettify', function(callback){
     runSequence('SassLint', 'JsLint', callback);
-})
+});
+
+gulp.task('prompting', function(){
+    return gulp.src("./**", {base: '/'})
+    .pipe(prompt.confirm('Running this command for the second time and up, will override your .scss files. Do you want to continue?'))
+});
+
+let parentFiles = [];
+
+gulp.task('mkdir', ['prompting'], function(){
+    let pathToFolder = paths.development.styleFolder;
+    subFileLoop(directories, '');
+    parentFiles = parentFiles.join("").replace(/,/g," ");
+    makeFiles(pathToFolder + directories.main, parentFiles);
+});
+
+function subFileLoop(target, parent){
+    let pathToFolder = paths.development.styleFolder;
+    let fileUrls = [];
+    let parents = parent;
+
+    if(parents){
+        pathToFolder = `${pathToFolder + parents}/`;
+    }
+
+    for (let key of Object.keys(target)) {
+        if(key !== 'main'){
+            let p = key + '/';
+            let fileName = "__" + key + ".scss";
+            let childFiles = '';
+            let element = '';
+            for (let i = 0; i < target[key].length; i++) {
+                element = target[key][i];
+                
+                if(typeof element == 'object'){
+                    
+                    subFileLoop(element, parents+'/'+key);
+                    
+                    for (let names of Object.keys(element)) {
+                        console.log('element', element[names]);
+                        console.log('names', element[names][1]);
+                        if(element[names].length == 1){
+                            fileUrls.push(`@import "${names}/${element[names][0].replace(/_/g, '')}";\n`);
+                        } else {
+                            fileUrls.push(`@import "${names}/_${names}.scss";\n`);
+                        }
+                    }
+                    parentFiles = [];
+                } else {
+                    makeFiles(pathToFolder + p + element, '');
+                    fileUrls.push(`@import "${element.replace('_', '')}";\n`);          
+                }
+            }
+            
+            childFiles = fileUrls;
+            childFiles = childFiles.join("");
+
+            parentFiles.push(`@import "${p + fileName.replace('_', '')}";\n`);
+
+            if(target[key].length >= 2){
+                makeFiles(pathToFolder + p + fileName, childFiles);
+            }
+
+            fileUrls = [];
+        }
+    }
+}
+
+// gulp.task('mkdir backup', function(){
+
+//     const pathToFolder = 'test/styles/';
+
+//     for (let key of Object.keys(directories)) {
+//         if(key !== 'main'){
+//             let p = key + '/';
+//             let fileName = "__" + key + ".scss";
+//             let childFiles = '';
+
+//             for (let i = 0; i < directories[key].length; i++) {
+
+//                 let element = directories[key][i];
+
+                
+//                 if(typeof directories[key][i] == 'object'){
+//                     subFileLoop(directories[key][i], key);
+//                 } else {
+                    
+//                     urls.push(`@import "${element}";\n`);
+
+//                     makeFiles(pathToFolder + p + element, '');
+
+//                 }
+
+//             }
+
+//             childFiles = urls;
+//             childFiles = childFiles.join("").replace(/,/g," ").replace('_', '');
+
+//             parentFiles.push(`@import "${p + fileName.replace('_', '')}";\n`);
+
+//             makeFiles(pathToFolder + p + fileName, childFiles);
+            
+//             urls = [];
+//         }
+//     }
+    
+//     parentFiles = parentFiles.join("").replace(/,/g," ");
+
+//     makeFiles(pathToFolder + directories.main, parentFiles);
+
+// });
+
+// function subFileLoop(target, parent){
+
+//     let fileUrls = [];
+//     let pathToFolder = 'test/styles/' + parent + '/';
+
+//     console.log('p and t', parent, target)
+
+//     for (let key of Object.keys(target)) {
+//         console.log('PATH', pathToFolder)
+//         console.log('KEY', key)
+//         if(key !== 'main'){
+//             let p = key + '/';
+//             let fileName = "__" + key + ".scss";
+//             let childFiles = '';
+            
+//             for (let i = 0; i < target[key].length; i++) {
+                
+//                 let element = target[key][i];
+                
+//                 fileUrls.push(`@import "${element.replace('_', '')}";\n`);
+                
+//                 makeFiles(pathToFolder + p + element, '');
+                
+//             }
+            
+//             childFiles = fileUrls;
+//             childFiles = childFiles.join("").replace(/,/g," ").replace(/_/g, '');
+//             console.log('URLS childs', childFiles)
+            
+//             console.log('URLS parents', parentFiles)
+//             urls.push(`@import "${p + fileName.replace('_', '')}";\n`);
+            
+//             makeFiles(pathToFolder + p + fileName, childFiles);
+
+//         }
+//     }
+// }
+
+function makeFiles(filePath, fileContent){
+    fse.outputFile(filePath, fileContent, err => {
+        if(err) {
+            console.log(err);
+        }
+    });
+}
 
 gulp.task('jsLint', function () {
     return gulp.src(paths.development.scripts, {base: './'})
