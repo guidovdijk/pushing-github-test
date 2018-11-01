@@ -71,18 +71,18 @@ function subFileLoop(target, parent){
             let fileName = "__" + key + ".scss";
             let childFiles = '';
             let element = '';
+            let makeFile = false;
             for (let i = 0; i < target[key].length; i++) {
                 element = target[key][i];
                 
                 if(typeof element == 'object'){
-                    
+
                     subFileLoop(element, parents+'/'+key);
                     
                     for (let names of Object.keys(element)) {
-                        console.log('element', element[names]);
-                        console.log('names', element[names][1]);
-                        if(element[names].length == 1){
-                            fileUrls.push(`@import "${names}/${element[names][0].replace(/_/g, '')}";\n`);
+                        if(element[names].length == 1 && typeof element[names][0] !== 'object'){
+                            fileUrls.push(`@import "${names}/${("" + element[names][0]).replace(/_/g, '')}";\n`);
+                            makeFile == true;
                         } else {
                             fileUrls.push(`@import "${names}/_${names}.scss";\n`);
                         }
@@ -93,13 +93,13 @@ function subFileLoop(target, parent){
                     fileUrls.push(`@import "${element.replace('_', '')}";\n`);          
                 }
             }
-            
+
             childFiles = fileUrls;
             childFiles = childFiles.join("");
 
             parentFiles.push(`@import "${p + fileName.replace('_', '')}";\n`);
 
-            if(target[key].length >= 2){
+            if(target[key].length >= 2 || typeof element === 'object' && makeFile){
                 makeFiles(pathToFolder + p + fileName, childFiles);
             }
 

@@ -9,12 +9,16 @@
         },
         {
             "footer": [
-                "_footer.scss",
                 {
                     "test": [
                         "_test1.scss",
                         "_test2.scss",
                         "_test3.scss"
+                    ]
+                },
+                {
+                    "test2": [
+                        "_test1-2.scss"
                     ]
                 }
             ]
@@ -30,7 +34,12 @@
                         "_color.scss",
                         {
                             "test": [
-                                "_test1.scss"
+                                "_test1.scss",
+                                {
+                                    "whats": [
+                                        "_updog.scss"
+                                    ]
+                                }
                             ]
                         }
                     ]
