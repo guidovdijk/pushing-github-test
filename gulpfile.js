@@ -44,6 +44,7 @@ gulp.task('prettify', function (callback) {
     runSequence('SassLint', 'JsLint', callback);
 });
 
+// Task met waarschuwings bericht
 gulp.task('prompting', function () {
     return gulp.src("./**", {
             base: '/'
@@ -51,9 +52,13 @@ gulp.task('prompting', function () {
         .pipe(prompt.confirm('Running this command for the second time and up, will override your .scss files. Do you want to continue?'))
 });
 
+// parentFiles zijn de bestanden die in dezelfde map staan als de App.scss
+// En deze worden geïmporteerd in de App.scss
 let parentFiles = [];
 
-gulp.task('mkdir', function () {
+// Omdat de task om bestanden aan te maken al je bestanden die in dezelfde map staan overschrijft, wordt er voordat het wordt uitgevoerd
+// Een andere task 'prompting' uitgevoerd die je een waarschuwings bericht geeft die je moet accepteren om de functie uit te laten voeren.
+gulp.task('mkdir', ['prompting'], function () {
     // zet het path naar waar de bestanden opgeslagen moeten worden
     let pathToFolder = paths.development.styleFolder;
     // initialize de functie met de directories data en een leeg path.
@@ -69,141 +74,99 @@ gulp.task('mkdir', function () {
 function subFileLoop(target, parent) {
     // Zet pathToFolder gelijk aan het pad voor de bestanden
     let pathToFolder = paths.development.styleFolder;
+    // fileUrls is het pad naar de 'hoofd children bestand'. wat dit in houdt is dat als je een map hebt met 1 bestand (parentTest.scss) 
+    // en een andere map daarin met 5 bestanden (test.scss, test2.scss etc...)
+    // Er 1 bestand (hoofdtest.scss) in die map zit die de andere 4 in laadt.
+    // En dat pad van (hoofdtest.scss) word in (parenttest.scss) gezet.
     let fileUrls = [];
     // Zet de parents variable gelijk aan de parameter van de functie.
     let parents = parent;
 
-    // Als parents
+    // Als parents 'waar' is zet het gelijk aan pathToFolder + de parameter van de functie
     if (parents) {
         pathToFolder = `${pathToFolder + parents}/`;
     }
 
+    // Loop over alle objecten in het json bestand (zie: 'scss-files.json')
     for (let key of Object.keys(target)) {
+        // Als het object niet de naam 'main' heeft voer dan de rest uit
         if (key !== 'main') {
+            // variable p is gelijk aan key + / (uitkomst: main/)
             let p = key + '/';
+            // Formateer de 'key' naam met '__' en '.scss' om er een scss bestand van te maken
             let fileName = "__" + key + ".scss";
+            // childFiles zijn alle children die in de parent geladen moeten worden (@import directory.file.scss)
             let childFiles = '';
+            // Initialize element
             let element = '';
+            // Variable makeFile dat ervoor zorgt dat als er geen bestand word aangemaakt als het false is
             let makeFile = false;
+            // loop over de arrys van de objects
             for (let i = 0; i < target[key].length; i++) {
+                // Zet element gelijk aan de naam van een element in de array
                 element = target[key][i];
 
+                // Als element een object is word de functie nog een keer uitgevoerd, omdat je niet het element als path kan gebruiken in
+                // de makeFiles function, omdat het geen string is
                 if (typeof element == 'object') {
 
+                    // voer de functie nog een keer uit: element (bijvoorbeeld { test: {...} }) is de target parameter waar de bestanden worden gemaakt,
+                    // parents + '/' + key ( components/footer/../.. (gaat zo ver door totdat er geen object meer is) )
+                    // parents + '/' + key is het pad waar de bestanden in moeten komen 
+                    // bijvoorbeeld de bestanden moeten in de map 'footer' komen die in de map 'components' zit die in de map 'styles zit' (styles komt uit het pathToFolder variable)
                     subFileLoop(element, parents + '/' + key);
-
+                    
+                    // Nadat de functie is uitgevoerd worden de namen en het pad van de files gelooped, om deze data in het parent bestand te zetten, zodat het geimporteerd wordt.
                     for (let names of Object.keys(element)) {
+                        // Soms komt het voor dat het element een array is dat leeg is of dat het een object is
+                        // Als dat niet zo is betekent dat erin bestanden in de array zitten
                         if (element[names].length == 1 && typeof element[names][0] !== 'object') {
+                            // Het pad naar het 'hoofd children bestand' word in fileUrls gepushed en makeFile wordt 'waar', zodat dat bestand word aangemaakt
                             fileUrls.push(`@import "${names}/${("" + element[names][0]).replace(/_/g, '')}";\n`);
                             makeFile == true;
                         } else {
+                            // Als er maar 1 bestand in een map zit word deze geïmporteerd en wordt het 'hoofd children bestand' niet aangemaakt.
                             fileUrls.push(`@import "${names}/_${names}.scss";\n`);
                         }
                     }
+                    // We legen de parentFiles, zodat de bestanden die dieper zitten niet ingeladen worden in de App.scss.
                     parentFiles = [];
                 } else {
+                    // Hier worden alle bestanden aangemaakt van je scss-files.json, zonder content
                     makeFiles(pathToFolder + p + element, '');
+                    // child bestanden worden geïmporteerd in het 'hoofd children bestand'
                     fileUrls.push(`@import "${element.replace('_', '')}";\n`);
                 }
             }
 
+            // Formateer de array naar een string ( .join("") ), zodat de comma's van de array weggehaald 
+            // kunnen worden en alles op een nieuwe lijn kunne plaatsen door de '\n'
+            // En haal de '_' weg van de naam om te voldoen aan de .scss import standaarden.
+            // bestand heet _file.scss en word geïmporteerd door @import file.scss
+            // Als je een bestand hebt dat je wilt importeren dat ook andere bestanden importeerd, dan heet het bestand __file.scss 
+            // en word geimporteerd door@import _file.scss
             childFiles = fileUrls;
             childFiles = childFiles.join("");
 
+            // p + fileName is het pad naar alle 'hoofd children' bestanden. 
             parentFiles.push(`@import "${p + fileName.replace('_', '')}";\n`);
 
+            // Als er 2 of meer bestanden in de folder zitten of het element gelijk is aan een object en makeFile waar is, dan wordt de makeFiles functie uitgevoerd. 
             if (target[key].length >= 2 || typeof element === 'object' && makeFile) {
                 makeFiles(pathToFolder + p + fileName, childFiles);
             }
 
+            // Maak de fileUrls weer leeg, zodat er geen dubbelen imports komen
             fileUrls = [];
         }
     }
 }
 
-// gulp.task('mkdir backup', function(){
-
-//     const pathToFolder = 'test/styles/';
-
-//     for (let key of Object.keys(directories)) {
-//         if(key !== 'main'){
-//             let p = key + '/';
-//             let fileName = "__" + key + ".scss";
-//             let childFiles = '';
-
-//             for (let i = 0; i < directories[key].length; i++) {
-
-//                 let element = directories[key][i];
-
-
-//                 if(typeof directories[key][i] == 'object'){
-//                     subFileLoop(directories[key][i], key);
-//                 } else {
-
-//                     urls.push(`@import "${element}";\n`);
-
-//                     makeFiles(pathToFolder + p + element, '');
-
-//                 }
-
-//             }
-
-//             childFiles = urls;
-//             childFiles = childFiles.join("").replace(/,/g," ").replace('_', '');
-
-//             parentFiles.push(`@import "${p + fileName.replace('_', '')}";\n`);
-
-//             makeFiles(pathToFolder + p + fileName, childFiles);
-
-//             urls = [];
-//         }
-//     }
-
-//     parentFiles = parentFiles.join("").replace(/,/g," ");
-
-//     makeFiles(pathToFolder + directories.main, parentFiles);
-
-// });
-
-// function subFileLoop(target, parent){
-
-//     let fileUrls = [];
-//     let pathToFolder = 'test/styles/' + parent + '/';
-
-//     console.log('p and t', parent, target)
-
-//     for (let key of Object.keys(target)) {
-//         console.log('PATH', pathToFolder)
-//         console.log('KEY', key)
-//         if(key !== 'main'){
-//             let p = key + '/';
-//             let fileName = "__" + key + ".scss";
-//             let childFiles = '';
-
-//             for (let i = 0; i < target[key].length; i++) {
-
-//                 let element = target[key][i];
-
-//                 fileUrls.push(`@import "${element.replace('_', '')}";\n`);
-
-//                 makeFiles(pathToFolder + p + element, '');
-
-//             }
-
-//             childFiles = fileUrls;
-//             childFiles = childFiles.join("").replace(/,/g," ").replace(/_/g, '');
-//             console.log('URLS childs', childFiles)
-
-//             console.log('URLS parents', parentFiles)
-//             urls.push(`@import "${p + fileName.replace('_', '')}";\n`);
-
-//             makeFiles(pathToFolder + p + fileName, childFiles);
-
-//         }
-//     }
-// }
-
+// De makeFiles functie maakt de bestanden aan met behulp van de 'fse' dependency (file system extra)
 function makeFiles(filePath, fileContent) {
+    // Het krijgt twee parameters de eerste: filePath is het pad waar het bestand in moet komen en de tweede: fileContent, is de content wat erin moet.
+    // Als het pad en/of bestand nog niet gemaakt is, maakt het het uit zichzelf aan.
+    // En het krijgt een 'callback': err
     fse.outputFile(filePath, fileContent, err => {
         if (err) {
             console.log(err);
