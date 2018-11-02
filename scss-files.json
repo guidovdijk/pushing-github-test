@@ -34,9 +34,13 @@
                         "_color.scss",
                         {
                             "test": [
-                                "_test1.scss",
                                 {
                                     "whats": [
+                                        "_updog.scss"
+                                    ]
+                                },
+                                {
+                                    "whats2": [
                                         "_updog.scss"
                                     ]
                                 }
