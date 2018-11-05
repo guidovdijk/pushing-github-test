@@ -16,7 +16,6 @@
     "gulp-babel-minify": "^0.5.0",
     "gulp-cache": "^1.0.2",
     "gulp-clean-css": "^3.10.0",
-    "gulp-contains": "^1.2.0",
     "gulp-eslint": "^5.0.0",
     "gulp-htmlmin": "^5.0.1",
     "gulp-if": "^2.0.2",
@@ -30,10 +29,12 @@
     "lint-staged": "^7.3.0",
     "postcss-reporter": "^6.0.0",
     "run-sequence": "^2.2.1",
-    "stylelint": "^9.6.0"
+    "stylelint": "^9.6.0",
+    "through2": "^2.0.3"
   },
   "scripts": {
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "contains": "gulp contains"
   },
   "lint-staged": {
     "src/assets/scripts/**/*.js": "./node_modules/.bin/eslint --fix --max-warnings=0",
@@ -45,7 +46,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run -s precommit && echo '===== COMMIT SUCCESFULL ====='"
+      "pre-commit": "npm run -s contains && npm run -s precommit && echo '===== COMMIT SUCCESFULL ====='"
     }
   },
   "author": "Guido",

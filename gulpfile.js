@@ -14,11 +14,14 @@ const gulp = require('gulp'),
     prefix = require('gulp-autoprefixer'),
     minify = require("gulp-babel-minify"),
     fse = require('fs-extra'),
-    prompt = require('gulp-prompt');
+    prompt = require('gulp-prompt')
+    replace = require('gulp-replace')
+    through = require('through2');
 
 // importeer het scss.json bestand met de naam: directories.
 const styleguides = require('./.eslintrc.json'),
-    directories = require('./scss-files.json');
+    directories = require('./scss-files.json'),
+    words = require('./check-words.json');
 
 const paths = {
     production: {
@@ -44,6 +47,30 @@ gulp.task('prettify', function (callback) {
     runSequence('SassLint', 'JsLint', callback);
 });
 
+let fileList = [];
+gulp.task('contains', function(){
+    gulp.src(['./src/**/*.html'])
+        .pipe(through.obj(function (file, enc, cb) {
+            let contents = file.contents.toString().split('\n').join("");
+            checkFiles(contents, file.relative);
+            cb(null);
+        }))
+        .pipe(gulp.dest('./'))
+        .on ('end', function () {
+            console.log(fileList);
+            if(fileList.length > 0){
+                process.exit(1);
+            }
+        });
+});
+
+function checkFiles(d, f){
+    for (let i = 0; i < words.length; i++) {
+        if (d.toLowerCase().indexOf(words[i]) >= 0) {
+            fileList.push('file: "' + f + '" contains: "' + words[i] + '"');
+        }
+    }
+}
 // Task met waarschuwings bericht
 gulp.task('prompting', function () {
     return gulp.src("./**", {
