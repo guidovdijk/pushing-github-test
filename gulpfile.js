@@ -47,30 +47,45 @@ gulp.task('prettify', function (callback) {
     runSequence('SassLint', 'JsLint', callback);
 });
 
+// Een lijst waar alle bestanden in worden gepushed als er een woord in zit dat niet gebruikt mag worden.
 let fileList = [];
 gulp.task('contains', function(){
+    // Luister naar alle .html bestanden in de src folder. 
     gulp.src(['./src/**/*.html'])
+        // gebruik 'through' om een functie in een pipe te gebruiken
         .pipe(through.obj(function (file, enc, cb) {
-            let contents = file.contents.toString().split('\n').join("");
+            // De 'output' van de files moeten eerst de .toString() method gebruikt om het bestand lees- en bruikbaar te maken:
+            // .toString() wordt gebruik omdat de output om te zetten van een Buffer (hexadecimaal geformateerde html) naar een string
+            let contents = file.contents.toString();
+            // Roep de functie aan die het bestand checkt op de woorden. De eerste parameter is de content en de tweede het pad naar het bestand toe.
             checkFiles(contents, file.relative);
+            // callback
             cb(null);
         }))
         .pipe(gulp.dest('./'))
+        // Als alles 'klaar' is worden er, als er fouten zijn, deze gelogged 
         .on ('end', function () {
-            console.log(fileList);
             if(fileList.length > 0){
+                console.log(fileList);
+                // process.exit(1); wordt aangeroepen, zodat alle tasks of npm run <scripts> niet uitgevoerd kunnen worden
                 process.exit(1);
             }
         });
 });
 
-function checkFiles(d, f){
+function checkFiles(c, f){
+    // Maak de content van de bestanden en de woorden in de array 'lowercase', zodat het niet hoofdletter gevoelig is.
+    c = c.toLowerCase();
+    // loop over alle worden in de 'check-words.json' array dat geimporteerd is als 'words'.
     for (let i = 0; i < words.length; i++) {
-        if (d.toLowerCase().indexOf(words[i]) >= 0) {
-            fileList.push('file: "' + f + '" contains: "' + words[i] + '"');
+        let word = words[i].toLowerCase();
+        // check of er woorden voorkomen in de bestanden en als dat zo is 'push': het path van het bestand en het woord dat erin voorkomt in de 'fileList' array
+        if (c.indexOf(word) >= 0) {
+            fileList.push('file: "' + f + '" contains: "' + word + '"');
         }
     }
 }
+
 // Task met waarschuwings bericht
 gulp.task('prompting', function () {
     return gulp.src("./**", {
