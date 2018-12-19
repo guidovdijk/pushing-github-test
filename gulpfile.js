@@ -14,8 +14,7 @@ const gulp = require('gulp'),
     prefix = require('gulp-autoprefixer'),
     minify = require("gulp-babel-minify"),
     fse = require('fs-extra'),
-    prompt = require('gulp-prompt')
-    replace = require('gulp-replace')
+    prompt = require('gulp-prompt'),
     through = require('through2');
 
 // importeer het scss.json bestand met de naam: directories.
