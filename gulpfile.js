@@ -77,7 +77,7 @@ gulp.task('prompting', function () {
 
 let parentFiles = [];
 
-gulp.task('mkdir', ['prompting'], function () {
+gulp.task('mkdir', gulp.series('prompting'), function () {
     let pathToFolder = paths.development.styleFolder;
     subFileLoop(directories, '');
     parentFiles = parentFiles.join("").replace(/,/g, " ");
@@ -171,13 +171,13 @@ gulp.task('browserSync', function () {
     })
 });
 
-gulp.task('watch', ['browserSync', 'sass'], function () {
+gulp.task('watch', gulp.series('browserSync', 'sass'), function () {
     gulp.watch(paths.development.styles, ['sass']);
     gulp.watch(paths.development.html, browserSync.reload);
     gulp.watch(paths.development.scripts, browserSync.reload)
 });
 
-gulp.task('watch:autofix', ['browserSync', 'sassLint', 'sass', 'jsLint'], function () {
+gulp.task('watch:autofix', gulp.series('browserSync', 'sassLint', 'sass', 'jsLint'), function () {
     gulp.watch(paths.development.styles, ['sassLint', 'sass']);
     gulp.watch(paths.development.html, browserSync.reload);
     gulp.watch(paths.development.scripts, ['jsLint'])
