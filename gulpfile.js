@@ -15,25 +15,33 @@ prefix = require('gulp-autoprefixer'),
 minify = require("gulp-babel-minify"),
 fse = require('fs-extra'),
 prompt = require('gulp-prompt'),
-replace = require('gulp-replace'),
+webpack = require('webpack'),
+webpackStream = require('webpack-stream'),
 through = require('through2');
 
-const styleguides = require('./.eslintrc.json'),
+sass.compiler = require('node-sass');
+
+const jsstyleguides = require('./.eslintrc.json'),
 directories = require('./scss-files.json'),
-words = require('./check-words.json');
+words = require('./check-words.json'),
+webpackConfig = require('./webpack.config.js');
 
 const paths = {
     production: {
-        folder: 'production',
-        images: 'production/images'
+        folder: './production',
+        images: './production/images'
+    },
+    dist: {
+        folder: './dist',
+        styles: './src/dist/styles',
     },
     development: {
-        folder: 'src',
+        folder: './src',
         styleFolder: 'test/styles/',
-        scripts: 'src/assets/scripts/**/*.js',
-        styles: 'src/assets/styles/**/*.scss',
-        html: 'src/**/*.html',
-        images: 'src/assets/images/**/*.+(png|jpg|gif|svg)',
+        scripts: './src/assets/scripts/**/*.js',
+        styles: './src/assets/styles/**/*.scss',
+        html: './src/**/*.html',
+        images: './static/assets/images/**/*.+(png|jpg|gif|svg)',
     },
     styleguides: {
         scss: './.sass-lint.yml',
@@ -77,7 +85,7 @@ gulp.task('prompting', function () {
 
 let parentFiles = [];
 
-gulp.task('mkdir', gulp.series('prompting'), function () {
+gulp.task('mkdir', ['prompting'], function () {
     let pathToFolder = paths.development.styleFolder;
     subFileLoop(directories, '');
     parentFiles = parentFiles.join("").replace(/,/g, " ");
@@ -97,7 +105,7 @@ function subFileLoop(target, parent) {
             let fileName = "__" + key + ".scss";
             let childFiles = '';
             let element = '';
-            let makeFile = !1;
+            let makeFile = false;
             for (let i = 0; i < target[key].length; i++) {
                 element = target[key][i];
                 if (typeof element == 'object') {
@@ -105,7 +113,7 @@ function subFileLoop(target, parent) {
                     for (let names of Object.keys(element)) {
                         if (element[names].length == 1 && typeof element[names][0] !== 'object') {
                             fileUrls.push(`@import "${names}/${("" + element[names][0]).replace(/_/g, '')}";\n`);
-                            makeFile == !0
+                            makeFile == true
                         } else {
                             fileUrls.push(`@import "${names}/_${names}.scss";\n`)
                         }
@@ -139,8 +147,8 @@ gulp.task('jsLint', function () {
     return gulp.src(paths.development.scripts, {
         base: './'
     }).pipe(eslint({
-        config: styleguides,
-        fix: !0
+        config: jsstyleguides,
+        fix: false
     })).pipe(eslint.formatEach()).pipe(gulp.dest('./'))
 });
 
@@ -148,18 +156,22 @@ gulp.task('sassLint', function () {
     return gulp.src(paths.development.styles, {
         base: './'
     }).pipe(gulpStylelint({
-        fix: !0,
-        failAfterError: !1,
+        fix: false,
+        failAfterError: false,
         reporters: [{
             formatter: 'string',
-            console: !0
+            console: true
         }]
     })).pipe(gulp.dest('./'))
 });
 
 gulp.task('sass', function () {
-    return gulp.src(paths.development.styles).pipe(sass()).pipe(prefix('last 2 versions')).pipe(gulp.dest(paths.development.folder)).pipe(browserSync.reload({
-        stream: !0
+    return gulp.src(paths.development.styles)
+    .pipe(sass().on('error', sass.logError))
+    .pipe(prefix('last 2 versions'))
+    .pipe(gulp.dest(paths.development.folder))
+    .pipe(browserSync.reload({
+        stream: true
     }))
 });
 
@@ -171,28 +183,32 @@ gulp.task('browserSync', function () {
     })
 });
 
-gulp.task('watch', gulp.series('browserSync', 'sass'), function () {
+gulp.task('watch', ['browserSync', 'sass'], function () {
     gulp.watch(paths.development.styles, ['sass']);
     gulp.watch(paths.development.html, browserSync.reload);
     gulp.watch(paths.development.scripts, browserSync.reload)
 });
 
-gulp.task('watch:autofix', gulp.series('browserSync', 'sassLint', 'sass', 'jsLint'), function () {
+gulp.task('watch:autofix', ['browserSync', 'sassLint', 'sass', 'jsLint'], function () {
     gulp.watch(paths.development.styles, ['sassLint', 'sass']);
     gulp.watch(paths.development.html, browserSync.reload);
     gulp.watch(paths.development.scripts, ['jsLint'])
 });
 
-gulp.task('jsAndHtmlMinify', function () {
-    return gulp.src(paths.development.html).pipe(useref()).pipe(gulpIf('*.js', minify({
-        mangle: {
-            keepClassName: !0
-        }
-    }))).pipe(htmlmin({
-        collapseWhitespace: !0,
-        removeComments: !0
+gulp.task('htmlMinify', ['webpack'], function () {
+    return gulp.src(paths.development.html)
+    .pipe(useref())
+    .pipe(htmlmin({
+        collapseWhitespace: true,
+        removeComments: true
     })).pipe(gulp.dest(paths.production.folder))
 });
+
+gulp.task('webpack', () => {
+    gulp.src(paths.development.scripts)
+      .pipe(webpackStream(webpackConfig), webpack)
+      .pipe(gulp.dest(paths.production.folder));
+  });
 
 gulp.task('sassMinify', function () {
     return gulp.src(paths.development.styles).pipe(sass()).pipe(cleanCSS()).pipe(gulp.dest(paths.production.folder))
@@ -207,6 +223,6 @@ gulp.task('clean:production', function () {
 });
 
 gulp.task('production', function (callback) {
-    const minify = ['jsAndHtmlMinify', 'sassMinify', 'imagesMinify'];
-    runSequence('clean:production', minify, callback)
+    const minify = ['htmlMinify', 'sassMinify', 'imagesMinify'];
+    runSequence('clean:production', minify, callback);
 });

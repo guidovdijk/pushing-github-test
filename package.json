@@ -3,12 +3,18 @@
   "version": "1.0.0",
   "description": "custom eslint",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "webpack-stream": "^5.2.1"
+  },
   "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "babel-loader": "^8.0.4",
+    "babel-plugin-root-import": "^6.1.0",
     "browser-sync": "2.26.3",
     "del": "3.0.0",
     "eslint": "^5.7.0",
-    "gulp": "^4.0.0",
+    "gulp": "3.9.1",
     "gulp-autoprefixer": "6.0.0",
     "gulp-babel-minify": "0.5.0",
     "gulp-cache": "1.0.2",
@@ -25,11 +31,13 @@
     "gulp-useref": "^3.1.5",
     "husky": "^1.1.2",
     "lint-staged": "^7.3.0",
+    "node-sass": "^4.11.0",
     "postcss-reporter": "6.0.0",
     "run-sequence": "2.2.1",
     "stylelint": "^9.6.0",
     "stylelint-scss": "^3.3.1",
     "through2": "^2.0.3",
+    "uglifyjs-webpack-plugin": "^2.0.1",
     "webpack": "^4.27.1"
   },
   "scripts": {
