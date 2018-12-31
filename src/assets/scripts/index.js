@@ -1,3 +1,5 @@
-const a = 'hoi';
+const contact = require('./contact');
 
-console.log(a);
+const testingA = 'testetstesetsetsets';
+
+console.log(testingA);

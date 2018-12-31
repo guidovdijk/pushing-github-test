@@ -9,31 +9,23 @@ runSequence = require('run-sequence'),
 del = require('del'),
 imagemin = require('gulp-imagemin'),
 cache = require('gulp-cache'),
-eslint = require('gulp-eslint'),
-gulpStylelint = require('gulp-stylelint'),
 prefix = require('gulp-autoprefixer'),
-minify = require("gulp-babel-minify"),
-fse = require('fs-extra'),
-prompt = require('gulp-prompt'),
 webpack = require('webpack'),
 webpackStream = require('webpack-stream'),
-through = require('through2');
+yargs = require('yargs');
 
 sass.compiler = require('node-sass');
 
-const jsstyleguides = require('./.eslintrc.json'),
-directories = require('./scss-files.json'),
-words = require('./check-words.json'),
-webpackConfig = require('./webpack.config.js');
+const webpackConfig = require('./webpack.config.js');
+const prod = yargs.argv.prod;
 
 const paths = {
     production: {
         folder: './production',
-        images: './production/images'
+        images: './production/static/images'
     },
     dist: {
-        folder: './dist',
-        styles: './src/dist/styles',
+        folder: './src/dist/',
     },
     development: {
         folder: './src',
@@ -41,7 +33,7 @@ const paths = {
         scripts: './src/assets/scripts/**/*.js',
         styles: './src/assets/styles/**/*.scss',
         html: './src/**/*.html',
-        images: './static/assets/images/**/*.+(png|jpg|gif|svg)',
+        images: './src/static/images/**/*.+(png|jpg|gif|svg)',
     },
     styleguides: {
         scss: './.sass-lint.yml',
@@ -49,133 +41,18 @@ const paths = {
     }
 };
 
-gulp.task('prettify', function (callback) {
-    runSequence('SassLint', 'JsLint', callback)
-});
-
-let fileList = [];
-gulp.task('contains', function () {
-    gulp.src(['./src/**/*.html']).pipe(through.obj(function (file, enc, cb) {
-        let contents = file.contents.toString();
-        checkFiles(contents, file.relative);
-        cb(null)
-    })).pipe(gulp.dest('./')).on('end', function () {
-        if (fileList.length > 0) {
-            console.log(fileList);
-            process.exit(1)
-        }
-    })
-});
-
-function checkFiles(c, f) {
-    c = c.toLowerCase();
-    for (let i = 0; i < words.length; i++) {
-        let word = words[i].toLowerCase();
-        if (c.indexOf(word) >= 0) {
-            fileList.push('file: "' + f + '" contains: "' + word + '"')
-        }
-    }
-}
-
-gulp.task('prompting', function () {
-    return gulp.src("./**", {
-        base: '/'
-    }).pipe(prompt.confirm('Running this command for the second time and up, will override your .scss files. Do you want to continue?'))
-});
-
-let parentFiles = [];
-
-gulp.task('mkdir', ['prompting'], function () {
-    let pathToFolder = paths.development.styleFolder;
-    subFileLoop(directories, '');
-    parentFiles = parentFiles.join("").replace(/,/g, " ");
-    makeFiles(pathToFolder + directories.main, parentFiles)
-});
-
-function subFileLoop(target, parent) {
-    let pathToFolder = paths.development.styleFolder;
-    let fileUrls = [];
-    let parents = parent;
-    if (parents) {
-        pathToFolder = `${pathToFolder + parents}/`
-    }
-    for (let key of Object.keys(target)) {
-        if (key !== 'main') {
-            let p = key + '/';
-            let fileName = "__" + key + ".scss";
-            let childFiles = '';
-            let element = '';
-            let makeFile = false;
-            for (let i = 0; i < target[key].length; i++) {
-                element = target[key][i];
-                if (typeof element == 'object') {
-                    subFileLoop(element, parents + '/' + key);
-                    for (let names of Object.keys(element)) {
-                        if (element[names].length == 1 && typeof element[names][0] !== 'object') {
-                            fileUrls.push(`@import "${names}/${("" + element[names][0]).replace(/_/g, '')}";\n`);
-                            makeFile == true
-                        } else {
-                            fileUrls.push(`@import "${names}/_${names}.scss";\n`)
-                        }
-                    }
-                    parentFiles = []
-                } else {
-                    makeFiles(pathToFolder + p + element, '');
-                    fileUrls.push(`@import "${element.replace('_', '')}";\n`)
-                }
-            }
-            childFiles = fileUrls;
-            childFiles = childFiles.join("");
-            parentFiles.push(`@import "${p + fileName.replace('_', '')}";\n`);
-            if (target[key].length >= 2 || typeof element === 'object' && makeFile) {
-                makeFiles(pathToFolder + p + fileName, childFiles)
-            }
-            fileUrls = []
-        }
-    }
-}
-
-function makeFiles(filePath, fileContent) {
-    fse.outputFile(filePath, fileContent, err => {
-        if (err) {
-            console.log(err)
-        }
-    })
-}
-
-gulp.task('jsLint', function () {
-    return gulp.src(paths.development.scripts, {
-        base: './'
-    }).pipe(eslint({
-        config: jsstyleguides,
-        fix: false
-    })).pipe(eslint.formatEach()).pipe(gulp.dest('./'))
-});
-
-gulp.task('sassLint', function () {
-    return gulp.src(paths.development.styles, {
-        base: './'
-    }).pipe(gulpStylelint({
-        fix: false,
-        failAfterError: false,
-        reporters: [{
-            formatter: 'string',
-            console: true
-        }]
-    })).pipe(gulp.dest('./'))
-});
-
-gulp.task('sass', function () {
+gulp.task('sass', () => {
     return gulp.src(paths.development.styles)
     .pipe(sass().on('error', sass.logError))
     .pipe(prefix('last 2 versions'))
-    .pipe(gulp.dest(paths.development.folder))
+    .pipe(gulpIf(prod, gulp.dest(paths.development.folder)))
+    .pipe(gulpIf(!prod, gulp.dest(paths.dist.folder)))
     .pipe(browserSync.reload({
         stream: true
     }))
 });
 
-gulp.task('browserSync', function () {
+gulp.task('browserSync', () => {
     browserSync.init({
         server: {
             baseDir: paths.development.folder
@@ -183,19 +60,14 @@ gulp.task('browserSync', function () {
     })
 });
 
-gulp.task('watch', ['browserSync', 'sass'], function () {
+gulp.task('watch', ['browserSync', 'sass', 'webpack'], () => {
     gulp.watch(paths.development.styles, ['sass']);
     gulp.watch(paths.development.html, browserSync.reload);
-    gulp.watch(paths.development.scripts, browserSync.reload)
+    gulp.watch(paths.development.scripts, ['webpack'])
 });
 
-gulp.task('watch:autofix', ['browserSync', 'sassLint', 'sass', 'jsLint'], function () {
-    gulp.watch(paths.development.styles, ['sassLint', 'sass']);
-    gulp.watch(paths.development.html, browserSync.reload);
-    gulp.watch(paths.development.scripts, ['jsLint'])
-});
 
-gulp.task('htmlMinify', ['webpack'], function () {
+gulp.task('htmlMinify', () => {
     return gulp.src(paths.development.html)
     .pipe(useref())
     .pipe(htmlmin({
@@ -205,24 +77,26 @@ gulp.task('htmlMinify', ['webpack'], function () {
 });
 
 gulp.task('webpack', () => {
-    gulp.src(paths.development.scripts)
+    return gulp.src(paths.development.scripts)
       .pipe(webpackStream(webpackConfig), webpack)
-      .pipe(gulp.dest(paths.production.folder));
-  });
+      .pipe(gulpIf(prod, gulp.dest(paths.production.folder)))
+      .pipe(gulpIf(!prod, gulp.dest(paths.dist.folder)))
+      .pipe(gulpIf(!prod, browserSync.reload({ stream: true })))
+});
 
-gulp.task('sassMinify', function () {
+gulp.task('sassMinify', () => {
     return gulp.src(paths.development.styles).pipe(sass()).pipe(cleanCSS()).pipe(gulp.dest(paths.production.folder))
 });
 
-gulp.task('imagesMinify', function () {
+gulp.task('imagesMinify', () => {
     return gulp.src(paths.development.images).pipe(cache(imagemin())).pipe(gulp.dest(paths.production.images))
 });
 
-gulp.task('clean:production', function () {
+gulp.task('clean:production', () => {
     return del.sync(paths.production.folder)
 });
 
-gulp.task('production', function (callback) {
-    const minify = ['htmlMinify', 'sassMinify', 'imagesMinify'];
+gulp.task('production', (callback) => {
+    const minify = ['webpack', 'htmlMinify', 'sassMinify', 'imagesMinify'];
     runSequence('clean:production', minify, callback);
 });

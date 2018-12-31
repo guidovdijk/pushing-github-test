@@ -1,9 +1,14 @@
 const uglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin');
+const yargs = require('yargs');
+const prod = yargs.argv.prod;
 
 module.exports = {
+    entry: './src/assets/scripts/index.js',
     output: {
         filename: 'bundle.js',
     },
+    mode: prod ? 'production' : 'development',
+    devtool: !prod ? 'inline-source-map' : false,
     optimization: {
         usedExports: true,
         splitChunks: {
