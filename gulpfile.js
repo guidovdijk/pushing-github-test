@@ -5,6 +5,7 @@ htmlmin = require('gulp-htmlmin'),
 browserSync = require('browser-sync').create(),
 useref = require('gulp-useref'),
 gulpIf = require('gulp-if'),
+purgecss = require('gulp-purgecss'),
 runSequence = require('run-sequence'),
 del = require('del'),
 imagemin = require('gulp-imagemin'),
@@ -37,7 +38,10 @@ const webpackConfig = require('./webpack.config.js');
 const paths = {
     production: {
         folder: './production',
-        images: './production/static/images'
+        images: './production/static/images',
+        css: {
+            purge: ["./src/**/*.html"]
+        }
     },
     dist: {
         folder: './src/dist/',
@@ -110,7 +114,13 @@ gulp.task('webpack', () => {
 });
 
 gulp.task('sassMinify', () => {
-    return gulp.src(paths.development.styles).pipe(sass()).pipe(cleanCSS()).pipe(gulp.dest(paths.production.folder))
+    return gulp.src(paths.development.styles)
+    .pipe(sass())
+    .pipe(purgecss({
+        content: paths.production.css.purge
+    }))
+    .pipe(cleanCSS())
+    .pipe(gulp.dest(paths.production.folder))
 });
 
 gulp.task('imagesMinify', () => {

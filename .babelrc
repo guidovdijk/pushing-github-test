@@ -2,7 +2,11 @@
     Hier worden de opties gegeven voor babel, om zo de javascript bestanden om te zetten
 */
 {
-    "presets": ["@babel/preset-env"],
+    "presets": [
+        ["@babel/preset-env", {
+            "modules": false
+        }]
+    ],
     /*
         babel-plugin-root-import, vond ik gewoon handig om erin te hebben.
         Want i.p.v dat je dit moet doen om iets te importeren '../../src/scripts/components/navbar' (../../ omdat je eerst naar de root van je project moet komen)
