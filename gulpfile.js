@@ -12,7 +12,7 @@ const gulp = require('gulp'),
     eslint = require('gulp-eslint'),
     gulpStylelint = require('gulp-stylelint'),
     prefix = require('gulp-autoprefixer'),
-    minify = require("gulp-babel-minify"),
+    minify = require('gulp-babel-minify'),
     fse = require('fs-extra'),
     prompt = require('gulp-prompt'),
     through = require('through2');
@@ -25,7 +25,10 @@ const styleguides = require('./.eslintrc.json'),
 const paths = {
     production: {
         folder: 'production',
-        images: 'production/images'
+        images: 'production/images',
+        css: {
+            purge: ['src/**/*.html'],
+        },
     },
     development: {
         folder: 'src',
@@ -50,7 +53,7 @@ gulp.task('prettify', function (callback) {
 let fileList = [];
 gulp.task('contains', function(){
     // Luister naar alle .html bestanden in de src folder. 
-    gulp.src(['./src/**/*.html'])
+    gulp.src([paths.development.html])
         // gebruik 'through' om een functie in een pipe te gebruiken
         .pipe(through.obj(function (file, enc, cb) {
             // De 'output' van de files moeten eerst de .toString() method gebruikt om het bestand lees- en bruikbaar te maken:
@@ -87,10 +90,9 @@ function checkFiles(c, f){
 
 // Task met waarschuwings bericht
 gulp.task('prompting', function () {
-    return gulp.src("./**", {
-            base: '/'
-        })
-        .pipe(prompt.confirm('Running this command for the second time and up, will override your .scss files. Do you want to continue?'))
+    return gulp.src('./**', {
+        base: '/'
+    }).pipe(prompt.confirm('Running this command for the second time and up, will override your .scss files. Do you want to continue?'));
 });
 
 // parentFiles zijn de bestanden die in dezelfde map staan als de App.scss
@@ -106,7 +108,7 @@ gulp.task('mkdir', ['prompting'], function () {
     // (dit word eerst uitgevoerd voordat het door gaat naar de parentFiles en makeFiles funcite)
     subFileLoop(directories, '');
     // format alle data uit parentFiles naar een string en verwijder de comma's
-    parentFiles = parentFiles.join("").replace(/,/g, " ");
+    parentFiles = parentFiles.join('').replace(/,/g, ' ');
     // initialize de functie die zorgt voor het aanmaken van de bestanden. 
     // eerste parameter is voor het path van de file en de tweede is de data die erin moet.
     makeFiles(pathToFolder + directories.main, parentFiles);
@@ -135,7 +137,7 @@ function subFileLoop(target, parent) {
             // variable p is gelijk aan key + / (uitkomst: main/)
             let p = key + '/';
             // Formateer de 'key' naam met '__' en '.scss' om er een scss bestand van te maken
-            let fileName = "__" + key + ".scss";
+            let fileName = '__' + key + '.scss';
             // childFiles zijn alle children die in de parent geladen moeten worden (@import directory.file.scss)
             let childFiles = '';
             // Initialize element
@@ -163,11 +165,11 @@ function subFileLoop(target, parent) {
                         // Als dat niet zo is betekent dat erin bestanden in de array zitten
                         if (element[names].length == 1 && typeof element[names][0] !== 'object') {
                             // Het pad naar het 'hoofd children bestand' word in fileUrls gepushed en makeFile wordt 'waar', zodat dat bestand word aangemaakt
-                            fileUrls.push(`@import "${names}/${("" + element[names][0]).replace(/_/g, '')}";\n`);
+                            fileUrls.push(`@import '${names}/${('' + element[names][0]).replace(/_/g, '')}';\n`);
                             makeFile == true;
                         } else {
                             // Als er maar 1 bestand in een map zit word deze geïmporteerd en wordt het 'hoofd children bestand' niet aangemaakt.
-                            fileUrls.push(`@import "${names}/_${names}.scss";\n`);
+                            fileUrls.push(`@import '${names}/_${names}.scss';\n`);
                         }
                     }
                     // We legen de parentFiles, zodat de bestanden die dieper zitten niet ingeladen worden in de App.scss.
@@ -176,21 +178,21 @@ function subFileLoop(target, parent) {
                     // Hier worden alle bestanden aangemaakt van je scss-files.json, zonder content
                     makeFiles(pathToFolder + p + element, '');
                     // child bestanden worden geïmporteerd in het 'hoofd children bestand'
-                    fileUrls.push(`@import "${element.replace('_', '')}";\n`);
+                    fileUrls.push(`@import '${element.replace('_', '')}';\n`);
                 }
             }
 
-            // Formateer de array naar een string ( .join("") ), zodat de comma's van de array weggehaald 
+            // Formateer de array naar een string ( .join('') ), zodat de comma's van de array weggehaald 
             // kunnen worden en alles op een nieuwe lijn kunne plaatsen door de '\n'
             // En haal de '_' weg van de naam om te voldoen aan de .scss import standaarden.
             // bestand heet _file.scss en word geïmporteerd door @import file.scss
             // Als je een bestand hebt dat je wilt importeren dat ook andere bestanden importeerd, dan heet het bestand __file.scss 
             // en word geimporteerd door@import _file.scss
             childFiles = fileUrls;
-            childFiles = childFiles.join("");
+            childFiles = childFiles.join('');
 
             // p + fileName is het pad naar alle 'hoofd children' bestanden. 
-            parentFiles.push(`@import "${p + fileName.replace('_', '')}";\n`);
+            parentFiles.push(`@import '${p + fileName.replace('_', '')}';\n`);
 
             // Als er 2 of meer bestanden in de folder zitten of het element gelijk is aan een object en makeFile waar is, dan wordt de makeFiles functie uitgevoerd. 
             if (target[key].length >= 2 || typeof element === 'object' && makeFile) {
@@ -217,29 +219,30 @@ function makeFiles(filePath, fileContent) {
 
 gulp.task('jsLint', function () {
     return gulp.src(paths.development.scripts, {
-            base: './'
-        })
-        .pipe(eslint({
-            config: styleguides,
-            fix: true
-        }))
-        .pipe(eslint.formatEach())
-        .pipe(gulp.dest('./'))
+        base: './'
+    }).pipe(eslint({
+        config: styleguides,
+        fix: true
+    })).pipe(
+        eslint.formatEach()
+    ).pipe(
+        gulp.dest('./')
+    );
 });
 
 gulp.task('sassLint', function () {
     return gulp.src(paths.development.styles, {
-            base: './'
-        })
-        .pipe(gulpStylelint({
-            fix: true,
-            failAfterError: false,
-            reporters: [{
-                formatter: 'string',
-                console: true
-            }]
-        }))
-        .pipe(gulp.dest('./'));
+        base: './'
+    }).pipe(gulpStylelint({
+        fix: true,
+        failAfterError: false,
+        reporters: [{
+            formatter: 'string',
+            console: true
+        }]
+    })).pipe(
+        gulp.dest('./')
+    );
 });
 
 gulp.task('sass', function () {
@@ -266,7 +269,13 @@ gulp.task('watch', ['browserSync', 'sass'], function () {
     gulp.watch(paths.development.scripts, browserSync.reload);
 });
 
-gulp.task('watch:autofix', ['browserSync', 'sassLint', 'sass', 'jsLint'], function () {
+const autofix = [
+    'browserSync', 
+    'sassLint', 
+    'sass', 
+    'jsLint',
+];
+gulp.task('watch:autofix', autofix, function () {
     gulp.watch(paths.development.styles, ['sassLint', 'sass']);
     gulp.watch(paths.development.html, browserSync.reload);
     gulp.watch(paths.development.scripts, ['jsLint']);
@@ -292,6 +301,9 @@ gulp.task('jsAndHtmlMinify', function () {
 gulp.task('sassMinify', function () {
     return gulp.src(paths.development.styles)
         .pipe(sass())
+        .pipe(purgecss({
+            content: paths.production.css.purge
+        }))
         .pipe(cleanCSS())
         .pipe(gulp.dest(paths.production.folder));
 });
@@ -307,10 +319,6 @@ gulp.task('clean:production', function () {
 });
 
 gulp.task('production', function (callback) {
-    const minify = [
-        'jsAndHtmlMinify',
-        'sassMinify',
-        'imagesMinify'
-    ];
+    const minify = [ 'jsAndHtmlMinify', 'sassMinify', 'imagesMinify' ];
     runSequence('clean:production', minify, callback);
 });
