@@ -1,2 +1,4 @@
 !**/*.scss
 !**/*.css
+production
+src/dist
