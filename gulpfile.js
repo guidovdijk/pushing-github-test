@@ -28,6 +28,7 @@ const paths = {
         images: 'production/images',
         css: {
             purge: ['src/**/*.html'],
+            version: 'last 2 versions',
         },
     },
     development: {
@@ -137,7 +138,7 @@ function subFileLoop(target, parent) {
             // variable p is gelijk aan key + / (uitkomst: main/)
             let p = key + '/';
             // Formateer de 'key' naam met '__' en '.scss' om er een scss bestand van te maken
-            let fileName = '__' + key + '.scss';
+            let fileName = `__${key}.scss`;
             // childFiles zijn alle children die in de parent geladen moeten worden (@import directory.file.scss)
             let childFiles = '';
             // Initialize element
@@ -248,7 +249,7 @@ gulp.task('sassLint', function () {
 gulp.task('sass', function () {
     return gulp.src(paths.development.styles)
         .pipe(sass())
-        .pipe(prefix('last 2 versions'))
+        .pipe(prefix(paths.production.css.version))
         .pipe(gulp.dest(paths.development.folder))
         .pipe(browserSync.reload({
             stream: true
