@@ -3,53 +3,51 @@
   "version": "1.0.0",
   "description": "custom eslint",
   "main": "index.js",
-  "dependencies": {
-    "eslint": "^5.7.0",
-    "stylelint-scss": "^3.3.1"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "browser-sync": "^2.26.3",
-    "del": "^3.0.0",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-root-import": "^6.1.0",
+    "browser-sync": "2.26.3",
+    "del": "3.0.0",
     "eslint": "^5.7.0",
     "gulp": "3.9.1",
-    "gulp-autoprefixer": "^6.0.0",
-    "gulp-babel-minify": "^0.5.0",
-    "gulp-cache": "^1.0.2",
+    "gulp-autoprefixer": "6.0.0",
+    "gulp-babel-minify": "0.5.0",
+    "gulp-cache": "1.0.2",
     "gulp-clean-css": "^3.10.0",
-    "gulp-eslint": "^5.0.0",
-    "gulp-htmlmin": "^5.0.1",
-    "gulp-if": "^2.0.2",
-    "gulp-imagemin": "^4.1.0",
-    "gulp-postcss": "^8.0.0",
+    "gulp-eslint": "5.0.0",
+    "gulp-htmlmin": "5.0.1",
+    "gulp-if": "2.0.2",
+    "gulp-imagemin": "^5.0.3",
+    "gulp-postcss": "8.0.0",
     "gulp-prompt": "^1.1.0",
     "gulp-purgecss": "^1.1.1",
-    "gulp-sass": "^4.0.2",
-    "gulp-stylelint": "^7.0.0",
     "gulp-useref": "^3.1.5",
     "husky": "^1.1.2",
-    "lint-staged": "^7.3.0",
-    "postcss-reporter": "^6.0.0",
-    "run-sequence": "^2.2.1",
+    "node-sass": "^4.11.0",
+    "postcss-reporter": "6.0.0",
+    "run-sequence": "2.2.1",
     "stylelint": "^9.6.0",
-    "through2": "^2.0.3"
+    "stylelint-scss": "^3.3.1",
+    "through2": "^2.0.3",
+    "uglifyjs-webpack-plugin": "^2.1.1",
+    "webpack": "^4.29.0",
+    "webpack-stream": "^5.2.1",
+    "yargs": "^12.0.5"
   },
   "scripts": {
-    "precommit": "lint-staged",
-    "contains": "gulp contains"
-  },
-  "lint-staged": {
-    "src/assets/scripts/**/*.js": "./node_modules/.bin/eslint --fix --max-warnings=0",
-    "src/assets/styles/**/*.scss": "./node_modules/.bin/stylelint --fix --max-warnings=0"
+    "contains": "gulp contains",
+    "prod": "gulp production --prod"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/guidovdijk/pushing-github-test.git"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run -s contains && npm run -s precommit && echo '===== COMMIT SUCCESFULL ====='"
-    }
-  },
   "author": "Guido",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guidovdijk/pushing-github-test/issues"
+  }
 }

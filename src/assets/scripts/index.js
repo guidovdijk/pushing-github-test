@@ -1,11 +1,7 @@
-var a = 'hoi';
+import {testingB, testing} from './contact';
 
-console.log(b);
+const testingA = 'testetstesetsetsets';
 
-function cedwecs() { 
-    function cvwftsaawc() {
-        console.log();
-    }
-}
-//fwefwf
-let test = [2, 3, 4];
+console.log(testingA);
+console.log(testingB);
+console.log(testing());
