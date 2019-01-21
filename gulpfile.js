@@ -28,6 +28,13 @@ const config = {
         path: './',
         allFiles: './**',
     },
+    suffix: {
+        html: '.html',
+        js: '.js',
+        scss: '.scss',
+        css: '.css',
+        php: '.php',
+    },
     production: {
         folder: 'production',
         images: 'production/images',
@@ -146,7 +153,7 @@ function subFileLoop(target, parent) {
             // variable p is gelijk aan key + / (uitkomst: main/)
             let p = key + '/';
             // Formateer de 'key' naam met '__' en '.scss' om er een scss bestand van te maken
-            let fileName = `__${key}.scss`;
+            let fileName = `__${key}${config.suffix.scss}`;
             // childFiles zijn alle children die in de parent geladen moeten worden (@import directory.file.scss)
             let childFiles = '';
             // Initialize element
@@ -178,7 +185,7 @@ function subFileLoop(target, parent) {
                             makeFile == true;
                         } else {
                             // Als er maar 1 bestand in een map zit word deze geïmporteerd en wordt het 'hoofd children bestand' niet aangemaakt.
-                            fileUrls.push(`@import '${names}/_${names}.scss';\n`);
+                            fileUrls.push(`@import '${names}/_${names}${config.suffix.scss}';\n`);
                         }
                     }
                     // We legen de parentFiles, zodat de bestanden die dieper zitten niet ingeladen worden in de App.scss.
@@ -293,7 +300,7 @@ gulp.task('watch:autofix', autofix, function () {
 gulp.task('jsAndHtmlMinify', function () {
     return gulp.src(config.development.html)
         .pipe(useref())
-        .pipe(gulpIf('*.js',
+        .pipe(gulpIf(`*${config.suffix.js}`,
             minify({
                 mangle: {
                     keepClassName: true
