@@ -318,7 +318,9 @@ gulp.task('sassMinify', function () {
     return gulp.src(config.development.styles)
         .pipe(sass())
         .pipe(purgecss({
-            content: config.production.css.purge
+            content: config.production.css.purge,
+            keyframes: true,
+            fontFace: true,
         }))
         .pipe(prefix(config.production.css.version))
         .pipe(cleanCSS())
