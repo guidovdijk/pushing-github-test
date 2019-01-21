@@ -23,7 +23,11 @@ const styleguides = require('./.eslintrc.json'),
     directories = require('./scss-files.json'),
     words = require('./check-words.json');
 
-const paths = {
+const config = {
+    root: {
+        path: './',
+        allFiles: './**',
+    },
     production: {
         folder: 'production',
         images: 'production/images',
@@ -44,6 +48,9 @@ const paths = {
     styleguides: {
         scss: './.sass-lint.yml',
         jsonFile: './.eslintrc.json',
+    },
+    info: {
+        promptMessage: 'Running this command for the second time and up, will override your .scss files. Do you want to continue?',
     }
 };
 
@@ -55,7 +62,7 @@ gulp.task('prettify', function (callback) {
 let fileList = [];
 gulp.task('contains', function(){
     // Luister naar alle .html bestanden in de src folder. 
-    gulp.src([paths.development.html])
+    gulp.src([config.development.html])
         // gebruik 'through' om een functie in een pipe te gebruiken
         .pipe(through.obj(function (file, enc, cb) {
             // De 'output' van de files moeten eerst de .toString() method gebruikt om het bestand lees- en bruikbaar te maken:
@@ -66,7 +73,7 @@ gulp.task('contains', function(){
             // callback
             cb(null);
         }))
-        .pipe(gulp.dest('./'))
+        .pipe(gulp.dest(config.root.path))
         // Als alles 'klaar' is worden er, als er fouten zijn, deze gelogged 
         .on ('end', function () {
             if(fileList.length > 0){
@@ -85,16 +92,16 @@ function checkFiles(c, f){
         let word = words[i].toLowerCase();
         // check of er woorden voorkomen in de bestanden en als dat zo is 'push': het path van het bestand en het woord dat erin voorkomt in de 'fileList' array
         if (c.indexOf(word) >= 0) {
-            fileList.push('file: "' + f + '" contains: "' + word + '"');
+            fileList.push(`file: "${f}" contains: "${word}"`);
         }
     }
 }
 
 // Task met waarschuwings bericht
 gulp.task('prompting', function () {
-    return gulp.src('./**', {
-        base: '/'
-    }).pipe(prompt.confirm('Running this command for the second time and up, will override your .scss files. Do you want to continue?'));
+    return gulp.src(config.root.allFiles, {
+        base: config.root.path
+    }).pipe(prompt.confirm(config.info.promptMessage));
 });
 
 // parentFiles zijn de bestanden die in dezelfde map staan als de App.scss
@@ -105,7 +112,7 @@ let parentFiles = [];
 // Een andere task 'prompting' uitgevoerd die je een waarschuwings bericht geeft die je moet accepteren om de functie uit te laten voeren.
 gulp.task('mkdir', ['prompting'], function () {
     // zet het path naar waar de bestanden opgeslagen moeten worden
-    let pathToFolder = paths.development.styleFolder;
+    let pathToFolder = config.development.styleFolder;
     // initialize de functie met de directories data en een leeg path.
     // (dit word eerst uitgevoerd voordat het door gaat naar de parentFiles en makeFiles funcite)
     subFileLoop(directories, '');
@@ -118,7 +125,7 @@ gulp.task('mkdir', ['prompting'], function () {
 
 function subFileLoop(target, parent) {
     // Zet pathToFolder gelijk aan het pad voor de bestanden
-    let pathToFolder = paths.development.styleFolder;
+    let pathToFolder = config.development.styleFolder;
     // fileUrls is het pad naar de 'hoofd children bestand'. wat dit in houdt is dat als je een map hebt met 1 bestand (parentTest.scss) 
     // en een andere map daarin met 5 bestanden (test.scss, test2.scss etc...)
     // Er 1 bestand (hoofdtest.scss) in die map zit die de andere 4 in laadt.
@@ -220,21 +227,21 @@ function makeFiles(filePath, fileContent) {
 }
 
 gulp.task('jsLint', function () {
-    return gulp.src(paths.development.scripts, {
-        base: './'
+    return gulp.src(config.development.scripts, {
+        base: config.root.path
     }).pipe(eslint({
         config: styleguides,
         fix: true
     })).pipe(
         eslint.formatEach()
     ).pipe(
-        gulp.dest('./')
+        gulp.dest(config.root.path)
     );
 });
 
 gulp.task('sassLint', function () {
-    return gulp.src(paths.development.styles, {
-        base: './'
+    return gulp.src(config.development.styles, {
+        base: config.root.path
     }).pipe(gulpStylelint({
         fix: true,
         failAfterError: false,
@@ -243,15 +250,15 @@ gulp.task('sassLint', function () {
             console: true
         }]
     })).pipe(
-        gulp.dest('./')
+        gulp.dest(config.root.path)
     );
 });
 
 gulp.task('sass', function () {
-    return gulp.src(paths.development.styles)
+    return gulp.src(config.development.styles)
         .pipe(sass())
-        .pipe(prefix(paths.production.css.version))
-        .pipe(gulp.dest(paths.development.folder))
+        .pipe(prefix(config.production.css.version))
+        .pipe(gulp.dest(config.development.folder))
         .pipe(browserSync.reload({
             stream: true
         }));
@@ -260,15 +267,15 @@ gulp.task('sass', function () {
 gulp.task('browserSync', function () {
     browserSync.init({
         server: {
-            baseDir: paths.development.folder
+            baseDir: config.development.folder
         },
     });
 });
 
 gulp.task('watch', ['browserSync', 'sass'], function () {
-    gulp.watch(paths.development.styles, ['sass']);
-    gulp.watch(paths.development.html, browserSync.reload);
-    gulp.watch(paths.development.scripts, browserSync.reload);
+    gulp.watch(config.development.styles, ['sass']);
+    gulp.watch(config.development.html, browserSync.reload);
+    gulp.watch(config.development.scripts, browserSync.reload);
 });
 
 const autofix = [
@@ -278,13 +285,13 @@ const autofix = [
     'jsLint',
 ];
 gulp.task('watch:autofix', autofix, function () {
-    gulp.watch(paths.development.styles, ['sassLint', 'sass']);
-    gulp.watch(paths.development.html, browserSync.reload);
-    gulp.watch(paths.development.scripts, ['jsLint']);
+    gulp.watch(config.development.styles, ['sassLint', 'sass']);
+    gulp.watch(config.development.html, browserSync.reload);
+    gulp.watch(config.development.scripts, ['jsLint']);
 });
 
 gulp.task('jsAndHtmlMinify', function () {
-    return gulp.src(paths.development.html)
+    return gulp.src(config.development.html)
         .pipe(useref())
         .pipe(gulpIf('*.js',
             minify({
@@ -297,27 +304,27 @@ gulp.task('jsAndHtmlMinify', function () {
             collapseWhitespace: true,
             removeComments: true
         }))
-        .pipe(gulp.dest(paths.production.folder));
+        .pipe(gulp.dest(config.production.folder));
 });
 
 gulp.task('sassMinify', function () {
-    return gulp.src(paths.development.styles)
+    return gulp.src(config.development.styles)
         .pipe(sass())
         .pipe(purgecss({
-            content: paths.production.css.purge
+            content: config.production.css.purge
         }))
         .pipe(cleanCSS())
-        .pipe(gulp.dest(paths.production.folder));
+        .pipe(gulp.dest(config.production.folder));
 });
 
 gulp.task('imagesMinify', function () {
-    return gulp.src(paths.development.images)
+    return gulp.src(config.development.images)
         .pipe(cache(imagemin()))
-        .pipe(gulp.dest(paths.production.images));
+        .pipe(gulp.dest(config.production.images));
 });
 
 gulp.task('clean:production', function () {
-    return del.sync(paths.production.folder);
+    return del.sync(config.production.folder);
 });
 
 gulp.task('production', function (callback) {
