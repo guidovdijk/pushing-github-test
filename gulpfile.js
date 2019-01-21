@@ -40,7 +40,7 @@ const config = {
         images: 'production/images',
         css: {
             purge: ['src/**/*.html'],
-            version: 'last 2 versions',
+            version: ['last 2 versions', 'ie >= 7'],
         },
     },
     development: {
@@ -320,6 +320,7 @@ gulp.task('sassMinify', function () {
         .pipe(purgecss({
             content: config.production.css.purge
         }))
+        .pipe(prefix(config.production.css.version))
         .pipe(cleanCSS())
         .pipe(gulp.dest(config.production.folder));
 });
