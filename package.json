@@ -3,13 +3,11 @@
   "version": "1.0.0",
   "description": "custom eslint",
   "main": "index.js",
-  "dependencies": {
-    "webpack-stream": "^5.2.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.2.3",
-    "babel-loader": "^8.0.4",
+    "babel-loader": "^8.0.5",
     "babel-plugin-root-import": "^6.1.0",
     "browser-sync": "2.26.3",
     "del": "3.0.0",
@@ -38,8 +36,9 @@
     "stylelint": "^9.6.0",
     "stylelint-scss": "^3.3.1",
     "through2": "^2.0.3",
-    "uglifyjs-webpack-plugin": "^2.0.1",
-    "webpack": "^4.27.1",
+    "uglifyjs-webpack-plugin": "^2.1.1",
+    "webpack": "^4.29.0",
+    "webpack-stream": "^5.2.1",
     "yargs": "^12.0.5"
   },
   "scripts": {
