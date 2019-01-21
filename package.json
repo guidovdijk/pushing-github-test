@@ -48,8 +48,8 @@
     "url": "git+https://github.com/guidovdijk/pushing-github-test.git"
   },
   "lint-staged": {
-    "src/assets/scripts/**/*.js": "./node_modules/.bin/eslint --fix --max-warnings=0",
-    "src/assets/styles/**/*.scss": "./node_modules/.bin/stylelint --fix --max-warnings=0"
+    "src/assets/scripts/**/*.js": "./node_modules/.bin/eslint --fix",
+    "src/assets/styles/**/*.scss": "./node_modules/.bin/stylelint --fix"
   },
   "husky": {
     "hooks": {
