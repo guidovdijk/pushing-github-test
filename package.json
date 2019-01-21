@@ -14,7 +14,6 @@
     "eslint": "^5.7.0",
     "gulp": "3.9.1",
     "gulp-autoprefixer": "6.0.0",
-    "gulp-babel-minify": "0.5.0",
     "gulp-cache": "1.0.2",
     "gulp-clean-css": "^3.10.0",
     "gulp-eslint": "5.0.0",
@@ -24,8 +23,11 @@
     "gulp-postcss": "8.0.0",
     "gulp-prompt": "^1.1.0",
     "gulp-purgecss": "^1.1.1",
+    "gulp-sass": "^4.0.2",
+    "gulp-stylelint": "^8.0.0",
     "gulp-useref": "^3.1.5",
     "husky": "^1.1.2",
+    "lint-staged": "^8.1.0",
     "node-sass": "^4.11.0",
     "postcss-reporter": "6.0.0",
     "run-sequence": "2.2.1",
@@ -38,12 +40,21 @@
     "yargs": "^12.0.5"
   },
   "scripts": {
-    "contains": "gulp contains",
+    "precommit": "lint-staged",
     "prod": "gulp production --prod"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/guidovdijk/pushing-github-test.git"
+  },
+  "lint-staged": {
+    "src/assets/scripts/**/*.js": "./node_modules/.bin/eslint --fix --max-warnings=0",
+    "src/assets/styles/**/*.scss": "./node_modules/.bin/stylelint --fix --max-warnings=0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run -s precommit && echo '===== COMMIT SUCCESFULL ====='"
+    }
   },
   "author": "Guido",
   "license": "ISC",

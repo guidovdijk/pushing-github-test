@@ -1,0 +1,47 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 2016,
+        "sourceType": "module"
+    },
+    "rules": {
+        "indent": [
+            2,
+            4
+        ],
+        "array-element-newline": [
+            2,
+            { "minItems": 4 }
+        ],
+        "array-bracket-newline": 0,
+        "linebreak-style": 0,
+        "quotes": [
+            2,
+            "single"
+        ],
+        "semi": [
+            "warn",
+            "always"
+        ],
+        "no-multi-spaces": [
+            2,
+            {
+                "ignoreEOLComments": true,
+                "exceptions": { 
+                    "Property": true,
+                    "VariableDeclarator": true,
+                    "ImportDeclaration": true
+                }
+            }
+        ],
+        "camelcase": [
+            2, 
+            {
+                "properties": "always"
+            }
+        ]
+    }
+}
