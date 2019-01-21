@@ -117,7 +117,9 @@ gulp.task('sassMinify', () => {
     return gulp.src(paths.development.styles)
     .pipe(sass())
     .pipe(purgecss({
-        content: paths.production.css.purge
+        content: paths.production.css.purge,
+        keyframes: true,
+        fontFace: true,
     }))
     .pipe(cleanCSS())
     .pipe(gulp.dest(paths.production.folder))
