@@ -22,13 +22,12 @@ const gulp = require('gulp'),
 
 const styleguides = require('./.eslintrc.json'),
     directories = require('./scss-files.json'),
-    words = require('./check-words.json');
+    words = require('./check-words.json'),
+    webpackConfig = require('./webpack.config.js');
 
 const prod = yargs.argv.prod;
 
 sass.compiler = require('node-sass');
-
-const webpackConfig = require('./webpack.config.js');
 
 const config = {
     root: {
@@ -48,7 +47,7 @@ const config = {
             version: ['last 2 versions', 'ie >= 7'],
         },
         folder: './production',
-        images: './production/static/images',
+        images: './production/assets/static/images',
     },
     dist: {
         folder: './src/dist/',
@@ -59,7 +58,7 @@ const config = {
         scripts: './src/assets/scripts/**/*.js',
         styles: './src/assets/styles/**/*.scss',
         html: './src/**/*.html',
-        images: './src/static/images/**/*.+(png|jpg|gif|svg)',
+        images: './src/assets/static/images/**/*.+(png|jpg|gif|svg)',
     },
     styleguides: {
         scss: './.sass-lint.yml',
@@ -216,7 +215,7 @@ gulp.task('sass', function () {
     return gulp.src(config.development.styles)
         .pipe(sass())
         .pipe(prefix(config.production.css.version))
-        .pipe(gulp.dest(config.development.folder))
+        .pipe(gulp.dest(config.dist.folder))
         .pipe(browserSync.reload({
             stream: true
         }));
@@ -228,12 +227,6 @@ gulp.task('browserSync', () => {
             baseDir: config.development.folder
         },
     });
-});
-
-gulp.task('watch', ['browserSync', 'sass'], function () {
-    gulp.watch(config.development.styles, ['sass']);
-    gulp.watch(config.development.html, browserSync.reload);
-    gulp.watch(config.development.scripts, browserSync.reload);
 });
 
 const autofix = [
@@ -261,65 +254,42 @@ gulp.task('sassMinify', function () {
         .pipe(gulp.dest(config.production.folder));
 });
 
-gulp.task('imagesMinify', function () {
-    return gulp.src(config.development.images)
-        .pipe(cache(imagemin()))
-        .pipe(gulp.dest(config.production.images));
-});
-
-gulp.task('clean:production', function () {
-    return del.sync(config.production.folder);
-});
-
 gulp.task('watch', ['browserSync', 'sass', 'webpack'], () => {
-    gulp.watch(paths.development.styles, ['sass']);
-    gulp.watch(paths.development.html, browserSync.reload);
-    gulp.watch(paths.development.scripts, ['webpack']);
+    gulp.watch(config.development.styles, ['sass']);
+    gulp.watch(config.development.html, browserSync.reload);
+    gulp.watch(config.development.scripts, ['webpack']);
 });
-
 
 gulp.task('htmlMinify', () => {
-    return gulp.src(paths.development.html)
+    return gulp.src(config.development.html)
         .pipe(useref())
         .pipe(htmlmin({
             collapseWhitespace: true,
             removeComments: true
-        })).pipe(gulp.dest(paths.production.folder));
+        })).pipe(gulp.dest(config.production.folder));
 });
 
 gulp.task('webpack', () => {
-    return gulp.src(paths.development.scripts)
+    return gulp.src(config.development.scripts)
         .pipe(webpackStream(webpackConfig), webpack)
-        .pipe(gulpIf(prod, gulp.dest(paths.production.folder)))
-        .pipe(gulpIf(!prod, gulp.dest(paths.dist.folder)))
+        .pipe(gulpIf(prod, gulp.dest(config.production.folder)))
+        .pipe(gulpIf(!prod, gulp.dest(config.dist.folder)))
         .pipe(gulpIf(!prod, browserSync.reload({ stream: true })));
 });
 
-gulp.task('sassMinify', () => {
-    return gulp.src(paths.development.styles)
-        .pipe(sass())
-        .pipe(purgecss({
-            content: paths.production.css.purge,
-            keyframes: true,
-            fontFace: true,
-        }))
-        .pipe(cleanCSS())
-        .pipe(gulp.dest(paths.production.folder));
-});
-
 gulp.task('imagesMinify', () => {
-    return gulp.src(paths.development.images).pipe(cache(imagemin())).pipe(gulp.dest(paths.production.images));
+    return gulp.src(config.development.images).pipe(cache(imagemin())).pipe(gulp.dest(config.production.images));
 });
 
 gulp.task('clean:production', () => {
-    return del.sync(paths.production.folder);
+    return del.sync(config.production.folder);
 });
 
 gulp.task('production', (callback) => {
     const minify = [
         'webpack', 
-        'htmlMinify', 
         'sassMinify', 
+        'htmlMinify', 
         'imagesMinify'
     ];
     runSequence('clean:production', minify, callback);
