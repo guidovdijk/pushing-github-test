@@ -1,0 +1,36 @@
+/* ------------------------------------------------------------------------- *\
+ * @function rem($value)
+ *
+ * This function takes one parameter:
+ *
+ *   1st: $value is the size of the text in pixels
+ *
+ * Description:
+ *   The rem function is used to calculate pixel values to rem values
+ *
+ * Usage:
+ *   In a class:
+ *   .some-class-selector { 
+ *     font-size: em(18px);
+ *   }
+ *
+ *   In a map variable:
+ *   $h1: (
+ *     base: rem(30px),
+ *   );
+/* ------------------------------------------------------------------------- */
+
+$browser-default-font-size: 16px !default;
+
+@function rem($value) {
+    @if type-of($value) == number {
+        $unitless: strip-unit($value);
+        $unitless-base: strip-unit($browser-default-font-size);
+        
+        $rem-size: $unitless / $unitless-base;
+        @return #{$rem-size}rem;
+    } @else {
+        @warn "Warning, '#{$value}' is not a number";
+        @return $value;
+    } 
+}

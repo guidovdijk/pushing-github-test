@@ -1,0 +1,39 @@
+/* ------------------------------------------------------------------------- *\
+ * @function em($value)
+ *
+ * This function takes one parameter:
+ *
+ *   1st: $value is the size of the text in pixels
+ *
+ * Description:
+ *   The em function is used to calculate pixel values to em values
+ *
+ * Usage:
+ *   In a class:
+ *   .some-class-selector { 
+ *     font-size: em(18px);
+ *   }
+ *
+ *   In a map variable:
+ *   $map-variable: (
+ *     base: em(30px),
+ *   );
+ *
+ *   In a variable:
+ *   $variable: em(30px),
+/* ------------------------------------------------------------------------- */
+
+$browser-default-font-size: 16px !default;
+
+@function em($value) {
+    @if type-of($value) == number {
+        $value-unitless: strip-unit($value);
+        $base-value-unitless: strip-unit($browser-default-font-size);
+    
+        $em-size: $value-unitless / $base-value-unitless;
+        @return #{$em-size}em;
+    } @else {
+        @warn "Warning, '#{$value}' is not a number";
+        @return $value;
+    } 
+}

@@ -1,0 +1,26 @@
+// Mobile, tablet and desktop visibility classes
+.show-mobile {
+    display: block;
+}
+.show-tablet,
+.show-desktop {
+    display: none;
+}
+@include tablet {
+    .show-mobile,
+    .show-desktop {
+        display: none;
+    }
+    .show-tablet {
+        display: block;
+    }
+}
+@include desktop {
+    .show-mobile,
+    .show-tablet {
+        display: none;
+    }
+    .show-desktop {
+        display: block;
+    }
+}

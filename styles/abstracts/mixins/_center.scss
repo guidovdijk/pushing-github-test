@@ -1,0 +1,35 @@
+/* ------------------------------------------------------------------------- *\
+ * @mixin center
+ *
+ * This mixin takes three parameters:
+ *
+ *   1st: $horizontal for horizontal alignment. Defaults to: true
+ *    Choose between: true or false
+ *
+ *   2nd: $vertical for vertical alignment. Defaults to: true
+ *    Choose between: true or false
+ *
+ *   3rd: $position for the position value of the element. Defaults to: absolute
+ *
+ * Description:
+ *   The center mixin is used to position elements in the vertical center, the horizontal center and in the center of both.
+ *
+ * Usage:
+ *   @include center(); // No parameters if you want to use the already defined ones
+ *   @include center(false, true, relative); // With parameters if you want to override the already defined ones
+/* ------------------------------------------------------------------------- */
+
+@mixin center($horizontal: true, $vertical: true, $position: absolute) {
+	position: $position;
+	@if ($horizontal and $vertical) {
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	} @else if ($horizontal) {
+		left: 50%;
+		transform: translateX(-50%);
+	} @else if ($vertical) {
+		top: 50%;
+		transform: translateY(-50%);
+	}
+}

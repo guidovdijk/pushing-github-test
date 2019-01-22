@@ -1,0 +1,7 @@
+// Float classes
+$floats: (left, right, none);
+@each $float in $floats {
+    .float-#{$float}{
+        float: #{$float};
+    }
+}

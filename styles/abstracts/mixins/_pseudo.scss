@@ -1,0 +1,28 @@
+/* ------------------------------------------------------------------------- *\
+ * @mixin pseudo
+ * 
+ * This mixin takes three parameters:
+ *
+ *   1st: $display, The display of the element. Defaults to 'block'
+ *    Choose between: 'inline', 'flex', 'inlineblock', etc
+ *  
+ *   2nd: $pos, The position type of the element. Defaults to 'absolute'
+ *    Choose between: 'absolute', 'fixed', 'unset', 'relative', etc
+ *
+ *   3rd: $content, The content of the pseudo element. Defaults to an empty string: ''
+ *
+ * Descriotion:
+ *   Makes it possible to add in one line the neccesarry properties to a pseudo element, so you can use it.
+ *
+ * Usage:
+ *   :before {
+ *     @mixin pseudo(); // No parameters to use the already defined ones: block, absolute and ''.
+ *     @mixin pseudo(inline, relative, 'text example'); // Use parameters to override the already defined ones.
+ *   }
+/* ------------------------------------------------------------------------- */
+
+@mixin pseudo($display: block, $pos: absolute, $content: ''){
+	content: $content;
+	display: $display;
+	position: $pos;
+}

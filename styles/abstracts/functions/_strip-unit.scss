@@ -1,0 +1,21 @@
+/* ------------------------------------------------------------------------- *\
+ * @function strip-unit($number)
+ *
+ * This function takes one parameter:
+ *
+ *   1st: $number is a value
+ *
+ * Description:
+ *   The strip-unit function is used to remove the unit (px, rem, em, etc) of a value
+ *
+ * Usage:
+ *   strip-unit($some-variable);
+ *
+/* ------------------------------------------------------------------------- */
+@function strip-unit($number) {
+    @if type-of($number) == 'number' and not unitless($number) {
+      @return $number / ($number * 0 + 1);
+    }
+  
+    @return $number;
+}

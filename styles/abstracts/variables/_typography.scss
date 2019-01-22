@@ -1,0 +1,42 @@
+// Headings
+$heading-font: 'Helvetica';
+$heading-fallback: 'Arial', sans-serif;
+$heading-weight: 400;
+
+// Text
+$base-font: 'Arial';
+$base-fallback: 'Helvetica', sans-serif;
+
+// Base font size (if changed, also change: $browser-default-font-size in functions/_px-to-rem.scss and functions/_px-to-em.scss)
+$base-font-size: 16px;
+
+// Font Sizes
+$h1: (
+	base: rem(30px),
+	tablet: rem(26px),
+);
+
+$h2: (
+	base: 26px,
+	tablet: 20px,
+);
+
+$h3: (
+	base: 22px,
+	tablet: 16px,
+);
+
+$h4: (
+	base: 20px,
+	tablet: 12px,
+);
+
+$h5: (
+	base: 18px,
+	tablet: 10px,
+);
+
+$h6: (
+	base: 16px,
+	tablet: 8px,
+);

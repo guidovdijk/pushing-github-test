@@ -1,0 +1,7 @@
+// Display classes
+$dislays: (block, none, inline-block, unset);
+@each $dislay in $dislays {
+    .is-display-#{$dislay} {
+        display: #{$dislay};
+    }
+}

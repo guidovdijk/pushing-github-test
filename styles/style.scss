@@ -1,2 +1,7 @@
-@import 'base/abstracts/_abstracts'; 
-@import 'base/helpers/helpers'; 
+@import 'abstracts/_abstracts.scss'; 
+@import 'base/_base.scss'; 
+
+h1 {
+    @include center();
+    @include font-size($h1);
+}

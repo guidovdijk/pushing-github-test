@@ -1,0 +1,7 @@
+// Text align classes
+$text-align: (center, left, right, justify, unset);
+@each $alignment in $text-align {
+    .is-text-#{$alignment} {
+        text-align: #{$alignment};
+    }
+}
