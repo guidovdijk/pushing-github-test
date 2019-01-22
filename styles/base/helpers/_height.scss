@@ -1,0 +1,15 @@
+$height-values: (full: 100%, half: 50%, auto: auto, inherit: inherit, unset: unset);
+
+@each $property, $value in $height-values {
+    .height-#{$property} {
+        height: $value;
+    }
+}
+
+$max-height-values: (full: 100%, half: 50%, none: none, inherit: inherit, unset: unset);
+
+@each $property, $value in $max-height-values {
+    .max-height-#{$property} {
+        height: $value;
+    }
+}

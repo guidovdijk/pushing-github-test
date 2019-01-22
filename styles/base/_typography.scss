@@ -1,0 +1,23 @@
+$all-text: (
+    body: $body, 
+    h1: $h1,
+    h2: $h2,
+    h3: $h3,
+    h4: $h4,
+    h5: $h5,
+    h6: $h6,
+    p: $p
+);
+
+@each $heading-property, $heading-variable in $all-text {
+    #{$heading-property}, .#{$heading-property} {
+        font-size: map-get($heading-variable, $font-base);
+    }
+}      
+@include tablet {
+    @each $heading-property, $heading-variable in $all-text {
+        #{$heading-property}, .#{$heading-property} {
+            font-size: map-get($heading-variable, $font-tablet);
+        }  
+    }      
+}

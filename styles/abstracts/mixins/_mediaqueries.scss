@@ -1,0 +1,52 @@
+/* ------------------------------------------------------------------------- *\
+ * Mediaqueries
+ *
+ * This file contains the default media queries for this project, and a
+ * mixin that enables custom min-width media queries. Since we work
+ * mobile first, all media queries are using the min-width notation.
+ *
+ * Example:
+ *   h1 { 
+ *      color: red; // Affects everything
+ *      @include tablet { 
+ *         color: blue; // Affects everything above mobile format (768px)
+ *      }
+ *      @include desktop { 
+ *         color: green; // Affects everything above tablet format (1024px)
+ *      }
+ *   }
+/* ------------------------------------------------------------------------- */
+
+/* ------------------------------------------------------------------------- *\
+ * @mixin tablet
+ *
+ * The tablet mixin affects all screens above mobile format
+/* ------------------------------------------------------------------------- */
+@mixin tablet {
+    @media screen and (min-width: $tablet) {
+        @content;
+    }
+}
+
+/* ------------------------------------------------------------------------- *\
+ * @mixin desktop
+ *
+ * The desktop mixin affects all screens above tablet format
+/* ------------------------------------------------------------------------- */
+@mixin desktop {
+    @media screen and (min-width: $desktop) {
+        @content;
+    }
+}
+
+/* ------------------------------------------------------------------------- *\
+ * @mixin min-width
+ *
+ * The min-width mixin affects all screens above the parameter value
+/* ------------------------------------------------------------------------- */
+@mixin min-width($width) {
+    @media screen and (min-width: $width) {
+        @content;
+    }
+}
+  
