@@ -25,25 +25,31 @@
 @mixin center($horizontal: center, $vertical: center, $position: absolute) {
 	position: $position;
 
-	@if ($horizontal == center) {
+	@if $horizontal == center and $vertical == center {
 		left: 50%;
-		transform: translateX(-50%);
-	} @else if ($horizontal == left) {
-		left: 0;
-	} @else if ($horizontal == right) {
-		right: 0;
-	} @else {
-		@error "@mixin center expected: 'center', 'left' or 'right'. got '#{$horizontal}'";
-	}
-
-	@if ($vertical == center) {
 		top: 50%;
-		transform: translateY(-50%);
-	} @else if ($vertical == top) {
-		top: 0;
-	} @else if ($vertical == bottom) {
-		bottom: 0;
+		transform: translate(-50%, -50%);
 	} @else {
-		@error "@mixin center expected: 'center', 'top' or 'bottom'. got '#{$vertical}'";
+		@if ($horizontal == center) {
+			left: 50%;
+			transform: translateX(-50%);
+		} @else if ($horizontal == left) {
+			left: 0;
+		} @else if ($horizontal == right) {
+			right: 0;
+		} @else {
+			@error "@mixin center expected: 'center', 'left' or 'right'. got '#{$horizontal}'";
+		}
+	
+		@if ($vertical == center) {
+			top: 50%;
+			transform: translateY(-50%);
+		} @else if ($vertical == top) {
+			top: 0;
+		} @else if ($vertical == bottom) {
+			bottom: 0;
+		} @else {
+			@error "@mixin center expected: 'center', 'top' or 'bottom'. got '#{$vertical}'";
+		}
 	}
 }
