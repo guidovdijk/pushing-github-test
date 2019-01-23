@@ -1,0 +1,14 @@
+// Font weight classes
+$font-weights: (
+    normal: $normal, 
+    bold: $bold, 
+    black: $black, 
+    light: $light, 
+    lighter: $lighter
+);
+
+@each $weight-property, $weight-value in $font-weights {
+    .has-font-weight-#{$weight-property}{
+        font-weight: #{$weight-value}
+    }
+}

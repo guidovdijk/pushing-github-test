@@ -1,3 +1,4 @@
+// Width classes
 $width-values: (full: 100%, half: 50%, auto: auto, inherit: inherit, unset: unset);
 
 @each $property, $value in $width-values {
@@ -6,10 +7,20 @@ $width-values: (full: 100%, half: 50%, auto: auto, inherit: inherit, unset: unse
     }
 }
 
+// Max width classes
 $max-width-values: (full: 100%, half: 50%, none: none, inherit: inherit, unset: unset);
 
 @each $property, $value in $max-width-values {
     .max-width-#{$property} {
-        width: $value;
+        max-width: $value;
+    }
+}
+
+// Min width classes
+$min-width-values: (full: 100%, half: 50%, auto: auto, inherit: inherit, fit-content: fit-content);
+
+@each $property, $value in $min-width-values {
+    .min-width-#{$property} {
+        min-width: $value;
     }
 }

@@ -1,0 +1,8 @@
+// Vertical align classes
+$vertical-align: (top, middle, bottom, unset);
+
+@each $align in $vertical-align {
+    .vertical-align-#{$align}{
+        vertical-align: #{$align};
+    }
+}
