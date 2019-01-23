@@ -24,9 +24,6 @@ body {
     color: $primary-color;
     font-weight: $normal;
     font-family: $base-font;
-    @include tablet {
-        color: red;
-    }
 }
 
 h1, .h1,

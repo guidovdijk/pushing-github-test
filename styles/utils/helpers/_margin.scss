@@ -10,8 +10,14 @@ $margins: (
 @each $margin in $margins {
     @each $property, $v in $margin-value {
         @if $margin == all {
-            .is-margin-#{$property} {
-                margin: $v;
+            @if $property == 0 {
+                .no-margin {
+                    margin: $v
+                }   
+            } @else {
+                .is-margin-#{$property} {
+                    margin: $v;
+                }
             }
         } @else {
             .is-margin-#{$margin}-#{$property} {
