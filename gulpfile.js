@@ -6,6 +6,7 @@ const gulp = require('gulp'),
     useref = require('gulp-useref'),
     gulpIf = require('gulp-if'),
     purgecss = require('gulp-purgecss'),
+    gcmq = require('gulp-group-css-media-queries'),
     runSequence = require('run-sequence'),
     del = require('del'),
     imagemin = require('gulp-imagemin'),
@@ -249,6 +250,7 @@ gulp.task('sassMinify', function () {
             keyframes: true,
             fontFace: true,
         }))
+        .pipe(gcmq())
         .pipe(prefix(config.production.css.version))
         .pipe(cleanCSS())
         .pipe(gulp.dest(config.production.folder));
