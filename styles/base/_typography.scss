@@ -9,15 +9,23 @@ $all-text: (
     p: $p
 );
 
-@each $heading-property, $heading-variable in $all-text {
-    #{$heading-property}, .#{$heading-property} {
-        font-size: map-get($heading-variable, $font-base);
+@each $property, $variable in $all-text {
+    $sizes: map-get($variable, size);
+    $color: map-get($variable, color);
+    $font-weight: map-get($variable, font-weight);
+
+    #{$property}, .#{$property} {
+        font-size: map-get($sizes, $font-base);
+        color: $color;
+        font-weight: $font-weight;
     }
 }      
 @include tablet {
-    @each $heading-property, $heading-variable in $all-text {
-        #{$heading-property}, .#{$heading-property} {
-            font-size: map-get($heading-variable, $font-tablet);
-        }  
-    }      
+    @each $property, $variable in $all-text {
+        $sizes: map-get($variable, size);
+
+        #{$property}, .#{$property} {
+            font-size: map-get($sizes, $font-tablet);
+        }
+    }
 }
