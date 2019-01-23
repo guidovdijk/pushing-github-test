@@ -1,0 +1,22 @@
+$margin-value: (0: 0, auto: auto, 0-auto: 0 auto);
+$margins: (
+    left,
+    right,
+    top,
+    bottom,
+    all,
+);
+
+@each $margin in $margins {
+    @each $property, $v in $margin-value {
+        @if $margin == all {
+            .is-margin-#{$property} {
+                margin: $v;
+            }
+        } @else {
+            .is-margin-#{$margin}-#{$property} {
+                margin-#{$margin}: $v;
+            }
+        }
+    }
+}

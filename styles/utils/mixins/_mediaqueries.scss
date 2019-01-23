@@ -23,7 +23,7 @@
  * The tablet mixin affects all screens above mobile format
 /* ------------------------------------------------------------------------- */
 @mixin tablet {
-    @media screen and (min-width: $tablet) {
+    @media screen and (min-width: $tablet-width) {
         @content;
     }
 }
@@ -34,7 +34,7 @@
  * The desktop mixin affects all screens above tablet format
 /* ------------------------------------------------------------------------- */
 @mixin desktop {
-    @media screen and (min-width: $desktop) {
+    @media screen and (min-width: $desktop-width) {
         @content;
     }
 }

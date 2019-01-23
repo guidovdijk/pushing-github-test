@@ -1,31 +1,39 @@
-$all-text: (
-    body: $body, 
-    h1: $h1,
-    h2: $h2,
-    h3: $h3,
-    h4: $h4,
-    h5: $h5,
-    h6: $h6,
-    p: $p
-);
-
-@each $property, $variable in $all-text {
+// Makes font-size and line-height for all the variables in $typography in utils/variable/_typography.scss 
+@each $property, $variable in $typography {
     $sizes: map-get($variable, size);
-    $color: map-get($variable, color);
-    $font-weight: map-get($variable, font-weight);
+    $line-heights: map-get($variable, line-height);
 
     #{$property}, .#{$property} {
-        font-size: map-get($sizes, $font-base);
-        color: $color;
-        font-weight: $font-weight;
+        font-size: map-get($sizes, $base);
+        line-height: map-get($line-heights, $base);
     }
 }      
 @include tablet {
-    @each $property, $variable in $all-text {
+    @each $property, $variable in $typography {
         $sizes: map-get($variable, size);
+        $line-heights: map-get($variable, line-height);
 
         #{$property}, .#{$property} {
-            font-size: map-get($sizes, $font-tablet);
+            font-size: map-get($sizes, $tablet);
+            line-height: map-get($line-heights, $tablet);
         }
     }
+}
+
+body {
+    color: $primary-color;
+    font-weight: $normal;
+    font-family: $base-font;
+    @include tablet {
+        color: red;
+    }
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4 {
+    color: $secondary-color;
+    font-weight: $bold;
+    font-family: $heading-font, $heading-fallback;
 }
