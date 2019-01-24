@@ -1,0 +1,38 @@
+/* ------------------------------------------------------------------------- *\
+ * @mixin make-type-styling
+ *
+ * This mixin takes two parameters:
+ *
+ *   1st: $screen takes the $tablet or $base variable
+ *   2nd: $map takes a map of variable
+ *
+ *
+ * Description:
+ *   The make-type-styling mixin makes all the basic styling for element in the typography variable in 'variables/typography/_font-sizes.scss'
+ *   If the parameter is $tablet the styling comes in a min-width mediaquerie with the pixel value based on the $tablet-width variable.
+ *
+ * Usage:
+ *   @include make-type-styling($tablet);
+/* ------------------------------------------------------------------------- */
+
+@mixin make-type-styling($screen, $map: $typography){
+    @if $map {
+        @each $property, $variable in $map {
+            $properties: map-keys($variable);
+        
+            #{$property}, .#{$property} {
+        
+                @each $prop, $value in $properties {
+        
+                    $prop-values: map-get($variable, $prop);
+                    $tablet-values: map-get($prop-values, $screen);
+        
+                    #{$prop}: #{$tablet-values};
+    
+                }
+            }
+        }
+    } @else {
+        @warn "map: '#{$map}' is undefined";
+    }
+}

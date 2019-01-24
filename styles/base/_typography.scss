@@ -1,23 +1,7 @@
-// Makes font-size and line-height for all the variables in $typography in utils/variable/_typography.scss 
-@each $property, $variable in $typography {
-    $sizes: map-get($variable, size);
-    $line-heights: map-get($variable, line-height);
+@include make-type-styling($base);
 
-    #{$property}, .#{$property} {
-        font-size: map-get($sizes, $base);
-        line-height: map-get($line-heights, $base);
-    }
-}      
 @include tablet {
-    @each $property, $variable in $typography {
-        $sizes: map-get($variable, size);
-        $line-heights: map-get($variable, line-height);
-
-        #{$property}, .#{$property} {
-            font-size: map-get($sizes, $tablet);
-            line-height: map-get($line-heights, $tablet);
-        }
-    }
+    @include make-type-styling($tablet);
 }
 
 body {
