@@ -3,10 +3,15 @@
  *
  * This mixin takes four parameters:
  *
- *   1st: The font name.
- *   2nd: The file name.
- *   3rd: The font-weight (thickness of the font). Get weight out of constants variable.
- *   4th: The font-style (style of the font like: 'italic').
+ *   @param { $font-name } name of the font
+ *
+ *   @param { $file-url } path to the font
+ *
+ *   @param { $font-weight } (thickness of the font). Get weight out of constants variable.
+ *
+ *   @param { $font-style } (style of the font like: 'italic').
+ *
+ *   @return { @font-face }
  *
  * Required font file types (so it is supported for all browsers):
  *   .eot

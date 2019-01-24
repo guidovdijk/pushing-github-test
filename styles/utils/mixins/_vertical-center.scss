@@ -3,7 +3,9 @@
  *
  * This mixin takes one parameters:
  *
- *   1st: $position for the position value of the element. Defaults to: relative
+ *   @param { $position } for the position value of the element. Defaults to: relative
+ *
+ *   @return { $propertie: $value }
  *
  * Description:
  *   The vertical-center mixin is used to position elements in the vertical center.

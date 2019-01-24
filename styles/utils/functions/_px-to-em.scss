@@ -3,7 +3,9 @@
  *
  * This function takes one parameter:
  *
- *   1st: $value is the size of the text in pixels
+ *   @param { $value } is the size of the text in pixels
+ *
+ *   @return { $result } value in em
  *
  * Description:
  *   The em function is used to calculate pixel values to em values

@@ -30,8 +30,8 @@ $typography: (
             $tablet: rem(18px),
         ),
         line-height: (
-            $base: 1.2,
-            $tablet: 1.5,
+            $base: line-height(12px, 14px),
+            $tablet: line-height(15px, 18px),
         ),
     ),
 

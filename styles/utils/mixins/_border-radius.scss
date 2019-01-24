@@ -3,10 +3,12 @@
  *
  * This mixin takes two parameters:
  *
- *   1st: $radius is the radius of the borders
+ *   @param { $radius } is the radius of the borders
  *
- *   2nd: $type is which borders will be rounded
+ *   @param { $type } is which borders will be rounded
  *    Choose between: 'top', 'bottom', 'left' or 'right'
+ *
+ *   @return { $property: $value } border-radius
  *
  * Description:
  *   The border-radius mixin makes rounded borders for elements. You can define which borders will be rounded

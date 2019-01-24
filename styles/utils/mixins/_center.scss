@@ -3,13 +3,15 @@
  *
  * This mixin takes three parameters:
  *
- *   1st: $horizontal for horizontal alignment. Defaults to: center
+ *   @param { $horizontal } for horizontal alignment. Defaults to: center
  *    Choose between: center, left or right
  *
- *   2nd: $vertical for vertical alignment. Defaults to: center
+ *   @param { $vertical } for vertical alignment. Defaults to: center
  *    Choose between: center, top or bottom
  *
- *   3rd: $position for the position value of the element. Defaults to: absolute
+ *   @param { $position } for the position value of the element. Defaults to: absolute
+ *
+ *   @return { $propertie: $value }
  *
  * Description:
  *   The center mixin is used to position elements:

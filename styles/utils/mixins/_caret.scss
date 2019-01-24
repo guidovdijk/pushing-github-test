@@ -3,17 +3,19 @@
  *
  * This mixin takes five parameters:
  *
- *   1st: $color is the color of the caret (triangle)
+ *   @param { $color } is the color of the caret (triangle)
  *    You can use any color, but if the color already exist in a variable, you must use the variable.
  *
- *   2nd: $direction is the direction which the point of the caret is facing.
+ *   @param { $direction } is the direction which the point of the caret is facing.
  *    Choose between: 'bottom', 'top', 'left' or 'right'.
  *
- *   3rd: $size is the size of the caret. Defaults to 6px.
-
- *   4th: $position is the position type of the caret. Defaults to absolute.
-
- *   5th: $radius is used to make rounded colors for the caret.
+ *   @param { $size } is the size of the caret. Defaults to 6px.
+ *
+ *   @param { $position } is the position type of the caret. Defaults to absolute.
+ *
+ *   @param { $radius } is used to make rounded colors for the caret.
+ *
+ *   @return { $propertie: $value }
  *
  * Description:
  *   The caret mixin is used to make basic triangles for where necessary.

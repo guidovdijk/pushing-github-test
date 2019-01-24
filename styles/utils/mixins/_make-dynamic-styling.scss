@@ -3,9 +3,10 @@
  *
  * This mixin takes two parameters:
  *
- *   1st: $screen takes the $tablet or $base variable
- *   2nd: $map takes a map of variable
+ *   @param { $screen } takes the $tablet or $base variable
+ *   @param { $map } takes a map of variable
  *
+ *   @return { $propertie: $value }   
  *
  * Description:
  *   The make-dynamic-styling mixin makes all the basic styling for element in the typography variable in 'variables/typography/_font-sizes.scss'
@@ -25,9 +26,9 @@
                 @each $prop, $value in $properties {
         
                     $prop-values: map-get($variable, $prop);
-                    $tablet-values: map-get($prop-values, $screen);
+                    $values: map-get($prop-values, $screen);
         
-                    #{$prop}: #{$tablet-values};
+                    #{$prop}: #{$values};
     
                 }
             }

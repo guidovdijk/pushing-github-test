@@ -3,8 +3,10 @@
  *
  * This mixin takes one parameter:
  *
- *   1st: $sizes is the variable of font-sizes (like: $h1) in the _typography.scss
+ *   @param { $sizes } is the variable of font-sizes (like: $h1) in the _typography.scss
  *    You can use of the defined font-sizes in _typography.scss
+ *
+ *  @return { $property: $value } font sizes for mobile and base format
  *
  * Description:
  *   The font-size mixin is used to make dynamic, resposive text sizes for desktop and mobile sized screens

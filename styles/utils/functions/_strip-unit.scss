@@ -3,7 +3,9 @@
  *
  * This function takes one parameter:
  *
- *   1st: $number is a value
+ *   @param { $number } is a number value
+ *
+ *   @return { $result } value without unit
  *
  * Description:
  *   The strip-unit function is used to remove the unit (px, rem, em, etc) of a value

@@ -3,13 +3,15 @@
  * 
  * This mixin takes three parameters:
  *
- *   1st: $display, The display of the element. Defaults to 'block'
+ *   @param { $display }, The display of the element. Defaults to 'block'
  *    Choose between: 'inline', 'flex', 'inlineblock', etc
  *  
- *   2nd: $pos, The position type of the element. Defaults to 'absolute'
+ *   @param { $pos }, The position type of the element. Defaults to 'absolute'
  *    Choose between: 'absolute', 'fixed', 'unset', 'relative', etc
  *
- *   3rd: $content, The content of the pseudo element. Defaults to an empty string: ''
+ *   @param { $content }, The content of the pseudo element. Defaults to an empty string: ''
+ *
+ *   @return { $propertie: $value }
  *
  * Descriotion:
  *   Makes it possible to add in one line the neccesarry properties to a pseudo element, so you can use it.
