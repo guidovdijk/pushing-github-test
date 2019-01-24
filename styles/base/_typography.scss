@@ -1,7 +1,7 @@
-@include make-type-styling($base);
+@include make-dynamic-styling($base, $typography);
 
 @include tablet {
-    @include make-type-styling($tablet);
+    @include make-dynamic-styling($tablet, $typography);
 }
 
 body {

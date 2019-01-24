@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------------- *\
- * @mixin make-type-styling
+ * @mixin make-dynamic-styling
  *
  * This mixin takes two parameters:
  *
@@ -8,14 +8,14 @@
  *
  *
  * Description:
- *   The make-type-styling mixin makes all the basic styling for element in the typography variable in 'variables/typography/_font-sizes.scss'
+ *   The make-dynamic-styling mixin makes all the basic styling for element in the typography variable in 'variables/typography/_font-sizes.scss'
  *   If the parameter is $tablet the styling comes in a min-width mediaquerie with the pixel value based on the $tablet-width variable.
  *
  * Usage:
- *   @include make-type-styling($tablet);
+ *   @include make-dynamic-styling($tablet);
 /* ------------------------------------------------------------------------- */
 
-@mixin make-type-styling($screen, $map: $typography){
+@mixin make-dynamic-styling($screen, $map){
     @if $map {
         @each $property, $variable in $map {
             $properties: map-keys($variable);
