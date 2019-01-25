@@ -1,8 +1,6 @@
-@include make-dynamic-styling($base, $typography);
+@include make-dynamic-styling($typography);
 
-@include tablet {
-    @include make-dynamic-styling($tablet, $typography);
-}
+
 
 body {
     color: $primary-color;

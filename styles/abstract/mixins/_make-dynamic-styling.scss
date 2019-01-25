@@ -16,24 +16,52 @@
  *   @include make-dynamic-styling($tablet);
 /* ------------------------------------------------------------------------- */
 
-@mixin make-dynamic-styling($screen, $map){
-    @if $map {
-        @each $property, $variable in $map {
-            $properties: map-keys($variable);
-        
-            #{$property}, .#{$property} {
-        
-                @each $prop, $value in $properties {
-        
-                    $prop-values: map-get($variable, $prop);
-                    $values: map-get($prop-values, $screen);
-        
-                    #{$prop}: #{$values};
-    
+@mixin make-dynamic-styling($map){
+    @each $property, $variable in $map {
+        $properties: map-keys($variable);
+        $screen-size: get-size($properties, $variable); // only check first prop in el
+  
+        @each $size in $screen-size {      
+
+            @if $size == $base {
+                @include map-over($size, $variable, $property);
+            } @else if $size == $tablet {
+                @include tablet {
+                    @include map-over($size, $variable, $property);
                 }
+            } @else if $size == $desktop {
+                @include desktop {
+                    @include map-over($size, $variable, $property);
+                }
+            } @else {
+                @warn "value doesn't exist and/or isn't added te the make-dynamic-styling mixin";
             }
         }
-    } @else {
-        @warn "map: '#{$map}' is undefined";
+    }
+}
+
+/*
+ *  map-over takes 3 parameters
+ *
+ *  @param { $screen } screen format
+ *  @param { $map } array for looping
+ *  @param { $property } element that needs to be styled
+ *
+ *  @return: styled class
+ *
+*/
+@mixin map-over($screen, $map, $property){
+
+    $properties: map-keys($map);
+
+    #{$property}, .#{$property} {
+        
+        @each $prop in $properties {
+            
+            $prop-values: map-get($map, $prop);
+            $values: map-get($prop-values, $screen);
+        
+            #{$prop}: #{$values};
+        }
     }
 }

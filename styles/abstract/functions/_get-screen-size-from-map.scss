@@ -1,0 +1,12 @@
+@function get-size($properties, $variable){
+    $test: map-keys($variable);
+
+    @each $prop, $value in $properties {
+
+        $prop-values: map-get($variable, $prop);
+        $values: map-keys($prop-values);
+
+        @return $values;
+    }
+    
+}

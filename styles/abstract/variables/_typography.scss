@@ -19,14 +19,14 @@ $base-weight:   $normal;
 // Base font size (if changed, also change: $browser-default-font-size in functions/_px-to-rem.scss and functions/_px-to-em.scss)
 $base-font-size: 16px;
 
-// Font Sizes
 $base:   base; // Base property is for all screens.
 $tablet: tablet; // Tablet property is for all screens above mobile format.
+$desktop: desktop; // Desktop property is for all screens above tablet format.
 
 $typography: (
     body: (
         font-size: (
-            $base: rem(14px),
+            $base: rem($base-font-size),
             $tablet: rem(18px),
         ),
         line-height: (
@@ -37,8 +37,9 @@ $typography: (
 
     h1: (
         font-size: (
-            $base: rem(26px),
-            $tablet: rem(30px),
+            $base: rem(206px),
+            $tablet: null,
+            $desktop: rem(80px),
         ),
         line-height: (
             $base: 1.2,
