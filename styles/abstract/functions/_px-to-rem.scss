@@ -30,7 +30,7 @@ $browser-default-font-size: 16px !default;
         $unitless-base: strip-unit($browser-default-font-size);
         
         $rem-size: $unitless / $unitless-base;
-        @return #{$rem-size}rem;
+        @return unquote("#{$rem-size}rem");
     } @else {
         @warn "Warning, '#{$value}' is not a number";
         @return $value;

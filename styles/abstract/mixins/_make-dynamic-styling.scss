@@ -17,6 +17,7 @@
 /* ------------------------------------------------------------------------- */
 
 @mixin make-dynamic-styling($map){
+
     @each $property, $variable in $map {
         $properties: map-keys($variable);
         $screen-size: get-size($properties, $variable); // only check first prop in el

@@ -1,3 +1,20 @@
+/*
+ * @function map-deep-get();
+ *
+ * This function takes 'two' params;
+ *
+ *  @param { $map } The map you want to loop over
+ *  @param { $keys } Keys can take multiple values devided by a comma
+ *
+ * Description:
+ *  When you need to get a value that is deeply nested in a map you can use this function.
+ * 
+ * Usage:
+ *  map-deep-get($typography, body, font-size, base);
+ *  
+ *
+*/
+
 @function map-deep-get($map, $keys...) {
     @each $key in $keys {
         $map: map-get($map, $key);
