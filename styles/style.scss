@@ -6,4 +6,5 @@ h1 {
     @include tablet {
         @include center();
     }
+    @include angled-edge('outside bottom', 'lower left', red);
 }
