@@ -19,50 +19,37 @@
 @mixin make-dynamic-styling($map){
 
     @each $property, $variable in $map {
-        $properties: map-keys($variable);
-        $screen-size: get-size($properties, $variable); // only check first prop in el
-  
-        @each $size in $screen-size {      
 
-            @if $size == $base {
-                @include map-over($size, $variable, $property);
-            } @else if $size == $tablet {
-                @include tablet {
-                    @include map-over($size, $variable, $property);
-                }
-            } @else if $size == $desktop {
-                @include desktop {
-                    @include map-over($size, $variable, $property);
-                }
-            } @else {
-                @warn "value doesn't exist and/or isn't added te the make-dynamic-styling mixin";
+        #{$property}, .#{$property} {
+
+            @include make-styling($variable, $base);
+
+            @include tablet {
+                @include make-styling($variable, $tablet);
+            }
+
+            @include desktop {
+                @include make-styling($variable, $desktop);
             }
         }
     }
 }
 
 /*
- *  map-over takes 3 parameters
+ *  make-styling takes 2 parameters
  *
- *  @param { $screen } screen format
- *  @param { $map } array for looping
- *  @param { $property } element that needs to be styled
+ *  @param { $variable } array for looping
+ *  @param { $size } screen format
  *
- *  @return: styled class
+ *  @return: styled properties
  *
 */
-@mixin map-over($screen, $map, $property){
-
-    $properties: map-keys($map);
-
-    #{$property}, .#{$property} {
-        
-        @each $prop in $properties {
-            
-            $prop-values: map-get($map, $prop);
-            $values: map-get($prop-values, $screen);
-        
-            #{$prop}: #{$values};
+@mixin make-styling($variable, $size){
+    @each $prop, $var in $variable {
+        @each $p, $v in $var {
+            @if $p == $size {
+                #{$prop}: #{$v};
+            }
         }
     }
 }
