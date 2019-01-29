@@ -28,10 +28,12 @@ $typography: (
         font-size: (
             $base: rem($base-font-size),
             $tablet: rem(18px),
+            $desktop: null,
         ),
         line-height: (
             $base: line-height(12px, 14px),
             $tablet: line-height(15px, 18px),
+            $desktop: null,
         ),
     ),
 
@@ -39,10 +41,12 @@ $typography: (
         font-size: (
             $base: rem(206px),
             $tablet: null,
+            $desktop: null,
         ),
         line-height: (
             $base: 1.2,
             $tablet: 1.5,
+            $desktop: null,
         ),
     ),
 
@@ -50,10 +54,12 @@ $typography: (
         font-size: (
             $base: rem(20px),
             $tablet: rem(26px),
+            $desktop: null,
         ),
         line-height: (
             $base: 1.2,
             $tablet: 1.5,
+            $desktop: null,
         ),
     ),
 
@@ -61,13 +67,17 @@ $typography: (
         font-size: (
             $base: rem(16px),
             $tablet: rem(22px),
+            $desktop: null,
         ),
         line-height: (
             $base: 1.2,
-            $tablet: 1.5
+            $tablet: 1.5,
+            $desktop: null,
         ),
         font-weight: (
             $base: 300,
+            $tablet: null,
+            $desktop: null,
         ),
     ),
 
@@ -75,10 +85,12 @@ $typography: (
         font-size: (
             $base: rem(12px),
             $tablet: rem(20px),
+            $desktop: null,
         ),
         line-height: (
             $base: 1.2,
             $tablet: 1.5,
+            $desktop: null,
         ),
     ),
 
@@ -86,10 +98,12 @@ $typography: (
         font-size: (
             $base: rem(10px),
             $tablet: rem(18px),
+            $desktop: null,
         ),
         line-height: (
             $base: 1.2,
             $tablet: 1.5,
+            $desktop: null,
         ),
     ),
 
@@ -97,10 +111,12 @@ $typography: (
         font-size: (
             $base: rem(8px),
             $tablet: rem(16px),
+            $desktop: null,
         ),
         line-height: (
             $base: 1.2,
             $tablet: 1.5,
+            $desktop: null,
         ),
     ),
 
@@ -108,10 +124,12 @@ $typography: (
         font-size: (
             $base: rem(8px),
             $tablet: rem(16px),
+            $desktop: null,
         ),
         line-height: (
             $base: 1.2,
             $tablet: 1.5,
+            $desktop: null,
         ),
     ),
 );
