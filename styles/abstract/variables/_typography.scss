@@ -1,9 +1,14 @@
 // Font weights
-$normal:    400;
-$bold:      600;
-$bolder:    800;
-$light:     300;
-$lighter:   200;
+$font-weights: (
+    normal:    400,
+    bold:      600,
+    bolder:    800,
+    light:     300,
+    lighter:   200,
+);
+
+$normal: map-get($font-weight, normal);
+$bold: map-get($font-weight, bold);
 
 // Headings
 $heading-font:     'Helvetica';
@@ -65,7 +70,7 @@ $typography: (
             $tablet: 1.5,
         ),
         font-weight: (
-            $base: 300,
+            $base: $normal,
         ),
     ),
 
