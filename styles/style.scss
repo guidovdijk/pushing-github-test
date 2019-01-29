@@ -9,10 +9,10 @@ h1 {
     @include tablet {
         @include center();
     }
+    @include border-gradient(map-get($gradients, chill));
     @include angled-edge('inside bottom', 'upper right', red);
     &:after {
         width: 100vw;
-        transform: none;
         @include tablet {
             transform: translateX(-47%);
         }

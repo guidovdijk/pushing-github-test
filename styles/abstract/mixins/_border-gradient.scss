@@ -1,0 +1,7 @@
+@mixin border-gradient($gradient, $thickness: 5px, $style: solid) {
+    border-color: red;
+    border-width: $thickness;
+    border-style: $style;
+    border-image: $gradient;
+    border-image-slice: 1;
+}
