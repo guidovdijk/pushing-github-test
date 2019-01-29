@@ -7,8 +7,8 @@ $font-weights: (
     lighter:   200,
 );
 
-$normal: map-get($font-weight, normal);
-$bold: map-get($font-weight, bold);
+$normal: map-get($font-weights, normal);
+$bold: map-get($font-weights, bold);
 
 // Headings
 $heading-font:     'Helvetica';
@@ -41,7 +41,7 @@ $typography: (
 
     h1: (
         font-size: (
-            $base: 3.125rem,
+            $base: 35px,
         ),
         line-height: (
             $base: 1.2,

@@ -48,7 +48,7 @@
     @each $prop, $var in $variable {
         @each $p, $v in $var {
             @if $p == $size {
-                @if $prop == font-size {
+                @if $prop == font-size and $font-pixel-fallback {
                     $unit: unit($v);
                     @if $unit == 'rem' {
                         #{$prop}: rem($v, true);
