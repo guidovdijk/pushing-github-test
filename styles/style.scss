@@ -1,6 +1,9 @@
 @import 'vendors/_vendors.scss'; 
 @import 'abstract/_abstract.scss'; 
 @import 'base/_base.scss'; 
+@import 'components/_components.scss'; 
+@import 'layout/_layout.scss'; 
+@import 'pages/_pages.scss'; 
 
 h1 {
     @include tablet {
