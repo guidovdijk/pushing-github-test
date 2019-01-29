@@ -48,8 +48,37 @@
     @each $prop, $var in $variable {
         @each $p, $v in $var {
             @if $p == $size {
-                #{$prop}: #{$v};
+                @if $prop == font-size {
+                    $unit: unit($v);
+                    @if $unit == 'rem' {
+                        #{$prop}: rem($v, true);
+                        #{$prop}: #{$v};
+                    } @else {
+                        #{$prop}: #{$v};
+                        #{$prop}: rem($v);
+                    }
+                } @else {
+                    #{$prop}: #{$v};
+                }
             }
         }
     }
 }
+
+
+
+// if $prop == line-height {
+//     $test: nth($variable, 1);
+//     $test2: nth($test, 2);
+
+//     $base-font-size-values: map-get($test2, $base);
+//     $tablet-font-size-values: map-get($test2, $tablet);
+//     $desktop-font-size-values: map-get($test2, $desktop);
+
+//     @if $p == $base {
+        
+//     }
+//     // @debug font-size $test, line-height $v;
+//     #{$prop}: #{$v};
+
+// }
