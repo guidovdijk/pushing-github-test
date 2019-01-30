@@ -10,13 +10,11 @@
     // @include center();
     margin-top: 200px;
     position: relative;
-    // background: #ffffff;
     // @include angled-edge('outside bottom', 'lower left', red, null);
 }
 
 h1 {
     @include shadow-gradient(map-get($gradients, chill));
-
     @include border-gradient(map-get($gradients, chill), 5px, solid);
     @include text-gradient(map-get($gradients, chill));
 }

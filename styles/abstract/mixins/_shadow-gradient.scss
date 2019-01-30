@@ -19,6 +19,9 @@
  *  @include shadow-gradient($gradient-map) // Without the other params so it will use the default ones from the map variable and the params
  *  @include shadow-gradient(map-get($gradients, chill)); // With a list from the parent map $gradients.
  *  @include shadow-gradient($gradient-map, 15px, 60px, 100%, 20px) // With the other params so it will override the $deg variable from the map (usefull for animations).
+ *
+ * Can't be used if the element or the parent(s) use a transform property.
+ * The parent should have a position of absolute or relative OR the element itself need a position of relative.
 */
 
 @mixin shadow-gradient($map, $blur: 10px, $height: 50px, $width: 95%, $align: half) {
