@@ -6,4 +6,4 @@ console.log(testingA);
 console.log(testingB);
 console.log(testing());
 console.log(test);
-console.log('hoi')
+console.log('hoi');

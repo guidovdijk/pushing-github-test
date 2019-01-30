@@ -1,9 +1,14 @@
 @import 'test';
 
 h1 {
-    color: red;
+    color: #ff0000;
+    border-width: 5px;
+    border-style: solid;
+    background: linear-gradient(180deg, #09e485 0%, #0291e3 100%);
+    border-image: linear-gradient(90deg, #09e485 0%, #0291e3 100%);
+    border-image-slice: 1;
 
     span {
-        color: blue;
+        color: #0000ff;
     }
 }

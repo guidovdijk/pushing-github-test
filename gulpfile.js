@@ -45,7 +45,7 @@ const config = {
     production: {
         css: {
             purge: ['src/**/*.html'],
-            version: ['last 2 versions', 'ie >= 7'],
+            version: ['last 3 versions', 'ie >= 7'],
         },
         folder: './production',
         images: './production/assets/static/images',
@@ -215,7 +215,9 @@ gulp.task('sassLint', function () {
 gulp.task('sass', function () {
     return gulp.src(config.development.styles)
         .pipe(sass())
-        .pipe(prefix(config.production.css.version))
+        .pipe(prefix({
+            browsers: config.production.css.version
+        }))
         .pipe(gulp.dest(config.dist.folder))
         .pipe(browserSync.reload({
             stream: true
