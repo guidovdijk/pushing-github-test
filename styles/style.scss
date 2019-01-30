@@ -5,16 +5,18 @@
 @import 'layout/_layout.scss'; 
 @import 'pages/_pages.scss'; 
 
+.test {
+    @include background-gradient(map-get($gradients, warm), 90deg);
+    // @include center();
+    margin-top: 200px;
+    position: relative;
+    // background: #ffffff;
+    // @include angled-edge('outside bottom', 'lower left', red, null);
+}
+
 h1 {
-    @include tablet {
-        @include center();
-    }
-    @include border-gradient(map-get($gradients, chill));
-    @include angled-edge('inside bottom', 'upper right', red);
-    &:after {
-        width: 100vw;
-        @include tablet {
-            transform: translateX(-47%);
-        }
-    }
+    @include shadow-gradient(map-get($gradients, chill));
+
+    @include border-gradient(map-get($gradients, chill), 5px, solid);
+    @include text-gradient(map-get($gradients, chill));
 }

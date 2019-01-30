@@ -7,9 +7,16 @@ $text-color: #ffffff;
 $dark-color: #000000;
 $light-color: #000000;
 
+// Gradients
 $gradients: (
-    chill: linear-gradient(135deg, #09e485 0%,#0291e3 100%),
-    warm: linear-gradient(135deg, #F2CD48 0%,#FD803F 100%),
-    hot: linear-gradient(135deg, #F9445A 0%,#FD803F 100%),
-    cold: linear-gradient(135deg, #8019C6 0%,#2F93CC 100%)
+    chill: (
+        type: linear,
+        deg: 135deg,
+        colors: (#09e485 0%,#0291e3 100%),
+        fallback: #0291e3,
+    ),
+    warm: (
+        colors: (#F2CD48 0%,#FD803F 100%),
+        deg: 135deg,
+    ),
 );

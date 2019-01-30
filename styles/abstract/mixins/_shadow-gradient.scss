@@ -1,0 +1,51 @@
+/*
+ * @mixin shadow-gradient()
+ * 
+ * @param { $map } Map with values.
+ * @param { $blur } The blur of the background shadow
+ * @param { $height } The height of the background shadow
+ * @param { $width } The width of the background shadow
+ * @param { $align } Alignment of the background shadow.
+ * 
+ * Description:
+ *  The shadow-gradient mixin will use the $gradient variable map in the abstract/_variable.scss file to make the gradients
+ *  The colors property is required, the others have a default value.
+ *  A fallback background-color will be made from the first color in the colors map variable
+ *  Or by the fallback propertie in the list.
+ * 
+ * If the align parameter is equal to 'half' only 50% of the shadow will be shown.
+ * 
+ * Usage:
+ *  @include shadow-gradient($gradient-map) // Without the other params so it will use the default ones from the map variable and the params
+ *  @include shadow-gradient(map-get($gradients, chill)); // With a list from the parent map $gradients.
+ *  @include shadow-gradient($gradient-map, 15px, 60px, 100%, 20px) // With the other params so it will override the $deg variable from the map (usefull for animations).
+*/
+
+@mixin shadow-gradient($map, $blur: 10px, $height: 50px, $width: 95%, $align: half) {
+    $type:          linear !default;
+    $colors:        map-get($map, colors);
+    $fallback:      unquote('#{nth($colors, 1)}') !default; 
+    $fallback:      str-replace($fallback, ' 0%', '');  
+    $deg:           return-map-value($map, deg, 90deg);
+    $gradient-type: return-map-value($map, type, $type);
+    $fallback:      return-map-value($map, fallback, $fallback);
+
+
+    @if $align == half {
+        $align: -$height / 2;
+    }
+
+    &:after {
+        @include pseudo;
+        
+        z-index: -1;
+        bottom: $align;
+        left: (100% - $width) / 2;
+        height: $height;
+        width: $width;
+
+        background-color: $fallback;
+        background-image: #{$gradient-type} + '-gradient(' + ($deg, $colors) + ')';
+        filter: blur($blur);
+    }
+}

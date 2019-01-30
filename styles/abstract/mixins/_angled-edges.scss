@@ -34,15 +34,16 @@
  * @param  { String }  $location   - 'inside top', 'outside top', 'inside bottom', 'outside bottom'
  * @param  { String }  $hypotenuse - 'upper left', 'upper right', 'lower left', 'lower right'
  * @param  { Color }   $fill
+ * @param  { String }  $position   - value of position property.
  * @param  { Number }  $height
  * @param  { Number }  $width
  *
  * @output '::before' and/or '::after' with svg background image
  *
 */
-@mixin angled-edge($location, $hypotenuse, $fill, $height: 120, $width: null) {
+@mixin angled-edge($location, $hypotenuse, $fill, $position: relative, $height: 120, $width: null) {
 
-	position: relative;
+	position: $position;
 
 	$points: (
 		'upper left': '0,#{$height} #{$width},#{$height} #{$width},0',

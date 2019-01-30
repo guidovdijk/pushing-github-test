@@ -1,0 +1,36 @@
+/*
+ * @mixin background-gradient()
+ * 
+ * @param { $map } Map with values.
+ * @param { $deg } Direction the gradient is going.
+ * 
+ * Description:
+ *  The background-gradient mixin will use SOME of the $gradient variable map in the abstract/_variable.scss file to make the gradients
+ *  The colors and deg properties are required, the others have a default value.
+ *  A fallback background-color will be made from the first color in the colors map variable
+ *  Or by the fallback propertie in the list.
+ * 
+ * Usage:
+ *  @include background-gradient($gradient-map) // Without $deg so it will use the $deg from the $gradient-map variable
+ *  @include background-gradient(map-get($gradients, chill)); // With a list from the parent map $gradients.
+ *  @include background-gradient($gradient-map, 200deg) // With $deg so it will override the $deg variable from the map (usefull for animations).
+ *
+ * Can't be used on the same element with the text-gradient mixin. Use a wrapper div for the background-gradient mixin.
+*/
+
+@mixin background-gradient($gradient, $deg: null) {
+    $type:        linear !default;
+    $colors:      map-get($gradient, colors);
+    $fallback:    unquote('#{nth($colors, 1)}') !default; 
+    $fallback:    str-replace($fallback, ' 0%', '');
+    
+    $gradient-type: return-map-value($gradient, type, $type);
+    $fallback:      return-map-value($gradient, fallback, $fallback);
+
+    @if $deg == null {
+        $deg: return-map-value($gradient, deg, 180deg);
+    }
+
+    background-color: $fallback;
+    background-image: #{$gradient-type} + '-gradient(' + ($deg, $colors) + ')';
+}
