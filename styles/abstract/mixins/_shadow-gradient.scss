@@ -38,6 +38,10 @@
         $align: -$height / 2;
     }
 
+    @if #{$gradient-type} == radial {
+        $deg: null;
+    }
+    
     &:after {
         @include pseudo;
         

@@ -10,13 +10,14 @@ $light-color: #000000;
 // Gradients
 $gradients: (
     chill: (
-        type: linear,
+        type: radial,
         deg: 135deg,
-        colors: (#09e485 0%,#0291e3 100%),
+        colors: (#09e485,#0291e3),
         fallback: #0291e3,
     ),
     warm: (
-        colors: (#F2CD48 0%,#FD803F 100%),
+        type: linear,
         deg: 135deg,
+        colors: (#F2CD48 0%,#FD803F 100%),
     ),
 );

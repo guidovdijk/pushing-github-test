@@ -30,6 +30,10 @@
     $fallback:      return-map-value($map, fallback, $fallback);
     $deg:           return-map-value($map, deg, 180deg);
 
+    @if #{$gradient-type} == radial {
+        $deg: null;
+    }
+    
     border-color: $fallback;
     border-width: $thickness;
     border-style: $style;

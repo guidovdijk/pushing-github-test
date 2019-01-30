@@ -29,6 +29,9 @@
 
     @if $deg == null {
         $deg: return-map-value($gradient, deg, 180deg);
+    } 
+    @if #{$gradient-type} == radial {
+        $deg: null;
     }
 
     background-color: $fallback;
