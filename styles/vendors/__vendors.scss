@@ -1,2 +1,6 @@
 @import 'normalize.scss';
 @import 'bootstrap-grid.scss';
+
+@if not $use-custom-grid {
+    @include include-bootstrap-grid();
+}

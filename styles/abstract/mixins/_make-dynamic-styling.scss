@@ -10,7 +10,7 @@
  *
  * Description:
  *   The make-dynamic-styling mixin makes all the basic styling for element in the typography variable in 'variables/typography/_font-sizes.scss'
- *   If the parameter is $tablet the styling comes in a min-width mediaquerie with the pixel value based on the $tablet-width variable.
+ *   If the parameter is $tablet the styling comes in a min-width mediaquerie with the pixel value based on the $tablet-up variable.
  *
  * Usage:
  *   @include make-dynamic-styling($tablet);
@@ -24,11 +24,11 @@
 
             @include make-styling($variable, $base);
 
-            @include tablet {
+            @include tablet-up {
                 @include make-styling($variable, $tablet);
             }
 
-            @include desktop {
+            @include desktop-up {
                 @include make-styling($variable, $desktop);
             }
         }

@@ -8,33 +8,33 @@
  * Example:
  *   h1 { 
  *      color: red; // Affects everything
- *      @include tablet { 
+ *      @include tablet-up { 
  *         color: blue; // Affects everything above mobile format (768px)
  *      }
- *      @include desktop { 
+ *      @include desktop-up { 
  *         color: green; // Affects everything above tablet format (1024px)
  *      }
  *   }
 /* ------------------------------------------------------------------------- */
 
 /* ------------------------------------------------------------------------- *\
- * @mixin tablet
+ * @mixin tablet-up
  *
  * The tablet mixin affects all screens above mobile format
 /* ------------------------------------------------------------------------- */
-@mixin tablet {
-    @media screen and (min-width: $tablet-width) {
+@mixin tablet-up {
+    @media screen and (min-width: $tablet-up) {
         @content;
     }
 }
 
 /* ------------------------------------------------------------------------- *\
- * @mixin desktop
+ * @mixin desktop-up
  *
  * The desktop mixin affects all screens above tablet format
 /* ------------------------------------------------------------------------- */
-@mixin desktop {
-    @media screen and (min-width: $desktop-width) {
+@mixin desktop-up {
+    @media screen and (min-width: $desktop-up) {
         @content;
     }
 }

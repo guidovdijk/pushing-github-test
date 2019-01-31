@@ -6,7 +6,7 @@
 .show-desktop {
     display: none;
 }
-@include tablet {
+@include tablet-up {
     .show-mobile,
     .show-desktop {
         display: none;
@@ -15,7 +15,7 @@
         display: block;
     }
 }
-@include desktop {
+@include desktop-up {
     .show-mobile,
     .show-tablet {
         display: none;

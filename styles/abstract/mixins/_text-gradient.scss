@@ -49,4 +49,5 @@
     @include ie-fallback {
         background-image: none;
     }
+    @warn 'text gradients only works on webkit browser';
 }

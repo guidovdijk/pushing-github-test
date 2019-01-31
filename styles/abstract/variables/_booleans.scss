@@ -28,3 +28,17 @@ $font-pixel-fallback: true;
  * Set to false if you want to drop support for IE6 and IE7
 */
 $legacy_browser_support: false;
+
+
+/*
+ * If true the breakpoints in the '_screen-size.scss' file will be converted from a pixel value to an em value.
+ * This is usefull for better support for screen sizes.
+*/
+$use-em-for-breakpoints: false;
+
+
+/*
+ * If true the custom grid will be used from the grid mixin.
+ * If false the bootstrap grid (ONLY the grid) will be used from the vendors folder.
+*/
+$use-custom-grid: false;

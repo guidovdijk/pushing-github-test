@@ -22,7 +22,7 @@
             @if $size-property == base {
                 font-size: $size-value;
             } @else if $size-property == tablet {
-                @include tablet {
+                @include tablet-up {
                     font-size: $size-value;
                 }
             } @else {
