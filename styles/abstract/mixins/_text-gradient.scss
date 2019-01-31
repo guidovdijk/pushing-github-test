@@ -9,6 +9,8 @@
  *  The colors and deg properties are required, the others have a default value.
  *  A fallback color for the text color will be made from the first color in the colors map variable and the background color fallback will be transparent
  *  Or by the fallback propertie in the list.
+ *  If the type of the gradient is 'radial' the '$deg' variable will be null and gets replaced by the '$radical-extent-keyword' variable.
+ *  If the type is 'linear' the '$radical-extent-keyword' variable will be null and the '$deg' will be used.
  * 
  * Usage:
  *  @include text-gradient($gradient-map) // Without $deg so it will use the $deg from the $gradient-map variable
@@ -18,29 +20,33 @@
  * Can't be used on the same element with the background-gradient mixin. Use a wrapper div for the background-gradient mixin.
  */
 
-@mixin text-gradient($gradient, $deg: null) {
+@mixin text-gradient($map, $deg: null) {
     $type:        linear !default;
-    $colors:      map-get($gradient, colors);
+    $radical-extent-keyword: 'circle at center' !default;
+    $colors:      map-get($map, colors);
     $fallback:    unquote('#{nth($colors, 1)}') !default; 
     $fallback:    str-replace($fallback, ' 0%', '');
-    
-    $gradient-type: return-map-value($gradient, type, $type);
-    $fallback:      return-map-value($gradient, fallback, $fallback);
+
+    $gradient-type: return-map-value($map, type, $type);
+    $fallback:      return-map-value($map, fallback, $fallback);
 
     @if $deg == null {
-        $deg: return-map-value($gradient, deg, 180deg);
+        $deg: return-map-value($map, deg, 180deg);
     }
-
+    
     @if #{$gradient-type} == radial {
         $deg: null;
+        $radical-extent-keyword: return-map-value($map, radical-extent-keyword, 'circle at center');
+        $radical-extent-keyword: unquote($radical-extent-keyword);
+    } @else {
+        $radical-extent-keyword: null;
     }
 
     color: $fallback;
-    background-color: transparent;
-    background-image: #{$gradient-type} + '-gradient(' + ($deg, $colors) + ')';
+    background-image: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')';
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    @mixin ie-fallback {
+    @include ie-fallback {
         background-image: none;
     }
 }

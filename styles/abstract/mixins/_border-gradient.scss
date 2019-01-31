@@ -10,6 +10,9 @@
  *  The colors and deg properties are required, the others have a default value.
  *  A fallback border-color will be made from the first color in the colors map variable
  *  Or by the fallback propertie in the list.
+ *
+ *  If the type of the gradient is 'radial' the '$deg' variable will be null and gets replaced by the '$radical-extent-keyword' variable.
+ *  If the type is 'linear' the '$radical-extent-keyword' variable will be null and the '$deg' will be used.
  * 
  * Usage:
  *  @include border-gradient($gradient-map) // Without $deg so it will use the $deg from the $gradient-map variable
@@ -22,6 +25,8 @@
     $type:        linear !default;
     $thickness:   5px !default;
     $style:       solid !default;
+    $radical-extent-keyword: 'circle at center' !default;
+
     $colors:      map-get($map, colors);
     $fallback:    unquote('#{nth($colors, 1)}') !default; 
     $fallback:    str-replace($fallback, ' 0%', '');
@@ -32,6 +37,10 @@
 
     @if #{$gradient-type} == radial {
         $deg: null;
+        $radical-extent-keyword: return-map-value($map, radical-extent-keyword, 'circle at center');
+        $radical-extent-keyword: unquote($radical-extent-keyword);
+    } @else {
+        $radical-extent-keyword: null;
     }
     
     border-color: $fallback;

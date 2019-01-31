@@ -12,12 +12,11 @@ $gradients: (
     chill: (
         type: radial,
         deg: 135deg,
+        radical-extent-keyword: 'circle at center', 
         colors: (#09e485,#0291e3),
         fallback: #0291e3,
     ),
     warm: (
-        type: linear,
-        deg: 135deg,
         colors: (#F2CD48 0%,#FD803F 100%),
     ),
 );
