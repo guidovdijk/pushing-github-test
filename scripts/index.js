@@ -8,4 +8,4 @@ require('./components/es6-carousel');
 // Initialize class component
 new Carousel(); // eslint-disable-line no-new
 
-// Vendors will be compiled in their own map
+// Vendors will be compiled in their own map | Should be in the imported via package and let webpack handle it
