@@ -40,7 +40,7 @@
     background-image: #{$gradient-type} + '-gradient(' + ($deg, $colors) + ')';
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    @mixin ie-fallback {
         background-image: none;
     }
 }

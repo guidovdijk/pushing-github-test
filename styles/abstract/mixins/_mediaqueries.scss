@@ -50,3 +50,13 @@
     }
 }
   
+/* ------------------------------------------------------------------------- *\
+ * @mixin ie-fallback
+ *
+ * The ie-fallback mixin affects only the Internet Explorer browser
+/* ------------------------------------------------------------------------- */
+@mixin ie-fallback {
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        @content;
+    }
+}
