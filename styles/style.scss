@@ -4,6 +4,7 @@
 @import 'components/_components.scss'; 
 @import 'layout/_layout.scss'; 
 @import 'pages/_pages.scss'; 
+@import 'shame/shame.scss'; 
 
 .test {
     @include background-gradient(map-get($gradients, warm), 90deg);
