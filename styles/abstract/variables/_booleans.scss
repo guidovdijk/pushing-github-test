@@ -35,10 +35,3 @@ $legacy_browser_support: false;
  * This is usefull for better support for screen sizes.
 */
 $use-em-for-breakpoints: false;
-
-
-/*
- * If true the custom grid will be used from the grid mixin.
- * If false the bootstrap grid (ONLY the grid) will be used from the vendors folder.
-*/
-$use-custom-grid: false;

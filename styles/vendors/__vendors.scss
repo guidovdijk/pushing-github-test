@@ -1,6 +1,7 @@
 @import 'normalize.scss';
+@import 'flexbox-grid.scss';
 @import 'bootstrap-grid.scss';
 
-@if not $use-custom-grid {
-    @include include-bootstrap-grid();
-}
+@include include-bootstrap-grid($use-grid-type);
+@include include-flexbox-grid($use-grid-type);
+@include custom-grid($use-grid-type);
