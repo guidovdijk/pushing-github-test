@@ -26,7 +26,7 @@
  * The parent should have a position of absolute or relative OR the element itself need a position of relative.
 */
 
-@mixin shadow-gradient($map, $blur: 10px, $height: 50px, $width: 95%, $align: half) {
+@mixin shadow-gradient($map, $image: null, $blur: 10px, $height: 50px, $width: 95%, $align: half) {
     $type:          linear !default;
     $radical-extent-keyword: 'circle at center' !default;
     $colors:        map-get($map, colors);
@@ -48,7 +48,11 @@
     } @else {
         $radical-extent-keyword: null;
     }
-    
+
+    @if $image == null {
+        $image: ',url("#{return-map-value($map, image, null)}")' !global;
+    }
+
     &:after {
         @include pseudo;
         
@@ -58,8 +62,13 @@
         height: $height;
         width: $width;
 
-        background-color: $fallback;
-        background-image: #{$gradient-type} + '-gradient(' + ($deg, $colors) + ')';
+        @if $image {
+            background-image: str-replace(#{$image}, ',', '');
+        } @else {
+            background-color: $fallback;
+        }
+
+        background-image: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')' + #{$image};
         filter: blur($blur);
     }
 }

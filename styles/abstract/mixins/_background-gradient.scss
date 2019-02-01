@@ -16,24 +16,31 @@
  * Usage:
  *  @include background-gradient($gradient-map) // Without $deg so it will use the $deg from the $gradient-map variable
  *  @include background-gradient(map-get($gradients, chill)); // With a list from the parent map $gradients.
- *  @include background-gradient($gradient-map, 200deg) // With $deg so it will override the $deg variable from the map (usefull for animations).
+ *  @include background-gradient($gradient-map, 'image', 200deg) // With $image and $deg so it will override the $deg variable from the map (usefull for animations).
+ *  @include background-gradient($gradient-map, false, null) // With the $image parameter on 'false', so it won't fallback to the defined styling in the $gradient-map.
+ *  ($deg can't be false, bacause to have a valid LINEAR gradient $deg must be used.)
  *
  * Can't be used on the same element with the text-gradient mixin. Use a wrapper div for the background-gradient mixin.
 */
 
-@mixin background-gradient($map, $deg: null) {
-    $type:        linear !default;
+@mixin background-gradient($map, $image: null, $deg: null) {
+    $type:                    linear !default;
     $radical-extent-keyword: 'circle at center' !default;
-    $colors:      map-get($map, colors);
-    $fallback:    unquote('#{nth($colors, 1)}') !default; 
-    $fallback:    str-replace($fallback, ' 0%', '');
+    $colors:                  map-get($map, colors);
+    $fallback:                unquote('#{nth($colors, 1)}') !default; 
+    $fallback:                str-replace($fallback, ' 0%', '');
     
-    $gradient-type: return-map-value($map, type, $type);
-    $fallback:      return-map-value($map, fallback, $fallback);
+    $gradient-type:           return-map-value($map, type, $type);
+    $fallback:                return-map-value($map, fallback, $fallback);
 
     @if $deg == null {
         $deg: return-map-value($map, deg, 180deg);
-    } 
+    }
+
+    @if $image == null {
+        $image: ',url("#{return-map-value($map, image, null)}")';
+
+    }
     
     @if #{$gradient-type} == radial {
         $deg: null;
@@ -42,7 +49,15 @@
     } @else {
         $radical-extent-keyword: null;
     }
+    @debug image $image;
 
-    background-color: $fallback;
-    background-image: #{$gradient-type} + '-gradient(' + ($deg, $colors) + ')';
+
+    @if $image {
+        background-image: str-replace(#{$image}, ',', '');
+    } @else {
+        background-color: $fallback;
+    }
+    
+
+    background-image: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')' + #{$image};
 }

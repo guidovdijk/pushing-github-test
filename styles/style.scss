@@ -7,7 +7,7 @@
 @import 'shame/shame.scss'; 
 
 .test {
-    @include background-gradient(map-get($gradients, warm), 90deg);
+    @include background-gradient(map-get($gradients, warm));
     // @include center();
     margin-top: 200px;
     position: relative;

@@ -22,14 +22,14 @@
 
 @mixin border-gradient($map, $thickness, $style) {
 
-    $type:        linear !default;
-    $thickness:   5px !default;
-    $style:       solid !default;
+    $type:                    linear !default;
+    $thickness:               5px !default;
+    $style:                   solid !default;
     $radical-extent-keyword: 'circle at center' !default;
 
-    $colors:      map-get($map, colors);
-    $fallback:    unquote('#{nth($colors, 1)}') !default; 
-    $fallback:    str-replace($fallback, ' 0%', '');
+    $colors:        map-get($map, colors);
+    $fallback:      unquote('#{nth($colors, 1)}') !default; 
+    $fallback:      str-replace($fallback, ' 0%', '');
     
     $gradient-type: return-map-value($map, type, $type);
     $fallback:      return-map-value($map, fallback, $fallback);
@@ -46,6 +46,6 @@
     border-color: $fallback;
     border-width: $thickness;
     border-style: $style;
-    border-image: #{$gradient-type} + '-gradient(' + ($deg, $colors) + ')';
+    border-image: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')';
     border-image-slice: 1;
 }
