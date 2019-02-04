@@ -65,20 +65,19 @@
     }
 }
 
-
-
-// if $prop == line-height {
-//     $test: nth($variable, 1);
-//     $test2: nth($test, 2);
-
-//     $base-font-size-values: map-get($test2, $base);
-//     $tablet-font-size-values: map-get($test2, $tablet);
-//     $desktop-font-size-values: map-get($test2, $desktop);
-
-//     @if $p == $base {
-        
-//     }
-//     // @debug font-size $test, line-height $v;
-//     #{$prop}: #{$v};
-
-// }
+//  Adding dynamic line-height.
+//  if $prop == line-height {
+//      $test: nth($variable, 1);
+//      $test2: nth($test, 2);
+// 
+//      $base-font-size-values: map-get($test2, $base);
+//      $tablet-font-size-values: map-get($test2, $tablet);
+//      $desktop-font-size-values: map-get($test2, $desktop);
+// 
+//      @if $p == $base {
+//          
+//      }
+//      // @debug font-size $test, line-height $v;
+//      #{$prop}: #{$v};
+// 
+//  }
