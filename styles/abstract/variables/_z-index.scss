@@ -1,0 +1,12 @@
+/*
+ * Z-indexes for the z-index mixin.
+ *
+ * Add an varaible to the map and include it in to your class:
+ * @include z-index(header);
+*/
+$z-indexes: (
+    header: 10,
+    footer: 10,
+    modal:  10,
+    navbar: 10,
+);
