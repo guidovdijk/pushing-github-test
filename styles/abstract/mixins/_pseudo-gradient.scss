@@ -1,0 +1,31 @@
+@mixin pseudo-gradient($map, $deg){
+    $type:                    linear !default;
+    $radical-extent-keyword: 'circle at center' !default;
+    $colors:                  map-get($map, colors);
+    $fallback:                unquote('#{nth($colors, 1)}') !default; 
+    $fallback:                str-replace($fallback, ' 0%', '');
+    
+    $gradient-type:           return-map-value($map, type, $type);
+
+    @if $deg == null {
+        $deg: return-map-value($map, deg, 180deg);
+    }
+
+    @if #{$gradient-type} == radial {
+        $deg: null;
+        $radical-extent-keyword: return-map-value($map, radical-extent-keyword, 'circle at center');
+        $radical-extent-keyword: unquote($radical-extent-keyword);
+    } @else {
+        $radical-extent-keyword: null;
+    }
+
+    &:before {
+        @include pseudo;
+        width: 100%;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-image: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')';
+    }
+}
