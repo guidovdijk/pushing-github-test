@@ -5,7 +5,7 @@
  * as elements are added, the z-indexes might change.
  *
  * @include z-index(header);
- */
+*/
 @mixin z-index($element){
     z-index: map-get($z-indexes, $element);
 }
