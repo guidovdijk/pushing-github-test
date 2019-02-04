@@ -1,4 +1,11 @@
-// Colors
+/* Colors
+ *
+ * The colors are also used in the 'helpers/_colors.scss' to make helper classes.
+ * If you removed a color u get an error of an undefined variable. 
+ * Please remove the variable from the variable map in 'helpers/_colors.scss' to resolve the issue(s).
+ * 
+ * If you added a variable and want a helper class for it, please add it to the map in 'helpers/_colors.scss'.
+*/
 $primary-color: #000000;
 $secondary-color: #000000;
 $tertiary-color: #ffffff;
