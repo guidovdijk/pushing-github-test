@@ -32,14 +32,17 @@
     
     $gradient-type:           return-map-value($map, type, $type);
     $fallback:                return-map-value($map, fallback, $fallback);
+    $image-src:               null;
 
     @if $deg == null {
         $deg: return-map-value($map, deg, 180deg);
     }
 
     @if $image == null {
-        $image: ',url("#{return-map-value($map, image, null)}")';
-
+        $image: return-map-value($map, image, null);
+        @if $image != null {
+            $image-src: ',url("'+ #{$image} + '")';
+        }
     }
     
     @if #{$gradient-type} == radial {
@@ -49,15 +52,23 @@
     } @else {
         $radical-extent-keyword: null;
     }
-    @debug image $image;
-
 
     @if $image {
-        background-image: str-replace(#{$image}, ',', '');
+        background-image: str-replace(#{$image-src}, ',', ''); // Uncomment if you want a fallback to the background image without gradient.
+        @if $legacy_browser_support {
+            @include ie-fallback {
+                &:before {
+                    @include pseudo();
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: $fallback;
+                }
+            }
+        }
     } @else {
         background-color: $fallback;
     }
-    
-
-    background-image: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')' + #{$image};
+    background-image: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')' + #{$image-src};
 }

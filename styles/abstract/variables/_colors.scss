@@ -20,5 +20,6 @@ $gradients: (
         deg: 180deg,
         image: 'https://www.w3schools.com/w3css/img_lights.jpg',
         colors: (rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 100%),
+        fallback: rgba(0, 0, 0, 0.3)
     ),
 );

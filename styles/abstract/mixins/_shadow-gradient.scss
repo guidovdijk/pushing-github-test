@@ -27,15 +27,15 @@
 */
 
 @mixin shadow-gradient($map, $image: null, $blur: 10px, $height: 50px, $width: 95%, $align: half) {
-    $type:          linear !default;
+    $type:                    linear !default;
     $radical-extent-keyword: 'circle at center' !default;
-    $colors:        map-get($map, colors);
-    $fallback:      unquote('#{nth($colors, 1)}') !default; 
-    $fallback:      str-replace($fallback, ' 0%', '');  
-    $deg:           return-map-value($map, deg, 90deg);
-    $gradient-type: return-map-value($map, type, $type);
-    $fallback:      return-map-value($map, fallback, $fallback);
-
+    $colors:                  map-get($map, colors);
+    $fallback:                unquote('#{nth($colors, 1)}') !default; 
+    $fallback:                str-replace($fallback, ' 0%', '');  
+    $deg:                     return-map-value($map, deg, 90deg);
+    $gradient-type:           return-map-value($map, type, $type);
+    $fallback:                return-map-value($map, fallback, $fallback);
+    $image-src:               null;
 
     @if $align == half {
         $align: -$height / 2;
@@ -50,7 +50,10 @@
     }
 
     @if $image == null {
-        $image: ',url("#{return-map-value($map, image, null)}")' !global;
+        $image: return-map-value($map, image, null);
+        @if $image != null {
+            $image-src: ',url("'+ #{$image} + '")';
+        }
     }
 
     &:after {
@@ -63,12 +66,13 @@
         width: $width;
 
         @if $image {
-            background-image: str-replace(#{$image}, ',', '');
+            background-image: str-replace(#{$image-src}, ',', '');
         } @else {
             background-color: $fallback;
         }
 
-        background-image: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')' + #{$image};
+        background-image: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')' + #{$image-src};
         filter: blur($blur);
+        @warn "The filter blur doesn't woek on IE11 >= and some versions of Firefox. Use png images for shadows where ever possible.";
     }
 }
