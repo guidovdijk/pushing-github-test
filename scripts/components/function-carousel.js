@@ -1,4 +1,5 @@
 function functionCarousel() {
     console.log('function carousel');
 }
-functionCarousel();
+
+export default functionCarousel;
