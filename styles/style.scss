@@ -6,6 +6,10 @@
 @import 'pages/_pages.scss'; 
 @import 'shame/shame.scss'; 
 
+/*
+ * For this project we will be using BEM as a styleguide: https://github.com/airbnb/css.
+ * See components/_posts.scss for a basic example.
+*/
 html {
     @include scrollbar($scrollbar-width, $scrollbar-bg-color, $scrollbar-track-color, $scrollbar-thumb-color, $scrollbar-border-radius);
 }
