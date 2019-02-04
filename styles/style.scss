@@ -6,6 +6,14 @@
 @import 'pages/_pages.scss'; 
 @import 'shame/shame.scss'; 
 
+html {
+    @include scrollbar($scrollbar-width, $scrollbar-bg-color, $scrollbar-track-color, $scrollbar-thumb-color, $scrollbar-border-radius);
+}
+
+body {
+    height: 110vh;
+}
+
 .test {
     @include background-gradient(map-get($gradients, warm));
     // @include center();
