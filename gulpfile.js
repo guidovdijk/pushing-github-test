@@ -19,7 +19,8 @@ const gulp = require('gulp'),
     through = require('through2'),
     webpack = require('webpack'),
     webpackStream = require('webpack-stream'),
-    yargs = require('yargs');
+    yargs = require('yargs'),
+    plumber = require( 'gulp-plumber' );
 
 const styleguides = require('./.eslintrc.json'),
     directories = require('./scss-files.json'),
@@ -200,20 +201,23 @@ gulp.task('jsLint', function () {
 gulp.task('sassLint', function () {
     return gulp.src(config.development.styles, {
         base: config.root.path
-    }).pipe(gulpStylelint({
-        fix: true,
-        failAfterError: false,
-        reporters: [{
-            formatter: 'string',
-            console: true
-        }]
-    })).pipe(
-        gulp.dest(config.root.path)
-    );
+    })
+        .pipe(plumber())
+        .pipe(gulpStylelint({
+            fix: true,
+            failAfterError: false,
+            reporters: [{
+                formatter: 'string',
+                console: true
+            }]
+        })).pipe(
+            gulp.dest(config.root.path)
+        );
 });
 
 gulp.task('sass', function () {
     return gulp.src(config.development.styles)
+        .pipe(plumber())
         .pipe(sass())
         .pipe(prefix({
             browsers: config.production.css.version
