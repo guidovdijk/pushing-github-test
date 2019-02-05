@@ -58,7 +58,7 @@
         @if $legacy_browser_support {
             @include ie-fallback {
                 &:before {
-                    @include pseudo();
+                    @extend %pseudo;
                     top: 0;
                     left: 0;
                     width: 100%;

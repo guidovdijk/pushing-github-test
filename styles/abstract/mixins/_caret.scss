@@ -26,7 +26,11 @@
 /* ------------------------------------------------------------------------- */
 
 @mixin caret($color: #000000, $direction: top, $size: 6px, $position: absolute, $radius: 0px){
-    @include pseudo($pos: $position);
+    @if $position == absolute {
+        @extend %pseudo;
+    } @else {
+        @include pseudo($pos: $position);
+    }
     width: 0;
     height: 0;
     @if $radius {

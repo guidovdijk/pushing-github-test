@@ -57,7 +57,7 @@
     }
 
     &:after {
-        @include pseudo;
+        @extend %pseudo;
         
         z-index: -1;
         bottom: $align;

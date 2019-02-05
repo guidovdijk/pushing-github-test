@@ -46,7 +46,7 @@
     }
 
     &:before {
-        @include pseudo;
+        @extend %pseudo;
         width: 100%;
         left: 0;
         right: 0;
