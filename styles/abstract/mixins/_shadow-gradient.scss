@@ -66,13 +66,13 @@
         width: $width;
 
         @if $image {
-            background-image: str-replace(#{$image-src}, ',', '');
+            background: str-replace(#{$image-src}, ',', '');
         } @else {
-            background-color: $fallback;
+            background: $fallback;
         }
 
-        background-image: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')' + #{$image-src};
+        background: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')' + #{$image-src};
         filter: blur($blur);
-        @warn "The filter blur doesn't work in IE11 >= and some versions of Firefox. Use png images for shadows where/when ever possible.";
+        @warn "The filter blur doesn't work in IE11 >= and some versions of Firefox. Use png images for shadows where- and when ever possible.";
     }
 }

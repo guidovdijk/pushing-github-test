@@ -54,7 +54,7 @@
     }
 
     @if $image {
-        background-image: str-replace(#{$image-src}, ',', ''); // Uncomment if you want a fallback to the background image without gradient.
+        background: str-replace(#{$image-src}, ',', ''); // Uncomment if you want a fallback to the background image without gradient.
         @if $legacy_browser_support {
             @include ie-fallback {
                 &:before {
@@ -68,7 +68,7 @@
             }
         }
     } @else {
-        background-color: $fallback;
+        background: $fallback;
     }
-    background-image: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')' + #{$image-src};
+    background: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')' + #{$image-src};
 }
