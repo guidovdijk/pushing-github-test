@@ -72,10 +72,233 @@ const config = {
     }
 };
 
+/* 
+ * Tasks:
+ *
+ *  1: Styles
+ *   - sass
+ *  
+ *  2: Scripts
+ *   - webpack
+ *  
+ *  3: Linters
+ *   - jsLint
+ *   - sassLint
+ *  
+ *  4: Prettiers
+ *   - jsLint
+ *   - sassLint
+ *  
+ *  5: Minifiers
+ *   - sassMinify
+ *   - htmlMinify
+ *   - imagesMinify
+ *  
+ *  6: BrowserSync
+ *  
+ *  7: Watchers
+ *   - browserSync
+ *   - sassLint
+ *   - sass
+ *   - jsLint
+ *   - webpack
+ *  
+ *  8: Production
+ *    - webpack
+ *    - sassMinify
+ *    - htmlMinify
+ *    - imagesMinify
+ *    - clean:production
+ *  
+ *  9: Prompting
+ *  
+ *  10: Custom function: Check files for specific words.
+ *  
+ *  11: Custom function: Make directory.
+*/
+
+
+/*
+ * 1: Styles
+*/
+gulp.task('sass', function () {
+    return gulp.src(config.development.styles)
+        .pipe(plumber())
+        .pipe(sass())
+        .pipe(prefix({
+            browsers: config.production.css.version
+        }))
+        .pipe(gulp.dest(config.dist.folder))
+        .pipe(browserSync.reload({
+            stream: true
+        }));
+});
+
+
+/*
+ * 2: Scripts
+*/
+gulp.task('webpack', () => {
+    return gulp.src(config.development.scripts)
+        .pipe(webpackStream(webpackConfig), webpack)
+        .pipe(gulpIf(prod, gulp.dest(config.production.folder)))
+        .pipe(gulpIf(!prod, gulp.dest(config.dist.folder)))
+        .pipe(gulpIf(!prod, browserSync.reload({ stream: true })));
+});
+
+
+/*
+ * 3: Linters
+*/
+
+// Javascript
+gulp.task('jsLint', function () {
+    return gulp.src(config.development.scripts, {
+        base: config.root.path
+    }).pipe(eslint({
+        config: styleguides,
+        fix: true
+    })).pipe(
+        eslint.formatEach()
+    ).pipe(
+        gulp.dest(config.root.path)
+    );
+});
+
+// Sass
+gulp.task('sassLint', function () {
+    return gulp.src(config.development.styles, {
+        base: config.root.path
+    })
+        .pipe(plumber())
+        .pipe(gulpStylelint({
+            fix: true,
+            failAfterError: false,
+            reporters: [{
+                formatter: 'string',
+                console: true
+            }]
+        })).pipe(
+            gulp.dest(config.root.path)
+        );
+});
+
+
+/*
+ * 4: Prettiers
+*/
 gulp.task('prettify', function (callback) {
     runSequence('SassLint', 'JsLint', callback);
 });
 
+
+/*
+ * 5: Minifiers
+*/
+
+// Sass
+gulp.task('sassMinify', function () {
+    return gulp.src(config.development.styles)
+        .pipe(sass())
+        .pipe(purgecss({
+            content: config.production.css.purge,
+            keyframes: true,
+            fontFace: true,
+        }))
+        .pipe(gcmq())
+        .pipe(prefix(config.production.css.version))
+        .pipe(cleanCSS())
+        .pipe(gzip())
+        .pipe(gulp.dest(config.production.folder));
+});
+
+// Html
+gulp.task('htmlMinify', () => {
+    return gulp.src(config.development.html)
+        .pipe(useref())
+        .pipe(htmlmin({
+            collapseWhitespace: true,
+            removeComments: true
+        })).pipe(gulp.dest(config.production.folder));
+});
+
+// Images
+gulp.task('imagesMinify', () => {
+    return gulp.src(config.development.images).pipe(cache(imagemin())).pipe(gulp.dest(config.production.images));
+});
+
+
+/*
+ * 6: BrowserSync
+*/
+gulp.task('browserSync', () => {
+    browserSync.init({
+        server: {
+            baseDir: config.development.folder
+        },
+    });
+});
+
+
+/*
+ * 7: Watchers
+*/
+
+// With automatic fixes from 'linters'
+const autofixWatch = [
+    'browserSync', 
+    'sassLint', 
+    'sass', 
+    'jsLint',
+];
+gulp.task('watch:autofix', autofixWatch, function () {
+    gulp.watch(config.development.styles, ['sassLint', 'sass']);
+    gulp.watch(config.development.html, browserSync.reload);
+    gulp.watch(config.development.scripts, ['jsLint']);
+});
+
+// Without automatic fixes
+const autofix = [
+    'browserSync', 'sass', 'webpack',
+];
+gulp.task('watch', autofix, () => {
+    gulp.watch(config.development.styles, ['sass']);
+    gulp.watch(config.development.html, browserSync.reload);
+    gulp.watch(config.development.scripts, ['webpack']);
+});
+
+
+/*
+ * 8: Production
+*/
+gulp.task('clean:production', () => {
+    return del.sync(config.production.folder);
+});
+
+gulp.task('production', (callback) => {
+    const minify = [
+        'webpack', 
+        'sassMinify', 
+        'htmlMinify', 
+        'imagesMinify'
+    ];
+    runSequence('clean:production', minify, callback);
+});
+
+
+/*
+ * 9: Prompting
+*/
+gulp.task('prompting', function () {
+    return gulp.src(config.root.allFiles, {
+        base: config.root.path
+    }).pipe(prompt.confirm(config.info.promptMessage));
+});
+
+
+/*
+ * 10: Custom function: Check files for specific words.
+*/
 let fileList = [];
 gulp.task('contains', function(){
     gulp.src([config.development.html])
@@ -104,13 +327,10 @@ function checkFiles(c, f){
     }
 }
 
-gulp.task('prompting', function () {
-    return gulp.src(config.root.allFiles, {
-        base: config.root.path
-    }).pipe(prompt.confirm(config.info.promptMessage));
-});
 
-
+/*
+ * 11: Custom function: Make directory.
+*/
 let parentFiles = [];
 
 gulp.task('mkdir', ['prompting'], function () {
@@ -186,121 +406,9 @@ function makeFiles(filePath, fileContent) {
     });
 }
 
-gulp.task('jsLint', function () {
-    return gulp.src(config.development.scripts, {
-        base: config.root.path
-    }).pipe(eslint({
-        config: styleguides,
-        fix: true
-    })).pipe(
-        eslint.formatEach()
-    ).pipe(
-        gulp.dest(config.root.path)
-    );
-});
 
-gulp.task('sassLint', function () {
-    return gulp.src(config.development.styles, {
-        base: config.root.path
-    })
-        .pipe(plumber())
-        .pipe(gulpStylelint({
-            fix: true,
-            failAfterError: false,
-            reporters: [{
-                formatter: 'string',
-                console: true
-            }]
-        })).pipe(
-            gulp.dest(config.root.path)
-        );
-});
 
-gulp.task('sass', function () {
-    return gulp.src(config.development.styles)
-        .pipe(plumber())
-        .pipe(sass())
-        .pipe(prefix({
-            browsers: config.production.css.version
-        }))
-        .pipe(gulp.dest(config.dist.folder))
-        .pipe(browserSync.reload({
-            stream: true
-        }));
-});
 
-gulp.task('browserSync', () => {
-    browserSync.init({
-        server: {
-            baseDir: config.development.folder
-        },
-    });
-});
 
-const autofix = [
-    'browserSync', 
-    'sassLint', 
-    'sass', 
-    'jsLint',
-];
-gulp.task('watch:autofix', autofix, function () {
-    gulp.watch(config.development.styles, ['sassLint', 'sass']);
-    gulp.watch(config.development.html, browserSync.reload);
-    gulp.watch(config.development.scripts, ['jsLint']);
-});
 
-gulp.task('sassMinify', function () {
-    return gulp.src(config.development.styles)
-        .pipe(sass())
-        .pipe(purgecss({
-            content: config.production.css.purge,
-            keyframes: true,
-            fontFace: true,
-        }))
-        .pipe(gcmq())
-        .pipe(prefix(config.production.css.version))
-        .pipe(cleanCSS())
-        .pipe(gzip())
-        .pipe(gulp.dest(config.production.folder));
-});
 
-gulp.task('watch', ['browserSync', 'sass', 'webpack'], () => {
-    gulp.watch(config.development.styles, ['sass']);
-    gulp.watch(config.development.html, browserSync.reload);
-    gulp.watch(config.development.scripts, ['webpack']);
-});
-
-gulp.task('htmlMinify', () => {
-    return gulp.src(config.development.html)
-        .pipe(useref())
-        .pipe(htmlmin({
-            collapseWhitespace: true,
-            removeComments: true
-        })).pipe(gulp.dest(config.production.folder));
-});
-
-gulp.task('webpack', () => {
-    return gulp.src(config.development.scripts)
-        .pipe(webpackStream(webpackConfig), webpack)
-        .pipe(gulpIf(prod, gulp.dest(config.production.folder)))
-        .pipe(gulpIf(!prod, gulp.dest(config.dist.folder)))
-        .pipe(gulpIf(!prod, browserSync.reload({ stream: true })));
-});
-
-gulp.task('imagesMinify', () => {
-    return gulp.src(config.development.images).pipe(cache(imagemin())).pipe(gulp.dest(config.production.images));
-});
-
-gulp.task('clean:production', () => {
-    return del.sync(config.production.folder);
-});
-
-gulp.task('production', (callback) => {
-    const minify = [
-        'webpack', 
-        'sassMinify', 
-        'htmlMinify', 
-        'imagesMinify'
-    ];
-    runSequence('clean:production', minify, callback);
-});
