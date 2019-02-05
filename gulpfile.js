@@ -20,7 +20,8 @@ const gulp = require('gulp'),
     webpack = require('webpack'),
     webpackStream = require('webpack-stream'),
     yargs = require('yargs'),
-    plumber = require( 'gulp-plumber' );
+    plumber = require( 'gulp-plumber' ),
+    gzip = require('gulp-gzip');
 
 const styleguides = require('./.eslintrc.json'),
     directories = require('./scss-files.json'),
@@ -259,6 +260,7 @@ gulp.task('sassMinify', function () {
         .pipe(gcmq())
         .pipe(prefix(config.production.css.version))
         .pipe(cleanCSS())
+        .pipe(gzip())
         .pipe(gulp.dest(config.production.folder));
 });
 
