@@ -21,7 +21,8 @@ const gulp = require('gulp'),
     webpackStream = require('webpack-stream'),
     yargs = require('yargs'),
     plumber = require( 'gulp-plumber' ),
-    gzip = require('gulp-gzip');
+    gzip = require('gulp-gzip'),
+    notify = require('gulp-notify');
 
 const styleguides = require('./.eslintrc.json'),
     directories = require('./scss-files.json'),
@@ -69,6 +70,7 @@ const config = {
     },
     info: {
         promptMessage: 'Running this command for the second time and up, will override your .scss files. Do you want to continue?',
+        errorMessage: 'Error: <%= error.message %>',
     }
 };
 
@@ -123,7 +125,11 @@ const config = {
 */
 gulp.task('sass', function () {
     return gulp.src(config.development.styles)
-        .pipe(plumber())
+        .pipe(plumber({ 
+            errorHandler: notify.onError(
+                config.info.errorMessage
+            )
+        }))
         .pipe(sass())
         .pipe(prefix({
             browsers: config.production.css.version
@@ -170,7 +176,11 @@ gulp.task('sassLint', function () {
     return gulp.src(config.development.styles, {
         base: config.root.path
     })
-        .pipe(plumber())
+        .pipe(plumber({ 
+            errorHandler: notify.onError(
+                config.info.errorMessage
+            )
+        }))
         .pipe(gulpStylelint({
             fix: true,
             failAfterError: false,
@@ -236,6 +246,7 @@ gulp.task('browserSync', () => {
         server: {
             baseDir: config.development.folder
         },
+        notify: false,
     });
 });
 
