@@ -51,7 +51,7 @@ const config = {
             version: ['last 3 versions', 'ie >= 7'],
         },
         folder: './production',
-        images: './production/assets/static/images',
+        images: './production/assets/images',
     },
     dist: {
         folder: './src/dist/',
@@ -62,7 +62,7 @@ const config = {
         scripts: './src/assets/scripts/**/*.js',
         styles: './src/assets/styles/**/*.scss',
         html: './src/**/*.html',
-        images: './src/assets/static/images/**/*.+(png|jpg|gif|svg)',
+        images: './src/assets/images/**/*.+(png|jpg|gif|svg)',
     },
     styleguides: {
         scss: './.sass-lint.yml',
