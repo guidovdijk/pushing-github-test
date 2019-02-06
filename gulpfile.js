@@ -65,7 +65,7 @@ const config = {
         images: './src/assets/images/**/*.+(png|jpg|gif|svg)',
     },
     styleguides: {
-        scss: './.sass-lint.yml',
+        scss: './.stylelintrc.json',
         jsonFile: './.eslintrc.json',
     },
     info: {
@@ -84,39 +84,40 @@ const config = {
  *   - webpack
  *  
  *  3: Linters
- *   - jsLint
- *   - sassLint
+ *   - lint:js
+ *   - lint:sass
  *  
  *  4: Prettiers
- *   - jsLint
- *   - sassLint
+ *   - lint:js
+ *   - lint:sass
  *  
  *  5: Minifiers
- *   - sassMinify
- *   - htmlMinify
- *   - imagesMinify
+ *   - minify:sass
+ *   - minify:html
+ *   - minify:images
  *  
  *  6: BrowserSync
  *  
  *  7: Watchers
  *   - browserSync
- *   - sassLint
+ *   - lint:sass
+ *   - lint:js
  *   - sass
- *   - jsLint
  *   - webpack
  *  
  *  8: Production
  *    - webpack
- *    - sassMinify
- *    - htmlMinify
- *    - imagesMinify
+ *    - minify:sass
+ *    - minify:html
+ *    - minify:images
  *    - clean:production
  *  
  *  9: Prompting
  *  
- *  10: Custom function: Check files for specific words.
- *  
- *  11: Custom function: Make directory.
+ *  10: Custom functions: 
+ *    - Check files for specific words
+ *    - Make directory
+ * 
 */
 
 
@@ -158,7 +159,7 @@ gulp.task('webpack', () => {
 */
 
 // Javascript
-gulp.task('jsLint', function () {
+gulp.task('lint:js', function () {
     return gulp.src(config.development.scripts, {
         base: config.root.path
     }).pipe(eslint({
@@ -172,7 +173,7 @@ gulp.task('jsLint', function () {
 });
 
 // Sass
-gulp.task('sassLint', function () {
+gulp.task('lint:sass', function () {
     return gulp.src(config.development.styles, {
         base: config.root.path
     })
@@ -198,7 +199,7 @@ gulp.task('sassLint', function () {
  * 4: Prettiers
 */
 gulp.task('prettify', function (callback) {
-    runSequence('SassLint', 'JsLint', callback);
+    runSequence('lint:sass', 'lint:js', callback);
 });
 
 
@@ -207,7 +208,7 @@ gulp.task('prettify', function (callback) {
 */
 
 // Sass
-gulp.task('sassMinify', function () {
+gulp.task('minify:sass', function () {
     return gulp.src(config.development.styles)
         .pipe(sass())
         .pipe(purgecss({
@@ -223,7 +224,7 @@ gulp.task('sassMinify', function () {
 });
 
 // Html
-gulp.task('htmlMinify', () => {
+gulp.task('minify:html', () => {
     return gulp.src(config.development.html)
         .pipe(useref())
         .pipe(htmlmin({
@@ -233,8 +234,10 @@ gulp.task('htmlMinify', () => {
 });
 
 // Images
-gulp.task('imagesMinify', () => {
-    return gulp.src(config.development.images).pipe(cache(imagemin())).pipe(gulp.dest(config.production.images));
+gulp.task('minify:images', () => {
+    return gulp.src(config.development.images)
+        .pipe(cache(imagemin()))
+        .pipe(gulp.dest(config.production.images));
 });
 
 
@@ -256,23 +259,23 @@ gulp.task('browserSync', () => {
 */
 
 // With automatic fixes from 'linters'
-const autofixWatch = [
+const watchAutofix = [
     'browserSync', 
-    'sassLint', 
+    'lint:sass', 
     'sass', 
-    'jsLint',
+    'lint:js',
 ];
-gulp.task('watch:autofix', autofixWatch, function () {
-    gulp.watch(config.development.styles, ['sassLint', 'sass']);
+gulp.task('watch:autofix', watchAutofix, function () {
+    gulp.watch(config.development.styles, ['lint:sass', 'sass']);
     gulp.watch(config.development.html, browserSync.reload);
-    gulp.watch(config.development.scripts, ['jsLint']);
+    gulp.watch(config.development.scripts, ['lint:js']);
 });
 
 // Without automatic fixes
-const autofix = [
+const watch = [
     'browserSync', 'sass', 'webpack',
 ];
-gulp.task('watch', autofix, () => {
+gulp.task('watch', watch, () => {
     gulp.watch(config.development.styles, ['sass']);
     gulp.watch(config.development.html, browserSync.reload);
     gulp.watch(config.development.scripts, ['webpack']);
@@ -289,9 +292,9 @@ gulp.task('clean:production', () => {
 gulp.task('production', (callback) => {
     const minify = [
         'webpack', 
-        'sassMinify', 
-        'htmlMinify', 
-        'imagesMinify'
+        'minify:sass', 
+        'minify:html', 
+        'minify:images'
     ];
     runSequence('clean:production', minify, callback);
 });
@@ -308,8 +311,10 @@ gulp.task('prompting', function () {
 
 
 /*
- * 10: Custom function: Check files for specific words.
+ * 10: Custom functions
 */
+
+// Check files for specific words
 let fileList = [];
 gulp.task('contains', function(){
     gulp.src([config.development.html])
@@ -338,10 +343,7 @@ function checkFiles(c, f){
     }
 }
 
-
-/*
- * 11: Custom function: Make directory.
-*/
+// Make directory
 let parentFiles = [];
 
 gulp.task('mkdir', ['prompting'], function () {
