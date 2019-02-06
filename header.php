@@ -16,8 +16,6 @@
 
 <body <?php body_class(); ?>>
 
-<div>
-
     <header role="banner">
 
         <section>
@@ -54,4 +52,4 @@
 
     </header>
 
-    <div>
+    <div class='container'>

@@ -1,11 +1,12 @@
 <?php get_header(); ?>
+
     <section role="main">
 
         <header>
 
             <?php the_post(); ?>
 
-            <h1><?php _e('Author Archives', 'my-theme'); ?>
+            <h1><?php _e('Author Archives', 'my_theme'); ?>
 
                 : <?php the_author_link(); ?>
                 

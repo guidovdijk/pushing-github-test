@@ -64,13 +64,13 @@
 
                     <h3>
                         
-                        <?php echo '<span>' . $ping_count . '</span> ' . ($ping_count > 1 ? __('Trackbacks', 'my-theme') : __('Trackback', 'my-theme')); ?>
+                        <?php echo '<span>' . $ping_count . '</span> ' . ($ping_count > 1 ? __('Trackbacks', 'my_theme') : __('Trackback', 'my_theme')); ?>
                         
                     </h3>
                     
                     <ul>
 
-                        <?php wp_list_comments('type=pings&callback=my-theme_custom_pings'); ?>
+                        <?php wp_list_comments('type=pings&callback=my_theme_custom_pings'); ?>
 
                     </ul>
 

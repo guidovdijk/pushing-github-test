@@ -6,7 +6,7 @@
 
             <h1>
 
-                <?php _e('Category Archives: ', 'my-theme'); ?>
+                <?php _e('Category Archives: ', 'my_theme'); ?>
 
                 <?php single_cat_title(); ?>
 

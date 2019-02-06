@@ -8,7 +8,7 @@
 
                 <h1>
                 
-                    <?php printf( __( 'Search Results for: %s', 'my-theme' ), get_search_query() ); ?>
+                    <?php printf( __( 'Search Results for: %s', 'my_theme' ), get_search_query() ); ?>
                 
                 </h1>
 
@@ -30,7 +30,7 @@
 
                     <h2>
                     
-                        <?php _e( 'Nothing Found', 'my-theme' ); ?>
+                        <?php _e( 'Nothing Found', 'my_theme' ); ?>
                     
                     </h2>
 
@@ -40,7 +40,7 @@
 
                     <p>
 
-                        <?php _e( 'Sorry, nothing matched your search. Please try again.', 'my-theme' ); ?>
+                        <?php _e( 'Sorry, nothing matched your search. Please try again.', 'my_theme' ); ?>
                     
                     </p>
 

@@ -4,13 +4,13 @@
    
         <div>
         
-            <?php next_posts_link(sprintf( __( '%s older', 'my-theme' ), '<span>&larr;</span>' ) ) ?>
+            <?php next_posts_link(sprintf( __( '%s older', 'my_theme' ), '<span>&larr;</span>' ) ) ?>
         
         </div>
         
         <div>
         
-            <?php previous_posts_link(sprintf( __( 'newer %s', 'my-theme' ), '<span>&rarr;</span>' ) ) ?>
+            <?php previous_posts_link(sprintf( __( 'newer %s', 'my_theme' ), '<span>&rarr;</span>' ) ) ?>
         
         </div>
 

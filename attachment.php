@@ -11,7 +11,7 @@
                 <h1><?php the_title(); ?> 
                 <span>|</span> 
                 <a href="<?php echo get_permalink($post->post_parent); ?>"
-                   title="<?php printf(__('Return to %s', 'my-theme'), esc_html(get_the_title($post->post_parent), 1)); ?>"
+                   title="<?php printf(__('Return to %s', 'my_theme'), esc_html(get_the_title($post->post_parent), 1)); ?>"
                    rev="attachment">
 
                    <span>&larr; </span>
@@ -21,7 +21,7 @@
 
                 </h1> <?php edit_post_link(); ?>
 
-                <?php get_template_part('entry', 'meta'); ?>
+                <?php get_template_part('components/entry/entry', 'meta'); ?>
 
             </header>
 

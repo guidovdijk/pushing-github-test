@@ -4,7 +4,7 @@
 
         <header>
 
-            <h1><?php _e( 'Tag Archives: ', 'my-theme' ); ?><?php single_tag_title(); ?></h1>
+            <h1><?php _e( 'Tag Archives: ', 'my_theme' ); ?><?php single_tag_title(); ?></h1>
 
         </header>
 
