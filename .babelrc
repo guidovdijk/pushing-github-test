@@ -8,6 +8,7 @@
         ["babel-plugin-root-import", {
             "rootPathSuffix": "/src/scripts",
             "rootPathPrefix": "@"
-        }]
+        }],
+        "@babel/plugin-transform-object-assign"
     ]
 }
