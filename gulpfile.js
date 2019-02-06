@@ -1,38 +1,43 @@
-const gulp = require('gulp'),
-    cleanCSS = require('gulp-clean-css'),
-    sass = require('gulp-sass'),
-    htmlmin = require('gulp-htmlmin'),
-    browserSync = require('browser-sync').create(),
-    useref = require('gulp-useref'),
-    gulpIf = require('gulp-if'),
-    purgecss = require('gulp-purgecss'),
-    gcmq = require('gulp-group-css-media-queries'),
-    runSequence = require('run-sequence'),
-    del = require('del'),
-    imagemin = require('gulp-imagemin'),
+// Dependencies
+const browserSync = require('browser-sync').create(),
     cache = require('gulp-cache'),
+    cleanCSS = require('gulp-clean-css'),
+    del = require('del'),
     eslint = require('gulp-eslint'),
-    gulpStylelint = require('gulp-stylelint'),
-    prefix = require('gulp-autoprefixer'),
     fse = require('fs-extra'),
+    gcmq = require('gulp-group-css-media-queries'),
+    gulp = require('gulp'),
+    gulpIf = require('gulp-if'),
+    gulpStylelint = require('gulp-stylelint'),
+    gzip = require('gulp-gzip'),
+    htmlmin = require('gulp-htmlmin'),
+    imagemin = require('gulp-imagemin'),
+    notify = require('gulp-notify'),
+    plumber = require( 'gulp-plumber' ),
+    prefix = require('gulp-autoprefixer'),
     prompt = require('gulp-prompt'),
+    purgecss = require('gulp-purgecss'),
+    runSequence = require('run-sequence'),
+    sass = require('gulp-sass'),
     through = require('through2'),
+    useref = require('gulp-useref'),
     webpack = require('webpack'),
     webpackStream = require('webpack-stream'),
-    yargs = require('yargs'),
-    plumber = require( 'gulp-plumber' ),
-    gzip = require('gulp-gzip'),
-    notify = require('gulp-notify');
+    yargs = require('yargs');
 
-const styleguides = require('./.eslintrc.json'),
-    directories = require('./scss-files.json'),
-    words = require('./check-words.json'),
-    webpackConfig = require('./webpack.config.js');
+// Own json and webpack
+const directories = require('./scss-files.json'),
+    eslintStyleGuide = require('./.eslintrc.json'),
+    webpackConfig = require('./webpack.config.js'),
+    words = require('./check-words.json');
 
+// Terminal production argv 
 const prod = yargs.argv.prod;
 
+// Sass compiler from node sass 
 sass.compiler = require('node-sass');
 
+// Config
 const config = {
     root: {
         path: './',
@@ -163,7 +168,7 @@ gulp.task('lint:js', function () {
     return gulp.src(config.development.scripts, {
         base: config.root.path
     }).pipe(eslint({
-        config: styleguides,
+        config: eslintStyleGuide,
         fix: true
     })).pipe(
         eslint.formatEach()
@@ -183,7 +188,7 @@ gulp.task('lint:sass', function () {
             )
         }))
         .pipe(gulpStylelint({
-            fix: true,
+            fix: false,
             failAfterError: false,
             reporters: [{
                 formatter: 'string',
