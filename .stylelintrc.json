@@ -4,7 +4,8 @@
     ],
     "syntax": "scss",
     "ignoreFiles": [
-        "**/*.js"
+        "**/*.js",
+        "src/assets/styles/vendors/**/*.scss"
     ],
     "rules": {
         
@@ -57,7 +58,6 @@
         "selector-attribute-operator-space-before": "always",
         "selector-attribute-operator-space-after": "always",
         "selector-attribute-brackets-space-inside": "never",
-        "selector-list-comma-newline-after": "always",
         "selector-pseudo-element-colon-notation": "single",
         "selector-pseudo-class-parentheses-space-inside": "always",
         "selector-max-empty-lines": 1,

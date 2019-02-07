@@ -150,7 +150,7 @@ gulp.task('lint:sass', function () {
     return gulp.src(config.development.styles)
         .pipe(plumber({ 
             errorHandler: notify.onError(
-                ' '
+                ''
             )
         }))
         .pipe(gulpStylelint({

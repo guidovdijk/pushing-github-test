@@ -9,7 +9,7 @@
  *  - Jquery
  */
 
-import $ from '../vendors/Jquery';
+import $ from '../vendors/jquery';
 import BaseClass from '../helpers/classes/BaseClass';
 
 class Carousel extends BaseClass {

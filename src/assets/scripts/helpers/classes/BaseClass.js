@@ -1,6 +1,5 @@
-// if import doesn't work change to: "import _exists from '../utilities/exists';"
-import { exists as _exists} from '../utilities/exists';
-import { isUnique as _isUnique} from '../utilities/isUnique';
+import _exists from '../utilities/exists';
+import _isUnique from '../utilities/isUnique';
 
 /*
  * BaseClass

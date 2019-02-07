@@ -31,7 +31,7 @@
     @font-face {
         font-family: quote($font-name);
         src: url($file-url + '/' + $font-name + '.eot');
-        src: url($file-url + '/' + $font-name + '.eot?#iefix')  format('embedded-opentype'), url($file-url + '/' + $font-name + '.woff') format('woff'), url($file-url + '/' + $font-name + '.ttf')  format('truetype'), url($file-url + '/' + $font-name + '.svg##{$font-name}')  format('svg');
+        src: url('#{$file-url}/#{$font-name}.eot?#iefix')  format('embedded-opentype'), url('#{$file-url}/#{$font-name}.woff') format('woff'), url('#{$file-url}/#{$font-name}.ttf')  format('truetype'), url('#{$file-url}/#{$font-name}.svg##{$font-name}')  format('svg');
         font-weight: $weight;
         font-style: $style;
     }
