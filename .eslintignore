@@ -2,3 +2,4 @@
 !**/*.css
 production
 src/dist
+src/assets/scripts/vendors/**/*.js

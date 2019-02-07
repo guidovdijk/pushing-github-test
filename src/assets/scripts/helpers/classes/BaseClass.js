@@ -12,22 +12,22 @@ import { isUnique as _isUnique} from '../utilities/isUnique';
  *  - isUnique();
 */
 class BaseClass {
-  // Simple functions that do not use 'this'
-  exists(element) {
-    return _exists(element);
-  }
-  isUnique(element) {
-    return _isUnique(element);
-  }
+    // Simple functions that do not use 'this'
+    exists(element) {
+        return _exists(element);
+    }
+    isUnique(element) {
+        return _isUnique(element);
+    }
 
-  // More complicated functions that use 'this'
-  setState(state, callback) {
-    this.state = {
-      ...this.state,
-      ...state,
-    };
-    if (callback) callback();
-  }
+    // More complicated functions that use 'this'
+    setState(state, callback) {
+        this.state = {
+            ...this.state,
+            ...state,
+        };
+        if (callback) callback();
+    }
 }
 
 export default BaseClass;
