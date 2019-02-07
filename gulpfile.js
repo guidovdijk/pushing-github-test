@@ -26,7 +26,7 @@ const browserSync = require('browser-sync').create(),
     yargs = require('yargs');
 
 // Own json and webpack
-const directories = require('./scss-files.json'),
+const directories = require('./create-styling-directory.json'),
     eslintStyleGuide = require('./.eslintrc.json'),
     webpackConfig = require('./webpack.config.js'),
     words = require('./check-words.json');
@@ -114,8 +114,10 @@ const config = {
  *  7: Prompting
  *  
  *  8: Custom functions: 
- *    - Check files for specific words
  *    - Make directory
+ *      - mkdir
+ *      - subFileLoop
+ *      - makeFiles
  * 
 */
 
@@ -279,35 +281,6 @@ gulp.task('prompting', function () {
 /*
  * 8: Custom functions
 */
-
-// Check files for specific words
-let fileList = [];
-gulp.task('contains', function(){
-    gulp.src([config.development.html])
-        .pipe(through.obj(function (file, enc, cb) {
-            let contents = file.contents.toString();
-            checkFiles(contents, file.relative);
-            
-            cb(null);
-        }))
-        .pipe(gulp.dest(config.root.path))
-        .on ('end', function () {
-            if(fileList.length > 0){
-                console.log(fileList);
-                process.exit(1);
-            }
-        });
-});
-
-function checkFiles(c, f){
-    c = c.toLowerCase();
-    for (let i = 0; i < words.length; i++) {
-        let word = words[i].toLowerCase();
-        if (c.indexOf(word) >= 0) {
-            fileList.push(`file: "${f}" contains: "${word}"`);
-        }
-    }
-}
 
 // Make directory
 let parentFiles = [];

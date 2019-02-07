@@ -1,0 +1,123 @@
+{ 
+    "main": "style.scss",
+    "abstract": [
+        {
+            "functions": [
+                "_color-manipulation.scss",
+                "_get-screen-size-from-map.scss",
+                "_line-height.scss",
+                "_map-deep-get.scss",
+                "_px-to-em.scss",
+                "_px-to-rem.scss",
+                "_return-map-value.scss",
+                "_string-replace.scss",
+                "_strip-unit.scss",
+                "_svg-encode.scss"
+            ]
+        },
+        {
+            "helpers": [
+                "_border-style.scss",
+                "_check-grid.scss",
+                "_clearfix.scss",
+                "_colors.scss",
+                "_cursor.scss",
+                "_display.scss",
+                "_float.scss",
+                "_font-style.scss",
+                "_font-weight.scss",
+                "_height.scss",
+                "_margin.scss",
+                "_position.scss",
+                "_screen-visibility.scss",
+                "_text-align.scss",
+                "_text-decoration.scss",
+                "_text-transform.scss",
+                "_vertical-align.scss",
+                "_whitespace.scss",
+                "_width.scss",
+                "_z-index.scss"
+            ]
+        },
+        {
+            "mixins": [
+                "_angled-edges.scss",
+                "_background-gradient.scss",
+                "_border-gradient.scss",
+                "_border-radius.scss",
+                "_caret.scss",
+                "_center.scss",
+                "_custom-grid.scss",
+                "_font-face.scss",
+                "_font-size.scss",
+                "_make-dynamic-styling.scss",
+                "_mediaqueries.scss",
+                "_pseudo-gradient.scss",
+                "_pseudo.scss",
+                "_scrollbar.scss",
+                "_shadow-gradient.scss",
+                "_text-gradient.scss",
+                "_vertical-center.scss",
+                "_z-index.scss"
+            ]
+        },
+        {
+            "placeholders": [
+                "_margin-center.scss",
+                "_position-0.scss",
+                "_pseudo.scss"
+            ]
+        },
+        {
+            "variables": [
+                "_booleans.scss",
+                "_colors.scss",
+                "_grid-type.scss",
+                "_screen-sizes.scss",
+                "_scrollbar.scss",
+                "_typography.scss",
+                "_urls.scss",
+                "_z-index.scss"
+            ]
+        }
+    ],
+    "base": [
+        "_font-face.scss",
+        "_typography.scss"
+    ],
+    "components": [
+        "_carousel.scss",
+        "_posts.scss",
+        {
+            "elements": [
+                "_button.scss",
+                "_hamburger-menu.scss",
+                "_search-bar.scss"
+            ]
+        },
+        {
+            "hero": [
+                "_hero-homepage.scss",
+                "_hero-product.scss"
+            ]
+        }
+    ],
+    "layout": [
+        "_footer.scss",
+        "_header.scss",
+        "_sidebar.scss"
+    ],
+    "pages": [
+        "_404.scss",
+        "_contact.scss",
+        "_home.scss"
+    ],
+    "shame": [
+        "_shame.scss"
+    ],
+    "vendors": [
+        "_bootstrap-grid.scss",
+        "_flexbox-grid.scss",
+        "_normalizer.scss"
+    ]
+}
