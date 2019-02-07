@@ -90,7 +90,7 @@ const config = {
  *  
  *  3: Minifiers
  *   - minify:sass
- *   - minify:html
+ *   - minify:wordpress
  *   - minify:images
  *  
  *  4: BrowserSync
@@ -105,7 +105,7 @@ const config = {
  *  6: Production
  *    - webpack
  *    - minify:sass
- *    - minify:html
+ *    - minify:wordpress
  *    - minify:images
  *    - clean:production
  *  
@@ -116,7 +116,6 @@ const config = {
  *      - mkdir
  *      - subFileLoop
  *      - makeFiles
- * 
 */
 
 
@@ -204,7 +203,7 @@ gulp.task('minify:sass', function () {
 });
 
 // Html
-gulp.task('minify:html', () => {
+gulp.task('minify:wordpress', () => {
     return gulp.src(config.development.php)
         .pipe(useref())
         .pipe(htmlmin({
@@ -260,7 +259,7 @@ gulp.task('production', (callback) => {
     const minify = [
         'lint:js', 
         'minify:sass', 
-        'minify:html', 
+        'minify:wordpress', 
         'minify:images'
     ];
     runSequence('clean:production', minify, callback);
