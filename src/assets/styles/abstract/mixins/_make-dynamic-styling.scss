@@ -51,12 +51,12 @@
                 @if $prop == font-size and $font-pixel-fallback {
                     $unit: unit($v);
                     @if $unit == 'rem' {
-                        #{$prop}: rem($v, true);
+                        #{$prop}: #{rem($v, true)}rem;
                         #{$prop}: #{$v};
                     }
                     @else {
                         #{$prop}: #{$v};
-                        #{$prop}: rem($v);
+                        #{$prop}: #{rem($v)}rem;
                     }
                 }
                 @else {
