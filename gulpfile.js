@@ -198,6 +198,7 @@ gulp.task('minify:sass', function () {
         .pipe(gcmq())
         .pipe(prefix(config.production.css.version))
         .pipe(cleanCSS())
+        .pipe(gulp.dest(config.production.folder))
         .pipe(gzip())
         .pipe(gulp.dest(config.production.folder));
 });
@@ -257,7 +258,7 @@ gulp.task('clean:production', () => {
 
 gulp.task('production', (callback) => {
     const minify = [
-        'webpack', 
+        'lint:js', 
         'minify:sass', 
         'minify:html', 
         'minify:images'
