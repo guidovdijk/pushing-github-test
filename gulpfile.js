@@ -19,7 +19,6 @@ const browserSync = require('browser-sync').create(),
     purgecss = require('gulp-purgecss'),
     runSequence = require('run-sequence'),
     sass = require('gulp-sass'),
-    through = require('through2'),
     useref = require('gulp-useref'),
     webpack = require('webpack'),
     webpackStream = require('webpack-stream'),
@@ -28,8 +27,7 @@ const browserSync = require('browser-sync').create(),
 // Own json and webpack
 const directories = require('./create-styling-directory.json'),
     eslintStyleGuide = require('./.eslintrc.json'),
-    webpackConfig = require('./webpack.config.js'),
-    words = require('./check-words.json');
+    webpackConfig = require('./webpack.config.js');
 
 // Terminal production argv 
 const prod = yargs.argv.prod;
