@@ -30,7 +30,8 @@ const directories = require('./create-styling-directory.json'),
     webpackConfig = require('./webpack.config.js');
 
 // Terminal production argv 
-const prod = yargs.argv.prod;
+const prod = yargs.argv.prod,
+    clean = yargs.argv.clean;
 
 // Sass compiler from node sass 
 sass.compiler = require('node-sass');
@@ -164,12 +165,8 @@ gulp.task('lint:sass', function () {
         .pipe(prefix({
             browsers: config.production.css.version
         }))
-        .pipe(
-            gulp.dest(config.dist.folder)
-        )
-        .pipe(browserSync.reload({
-            stream: true
-        }));;
+        .pipe(gulp.dest(config.dist.folder))
+        .pipe(gulpIf(!prod, browserSync.reload({ stream: true })));
 });
 
 
@@ -262,7 +259,11 @@ gulp.task('production', (callback) => {
         'minify:wordpress', 
         'minify:images'
     ];
-    runSequence('clean:production', minify, callback);
+    if(clean){
+        runSequence('clean:production', minify, callback);
+    } else {
+        runSequence(minify, callback);
+    }
 });
 
 
