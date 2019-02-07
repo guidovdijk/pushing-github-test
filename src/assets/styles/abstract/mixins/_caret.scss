@@ -1,0 +1,60 @@
+/* ------------------------------------------------------------------------- *\
+ * @mixin caret
+ *
+ * This mixin takes five parameters:
+ *
+ *   @param { $color } is the color of the caret (triangle)
+ *    You can use any color, but if the color already exist in a variable, you must use the variable.
+ *
+ *   @param { $direction } is the direction which the point of the caret is facing.
+ *    Choose between: 'bottom', 'top', 'left' or 'right'.
+ *
+ *   @param { $size } is the size of the caret. Defaults to 6px.
+ *
+ *   @param { $position } is the position type of the caret. Defaults to absolute.
+ *
+ *   @param { $radius } is used to make rounded colors for the caret.
+ *
+ *   @return { $propertie: $value }
+ *
+ * Description:
+ *   The caret mixin is used to make basic triangles for where necessary.
+ *
+ * Usage:
+ *   @include caret(); // Two parameters to use the already defined ones.
+ *   @include caret(#ffffff, bottom, 10px, absolute, 3px); // All parameters to override the already defined ones.
+/* ------------------------------------------------------------------------- */
+
+@mixin caret($color: #000000, $direction: top, $size: 6px, $position: absolute, $radius: 0px){
+    @if $position == absolute {
+        @extend %pseudo;
+    } @else {
+        @include pseudo($pos: $position);
+    }
+    width: 0;
+    height: 0;
+    @if $radius {
+        border-radius: $radius;
+    }
+    @if $direction == bottom {
+        border-left: $size solid transparent;
+        border-right: $size solid transparent;
+        border-top: $size solid $color;
+        margin-top: 0 - round( $size / 2.5 );
+    } @else if $direction == top {
+        border-left: $size solid transparent;
+        border-right: $size solid transparent;
+        border-bottom: $size solid $color;
+        margin-bottom: 0 - round( $size / 2.5 );
+    } @else if $direction == right {
+        border-top: $size solid transparent;
+        border-bottom: $size solid transparent;
+        border-left: $size solid $color;
+        margin-right: -$size;
+    } @else if  $direction == left {
+        border-top: $size solid transparent;
+        border-bottom: $size solid transparent;
+        border-right: $size solid $color;
+        margin-left: -$size;
+    }
+}

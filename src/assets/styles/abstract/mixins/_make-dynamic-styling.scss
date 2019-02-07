@@ -1,0 +1,83 @@
+/* ------------------------------------------------------------------------- *\
+ * @mixin make-dynamic-styling
+ *
+ * This mixin takes two parameters:
+ *
+ *   @param { $screen } takes the $tablet or $base variable
+ *   @param { $map } takes a map of variable
+ *
+ *   @return { $propertie: $value }   
+ *
+ * Description:
+ *   The make-dynamic-styling mixin makes all the basic styling for element in the typography variable in 'variables/typography/_font-sizes.scss'
+ *   If the parameter is $tablet the styling comes in a min-width mediaquerie with the pixel value based on the $tablet-up variable.
+ *
+ * Usage:
+ *   @include make-dynamic-styling($tablet);
+/* ------------------------------------------------------------------------- */
+
+@mixin make-dynamic-styling($map){
+
+    @each $property, $variable in $map {
+
+        #{$property}, .#{$property} {
+
+            @include make-styling($variable, $base);
+
+            @include tablet-up {
+                @include make-styling($variable, $tablet);
+            }
+
+            @include desktop-up {
+                @include make-styling($variable, $desktop);
+            }
+        }
+    }
+}
+
+/*
+ *  make-styling takes 2 parameters
+ *
+ *  @param { $variable } array for looping
+ *  @param { $size } screen format
+ *
+ *  @return: styled properties
+ *
+*/
+@mixin make-styling($variable, $size){
+    @each $prop, $var in $variable {
+        @each $p, $v in $var {
+            @if $p == $size {
+                @if $prop == font-size and $font-pixel-fallback {
+                    $unit: unit($v);
+                    @if $unit == 'rem' {
+                        #{$prop}: rem($v, true);
+                        #{$prop}: #{$v};
+                    } @else {
+                        #{$prop}: #{$v};
+                        #{$prop}: rem($v);
+                    }
+                } @else {
+                    #{$prop}: #{$v};
+                }
+            }
+        }
+    }
+}
+
+//  Adding dynamic line-height.
+//  if $prop == line-height {
+//      $test: nth($variable, 1);
+//      $test2: nth($test, 2);
+// 
+//      $base-font-size-values: map-get($test2, $base);
+//      $tablet-font-size-values: map-get($test2, $tablet);
+//      $desktop-font-size-values: map-get($test2, $desktop);
+// 
+//      @if $p == $base {
+//          
+//      }
+//      // @debug font-size $test, line-height $v;
+//      #{$prop}: #{$v};
+// 
+//  }

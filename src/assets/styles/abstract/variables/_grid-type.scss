@@ -1,0 +1,12 @@
+/*
+ * If $use-grid-type is equal to $bootstrap use the bootstrap grid (ONLY the grid).
+ * If $use-grid-type is equal to $custom use the custom grid.
+ * If $use-grid-type is equal to $flexbox use the flexbox grid.
+ *
+ * If $use-grid-type is not equal to any of the grids above nothing will be imported.
+*/
+$bootstrap: 'bootstrap';
+$custom: 'custom'; // (based on bootstrap grid, but with NO flexbox and only col-xs-[1-12], col-sm-[1-12] and col-md-[1-12]).
+$flexbox: 'flexbox';
+
+$use-grid-type: $custom;

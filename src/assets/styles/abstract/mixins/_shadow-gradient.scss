@@ -1,0 +1,78 @@
+/*
+ * @mixin shadow-gradient()
+ * 
+ * @param { $map } Map with values.
+ * @param { $blur } The blur of the background shadow
+ * @param { $height } The height of the background shadow
+ * @param { $width } The width of the background shadow
+ * @param { $align } Alignment of the background shadow.
+ * 
+ * Description:
+ *  The shadow-gradient mixin will use the $gradient variable map in the abstract/_variable.scss file to make the gradients
+ *  The colors property is required, the others have a default value.
+ *  A fallback background-color will be made from the first color in the colors map variable
+ *  Or by the fallback propertie in the list.
+ * 
+ *  If the align parameter is equal to 'half' only 50% of the shadow will be shown.
+ *  If the type of the gradient is 'radial' the '$deg' variable will be null and gets replaced by the '$radical-extent-keyword' variable.
+ *  If the type is 'linear' the '$radical-extent-keyword' variable will be null and the '$deg' will be used.
+ * 
+ * Usage:
+ *  @include shadow-gradient($gradient-map) // Without the other params so it will use the default ones from the map variable and the params
+ *  @include shadow-gradient(map-get($gradients, chill)); // With a list from the parent map $gradients.
+ *  @include shadow-gradient($gradient-map, 15px, 60px, 100%, 20px) // With the other params so it will override the $deg variable from the map (usefull for animations).
+ *
+ * Can't be used if the element or the parent(s) use a transform property.
+ * The parent should have a position of absolute or relative OR the element itself need a position of relative.
+*/
+
+@mixin shadow-gradient($map, $image: null, $blur: 10px, $height: 50px, $width: 95%, $align: half) {
+    $type:                    linear !default;
+    $radical-extent-keyword: 'circle at center' !default;
+    $colors:                  map-get($map, colors);
+    $fallback:                unquote('#{nth($colors, 1)}') !default; 
+    $fallback:                str-replace($fallback, ' 0%', '');  
+    $deg:                     return-map-value($map, deg, 90deg);
+    $gradient-type:           return-map-value($map, type, $type);
+    $fallback:                return-map-value($map, fallback, $fallback);
+    $image-src:               null;
+
+    @if $align == half {
+        $align: -$height / 2;
+    }
+
+    @if #{$gradient-type} == radial {
+        $deg: null;
+        $radical-extent-keyword: return-map-value($map, radical-extent-keyword, 'circle at center');
+        $radical-extent-keyword: unquote($radical-extent-keyword);
+    } @else {
+        $radical-extent-keyword: null;
+    }
+
+    @if $image == null {
+        $image: return-map-value($map, image, null);
+        @if $image != null {
+            $image-src: ',url("'+ #{$image} + '")';
+        }
+    }
+
+    &:after {
+        @extend %pseudo;
+        
+        z-index: -1;
+        bottom: $align;
+        left: (100% - $width) / 2;
+        height: $height;
+        width: $width;
+
+        @if $image {
+            background: str-replace(#{$image-src}, ',', '');
+        } @else {
+            background: $fallback;
+        }
+
+        background: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')' + #{$image-src};
+        filter: blur($blur);
+        @warn "The filter blur doesn't work in IE11 >= and some versions of Firefox. Use png images for shadows where- and when ever possible.";
+    }
+}

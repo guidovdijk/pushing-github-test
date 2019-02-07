@@ -1,0 +1,31 @@
+$post-bg: lightblue;
+$post--featured-bg: lightgray;
+
+.post {   
+    background-color: $post-bg;
+
+    &__title {
+        color: $primary-color;
+    }
+
+    &__body {
+        color: $dark-color;
+    }
+
+    &__link {
+        color: $secondary-color;
+    }
+
+    &--featured {
+        background-color: $post--featured-bg;
+        text-align: center;
+
+        .post__title {
+            color: $text-color;
+        }
+        
+        .post__body {
+            color: $tertiary-color;
+        }
+    }
+}

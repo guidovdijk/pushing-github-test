@@ -1,0 +1,74 @@
+/*
+ * @mixin background-gradient()
+ * 
+ * @param { $map } Map with values.
+ * @param { $deg } Direction the gradient is going.
+ * 
+ * Description:
+ *  The background-gradient mixin will use SOME of the $gradient variable map in the abstract/_variable.scss file to make the gradients
+ *  The colors and deg properties are required, the others have a default value.
+ *  A fallback background-color will be made from the first color in the colors map variable
+ *  Or by the fallback propertie in the list.
+ * 
+ *  If the type of the gradient is 'radial' the '$deg' variable will be null and gets replaced by the '$radical-extent-keyword' variable.
+ *  If the type is 'linear' the '$radical-extent-keyword' variable will be null and the '$deg' will be used.
+ *
+ * Usage:
+ *  @include background-gradient($gradient-map) // Without $deg so it will use the $deg from the $gradient-map variable
+ *  @include background-gradient(map-get($gradients, chill)); // With a list from the parent map $gradients.
+ *  @include background-gradient($gradient-map, 'image', 200deg) // With $image and $deg so it will override the $deg variable from the map (usefull for animations).
+ *  @include background-gradient($gradient-map, false, null) // With the $image parameter on 'false', so it won't fallback to the defined styling in the $gradient-map.
+ *  ($deg can't be false, bacause to have a valid LINEAR gradient $deg must be used.)
+ *
+ * Can't be used on the same element with the text-gradient mixin. Use a wrapper div for the background-gradient mixin.
+*/
+
+@mixin background-gradient($map, $image: null, $deg: null) {
+    $type:                    linear !default;
+    $radical-extent-keyword: 'circle at center' !default;
+    $colors:                  map-get($map, colors);
+    $fallback:                unquote('#{nth($colors, 1)}') !default; 
+    $fallback:                str-replace($fallback, ' 0%', '');
+    
+    $gradient-type:           return-map-value($map, type, $type);
+    $fallback:                return-map-value($map, fallback, $fallback);
+    $image-src:               null;
+
+    @if $deg == null {
+        $deg: return-map-value($map, deg, 180deg);
+    }
+
+    @if $image == null {
+        $image: return-map-value($map, image, null);
+        @if $image != null {
+            $image-src: ',url("'+ #{$image} + '")';
+        }
+    }
+    
+    @if #{$gradient-type} == radial {
+        $deg: null;
+        $radical-extent-keyword: return-map-value($map, radical-extent-keyword, 'circle at center');
+        $radical-extent-keyword: unquote($radical-extent-keyword);
+    } @else {
+        $radical-extent-keyword: null;
+    }
+
+    @if $image {
+        background: str-replace(#{$image-src}, ',', ''); // Uncomment if you want a fallback to the background image without gradient.
+        @if $legacy_browser_support {
+            @include ie-fallback {
+                &:before {
+                    @extend %pseudo;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: $fallback;
+                }
+            }
+        }
+    } @else {
+        background: $fallback;
+    }
+    background: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')' + #{$image-src};
+}

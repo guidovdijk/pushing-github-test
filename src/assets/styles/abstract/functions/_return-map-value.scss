@@ -1,0 +1,18 @@
+/*
+ * @function return-value();
+ * 
+ * @param { $map } Map with values;
+ * @param { $type } Certain key in the map that you want to return the value
+ * @param { $variable } Fallback value;
+ * 
+ * @return { $value } Returns the value of the map if true and the fallback value if false.
+*/
+@function return-map-value($map, $type, $variable){
+
+    @if map-has-key($map, $type){
+        $value: map-get($map, $type);
+        @return $value;
+    } @else {
+        @return $variable;
+    }
+}

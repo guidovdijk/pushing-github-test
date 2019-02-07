@@ -1,0 +1,62 @@
+/* ------------------------------------------------------------------------- *\
+ * Mediaqueries
+ *
+ * This file contains the default media queries for this project, and a
+ * mixin that enables custom min-width media queries. Since we work
+ * mobile first, all media queries are using the min-width notation.
+ *
+ * Example:
+ *   h1 { 
+ *      color: red; // Affects everything
+ *      @include tablet-up { 
+ *         color: blue; // Affects everything above mobile format (768px)
+ *      }
+ *      @include desktop-up { 
+ *         color: green; // Affects everything above tablet format (1024px)
+ *      }
+ *   }
+/* ------------------------------------------------------------------------- */
+
+/* ------------------------------------------------------------------------- *\
+ * @mixin tablet-up
+ *
+ * The tablet mixin affects all screens above mobile format
+/* ------------------------------------------------------------------------- */
+@mixin tablet-up {
+    @media screen and (min-width: $tablet-up) {
+        @content;
+    }
+}
+
+/* ------------------------------------------------------------------------- *\
+ * @mixin desktop-up
+ *
+ * The desktop mixin affects all screens above tablet format
+/* ------------------------------------------------------------------------- */
+@mixin desktop-up {
+    @media screen and (min-width: $desktop-up) {
+        @content;
+    }
+}
+
+/* ------------------------------------------------------------------------- *\
+ * @mixin min-width
+ *
+ * The min-width mixin affects all screens above the parameter value
+/* ------------------------------------------------------------------------- */
+@mixin min-width($width) {
+    @media screen and (min-width: $width) {
+        @content;
+    }
+}
+  
+/* ------------------------------------------------------------------------- *\
+ * @mixin ie-fallback
+ *
+ * The ie-fallback mixin affects only the Internet Explorer browser
+/* ------------------------------------------------------------------------- */
+@mixin ie-fallback {
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        @content;
+    }
+}
