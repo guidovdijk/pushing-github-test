@@ -44,7 +44,7 @@
     }
 
     color: $fallback;
-    background-image: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')';
+    background-image: #{$gradient-type}-gradient(($deg, $radical-extent-keyword, $colors));
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

@@ -41,7 +41,7 @@
     @if $image == null {
         $image: return-map-value($map, image, null);
         @if $image != null {
-            $image-src: ',url("'+ #{$image} + '")';
+            $image-src: ',url("#{$image}")';
         }
     }
     
@@ -71,7 +71,7 @@
         }
     }
     @else {
-        background: $fallback;
+        background: #{$fallback};
     }
-    background: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')' + #{$image-src};
+    background: #{$gradient-type}-gradient(($deg, $radical-extent-keyword, $colors))#{$image-src};
 }

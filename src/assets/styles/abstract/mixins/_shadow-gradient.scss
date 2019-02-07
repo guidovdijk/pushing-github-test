@@ -73,7 +73,7 @@
             background: $fallback;
         }
 
-        background: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')' + #{$image-src};
+        background: #{$gradient-type}-gradient(($deg, $radical-extent-keyword, $colors)) #{$image-src};
         filter: blur($blur);
         @warn "The filter blur doesn't work in IE11 >= and some versions of Firefox. Use png images for shadows where- and when ever possible.";
     }

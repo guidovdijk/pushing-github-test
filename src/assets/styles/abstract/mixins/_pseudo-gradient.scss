@@ -54,6 +54,6 @@
         top: 0;
         bottom: 0;
         background: $fallback;
-        background: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')';
+        background: #{$gradient-type}-gradient(($deg, $radical-extent-keyword, $colors));
     }
 }

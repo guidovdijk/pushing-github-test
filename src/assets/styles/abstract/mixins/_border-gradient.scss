@@ -47,6 +47,6 @@
     border-color: $fallback;
     border-width: $thickness;
     border-style: $style;
-    border-image: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')';
+    border-image: #{$gradient-type}-gradient(($deg, $radical-extent-keyword, $colors));
     border-image-slice: 1;
 }

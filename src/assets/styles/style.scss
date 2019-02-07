@@ -20,8 +20,8 @@ body {
 }
 
 .test {
-    // @include background-gradient(map-get($gradients, warm));
-    @include pseudo-gradient(map-get($gradients, warm), null);
+    @include background-gradient(map-get($gradients, warm));
+    // @include pseudo-gradient(map-get($gradients, warm), null);
     // @include center();
     margin-top: 200px;
     position: relative;
