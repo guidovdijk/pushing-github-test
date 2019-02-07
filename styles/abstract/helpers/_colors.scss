@@ -1,0 +1,14 @@
+$colors: (
+    primary: $primary-color,
+    secondary: $secondary-color,
+    tertiary: $tertiary-color,
+    text: $text-color,
+    dark: $dark-color,
+    light: $light-color,
+);
+
+@each $colorProp, $colorVar in $colors {
+    .is-#{$colorProp}-color {
+        color: $colorVar;
+    }
+}

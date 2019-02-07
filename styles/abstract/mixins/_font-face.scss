@@ -1,0 +1,41 @@
+/* ------------------------------------------------------------------------- *\
+ * @mixin font-face
+ *
+ * This mixin takes four parameters:
+ *
+ *   @param { $font-name } name of the font
+ *
+ *   @param { $file-url } path to the font
+ *
+ *   @param { $font-weight } (thickness of the font). Get weight out of constants variable.
+ *
+ *   @param { $font-style } (style of the font like: 'italic').
+ *
+ *   @return { @font-face }
+ *
+ * Required font file types (so it is supported for all browsers):
+ *   .eot
+ *   .eot?#iefix
+ *   .woff
+ *   .ttf
+ *   .svg
+ *
+ * Description:
+ *   The font-face mixin makes it possible to import custom fonts in one line:
+ *
+ * Usage:
+ *     @include font-face('gotham', $fonts-url, 600, italic);
+/* ------------------------------------------------------------------------- */
+
+@mixin font-face($font-name, $file-url, $weight: normal, $style: normal) { 
+    @font-face {
+      font-family: quote($font-name);
+      src: url($file-url + '/' + $font-name + '.eot');
+      src: url($file-url + '/' + $font-name + '.eot?#iefix')  format('embedded-opentype'),
+           url($file-url + '/' + $font-name + '.woff') format('woff'),
+           url($file-url + '/' + $font-name + '.ttf')  format('truetype'),
+           url($file-url + '/' + $font-name + '.svg##{$font-name}')  format('svg');
+      font-weight: $weight;
+      font-style: $style;
+    }
+}

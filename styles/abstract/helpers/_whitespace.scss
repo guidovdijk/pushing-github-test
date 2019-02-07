@@ -1,0 +1,7 @@
+$white-spaces: (inherit, initial, normal, nowrap, pre, pre-line, pre-wrap, break-word, normal);
+
+@each $w in $white-spaces {
+    .whitespace-#{$w}{
+        white-space: #{$w};
+    }
+}

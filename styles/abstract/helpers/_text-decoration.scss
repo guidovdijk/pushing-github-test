@@ -1,0 +1,7 @@
+$decorations: (blink, dashed, dotted, double, inherit, initial, line-through, none, overline, solid, underline, unset, wavy);
+
+@each $d in $decorations {
+    .text-transform-#{$d}{
+        text-transform: #{$d};
+    }
+}

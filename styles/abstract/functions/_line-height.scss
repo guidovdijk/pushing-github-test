@@ -1,0 +1,26 @@
+/* ------------------------------------------------------------------------- *\
+ * @function line-height()
+ *
+ * This function takes two parameters:
+ *
+ *   @param { $line-height } is the line height of the corresponding text in pixels
+ *   @param { $font-size } is the font size of the corresponding text in pixels
+ *
+ *   @return { $value } rounded value of $line-height / $font-size
+ *
+ * Description:
+ *   The line-height function calculates the line height based on the pixel values
+ *   and returns a result without pixels, max three decimals
+ *
+ * Usage:
+ *   In a class:
+ *   .some-class-selector { 
+ *     line-height: line-height($some-font-sizein-pixels, $some-line-heightin-pixels);
+ *   }
+ *
+/* ------------------------------------------------------------------------- */
+
+@function line-height($line-height, $font-size) {
+    $value: strip-unit($line-height) / strip-unit($font-size);
+    @return round($value * 1000) / 1000;
+}

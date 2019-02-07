@@ -1,0 +1,16 @@
+@include make-dynamic-styling($typography);
+
+body {
+    color: $primary-color;
+    font-weight: $normal;
+    font-family: $base-font;
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4 {
+    color: $secondary-color;
+    font-weight: $bold;
+    font-family: $heading-font, $heading-fallback;
+}

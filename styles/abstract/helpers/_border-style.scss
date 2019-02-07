@@ -1,0 +1,7 @@
+$border-style: ('dashed', 'solid', 'dotted', 'none');
+
+@each $border in $border-style {
+    .border-#{$border}{
+        border-style: #{$border};
+    }
+}

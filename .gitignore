@@ -4,3 +4,6 @@ back-up
 production
 dist
 src/style.css
+style.css.map
+style.css
+.sass-cache/
