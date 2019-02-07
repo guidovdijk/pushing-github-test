@@ -30,8 +30,8 @@
     $type:                    linear !default;
     $radical-extent-keyword: 'circle at center' !default;
     $colors:                  map-get($map, colors);
-    $fallback:                unquote('#{nth($colors, 1)}') !default; 
-    $fallback:                str-replace($fallback, ' 0%', '');  
+    $fallback:                unquote('#{nth($colors, 1)}') !default;
+    $fallback:                str-replace($fallback, ' 0%', '');
     $deg:                     return-map-value($map, deg, 90deg);
     $gradient-type:           return-map-value($map, type, $type);
     $fallback:                return-map-value($map, fallback, $fallback);
@@ -45,7 +45,8 @@
         $deg: null;
         $radical-extent-keyword: return-map-value($map, radical-extent-keyword, 'circle at center');
         $radical-extent-keyword: unquote($radical-extent-keyword);
-    } @else {
+    }
+    @else {
         $radical-extent-keyword: null;
     }
 
@@ -67,7 +68,8 @@
 
         @if $image {
             background: str-replace(#{$image-src}, ',', '');
-        } @else {
+        }
+        @else {
             background: $fallback;
         }
 

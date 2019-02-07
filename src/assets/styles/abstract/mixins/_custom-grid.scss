@@ -6,12 +6,13 @@
  * @param { int }		$grid-columns	Amount of columns
 */
 @mixin grid-generator($size, $grid-columns) {
-	@for $i from 1 through $grid-columns {
+    @for $i from 1 through $grid-columns {
+
         .col-#{$size}-#{$i} {
             width: percentage($i / $grid-columns);
             float: left;
         }
-	}
+    }
 }
 
 /*
@@ -30,6 +31,6 @@
         }
         @include desktop-up {
             @include grid-generator(md, 12); // Desktop
-        }        
-    } 
+        }
+    }
 }

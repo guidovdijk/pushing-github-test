@@ -53,11 +53,13 @@
                     @if $unit == 'rem' {
                         #{$prop}: rem($v, true);
                         #{$prop}: #{$v};
-                    } @else {
+                    }
+                    @else {
                         #{$prop}: #{$v};
                         #{$prop}: rem($v);
                     }
-                } @else {
+                }
+                @else {
                     #{$prop}: #{$v};
                 }
             }

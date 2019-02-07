@@ -20,17 +20,21 @@
 @mixin border-radius($radius, $type) {
     @if $type == 'top' {
         border-top-left-radius: $radius;
-        border-top-right-radius: $radius;       
-    } @else if $type == 'bottom' {
+        border-top-right-radius: $radius;
+    }
+    @else if $type == 'bottom' {
         border-bottom-left-radius: $radius;
         border-bottom-right-radius: $radius;
-    } @else if $type == 'left' {
+    }
+    @else if $type == 'left' {
         border-top-left-radius: $radius;
         border-bottom-left-radius: $radius;
-    } @else if $type == 'right' {
+    }
+    @else if $type == 'right' {
         border-top-right-radius: $radius;
         border-bottom-right-radius: $radius;
-    } @else {
+    }
+    @else {
         @error "Invalid parameter. Expected: 'top', 'bottom', 'left' or 'right'. Got: '#{$type}'";
     }
 }

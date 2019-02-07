@@ -21,15 +21,18 @@
         @each $size-property, $size-value in $sizes {
             @if $size-property == base {
                 font-size: $size-value;
-            } @else if $size-property == tablet {
+            }
+            @else if $size-property == tablet {
                 @include tablet-up {
                     font-size: $size-value;
                 }
-            } @else {
-                @error "Invalid size propterty. Expected: base and tablet, got: #{$size-property}";
+            }
+            @else {
+                @error 'Invalid size propterty. Expected: base and tablet, got: #{$size-property}';
             }
         }
-    } @else {
+    }
+    @else {
         @error "Invalid variable. Check '#{$sizes}' in _typography.scss";
     }
 }

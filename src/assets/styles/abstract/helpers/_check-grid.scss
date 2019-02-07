@@ -7,9 +7,10 @@
 */
 
 @if $check-grid {
+
     * {
-        background: #000 !important;
-        color: #0f0 !important;
-        outline: solid #f00 1px !important;
+        background: #000000 !important;
+        color: #00ff00 !important;
+        outline: solid #ff0000 1px !important;
     }
 }

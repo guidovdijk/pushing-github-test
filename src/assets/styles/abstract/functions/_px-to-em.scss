@@ -35,13 +35,14 @@ $browser-default-font-size: 16px !default;
     
         @if $reverse {
             $px-size: $value-unitless * $base-value-unitless;
-            @return $px-size + 0px;
+            @return $px-size + 0;
         }
 
         $em-size: $value-unitless / $base-value-unitless;
-        @return $em-size + 0em;
-    } @else {
+        @return $em-size + 0;
+    }
+    @else {
         @warn "Warning, '#{$value}' is not a number";
         @return $value;
-    } 
+    }
 }

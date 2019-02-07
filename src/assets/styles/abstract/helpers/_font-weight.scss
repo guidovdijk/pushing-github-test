@@ -1,6 +1,7 @@
 // Font weight classes
 @each $weight-property, $weight-value in $font-weights {
+
     .has-font-weight-#{$weight-property}{
-        font-weight: #{$weight-value}
+        font-weight: #{$weight-value};
     }
 }

@@ -2,6 +2,7 @@
 $text-style: (uppercase, lowercase, capitalize, none);
 
 @each $style in $text-style {
+
     .has-text-#{$style}{
         text-transform: $style;
     }

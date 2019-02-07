@@ -1,6 +1,7 @@
 $font-styles: (inherit, initial, normal, italic, oblique, unset);
 
 @each $style in $font-styles {
+
     .font-style-#{$style}{
         font-style: #{$style};
     }

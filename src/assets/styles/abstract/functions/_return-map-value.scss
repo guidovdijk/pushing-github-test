@@ -12,7 +12,8 @@
     @if map-has-key($map, $type){
         $value: map-get($map, $type);
         @return $value;
-    } @else {
+    }
+    @else {
         @return $variable;
     }
 }

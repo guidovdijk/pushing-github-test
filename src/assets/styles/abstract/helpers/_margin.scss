@@ -11,15 +11,20 @@ $margins: (
     @each $property, $v in $margin-value {
         @if $margin == all {
             @if $property == 0 {
+
                 .no-margin {
-                    margin: $v
-                }   
-            } @else {
+                    margin: $v;
+                }
+            }
+            @else {
+
                 .is-margin-#{$property} {
                     margin: $v;
                 }
             }
-        } @else {
+        }
+        @else {
+
             .is-margin-#{$margin}-#{$property} {
                 margin-#{$margin}: $v;
             }

@@ -27,7 +27,7 @@
     $type:                    linear !default;
     $radical-extent-keyword: 'circle at center' !default;
     $colors:                  map-get($map, colors);
-    $fallback:                unquote('#{nth($colors, 1)}') !default; 
+    $fallback:                unquote('#{nth($colors, 1)}') !default;
     $fallback:                str-replace($fallback, ' 0%', '');
     
     $gradient-type:           return-map-value($map, type, $type);
@@ -49,7 +49,8 @@
         $deg: null;
         $radical-extent-keyword: return-map-value($map, radical-extent-keyword, 'circle at center');
         $radical-extent-keyword: unquote($radical-extent-keyword);
-    } @else {
+    }
+    @else {
         $radical-extent-keyword: null;
     }
 
@@ -57,6 +58,7 @@
         background: str-replace(#{$image-src}, ',', ''); // Uncomment if you want a fallback to the background image without gradient.
         @if $legacy_browser_support {
             @include ie-fallback {
+
                 &:before {
                     @extend %pseudo;
                     top: 0;
@@ -67,7 +69,8 @@
                 }
             }
         }
-    } @else {
+    }
+    @else {
         background: $fallback;
     }
     background: #{$gradient-type} + '-gradient(' + ($deg, $radical-extent-keyword, $colors) + ')' + #{$image-src};

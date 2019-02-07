@@ -2,6 +2,7 @@
 $cursors: (pointer, default, not-allowed, unset);
 
 @each $cursor in $cursors {
+
     .has-cursor-#{$cursor}{
         cursor: #{$cursor};
     }

@@ -1,10 +1,13 @@
 // Z-index classes
 @for $i from -1 through 10 {
     @if $i == -1 {
+
         .z-index-behind {
             z-index: #{$i};
         }
-    } @else {
+    }
+    @else {
+
         .z-index-#{$i} {
             z-index: #{$i};
         }

@@ -5,10 +5,10 @@
 */
 
 const exists = element => {
-  if (element.length === 0) {
-    return false;
-  }
-  return true;
+    if (element.length === 0) {
+        return false;
+    }
+    return true;
 };
 
 export default exists;
