@@ -64,7 +64,7 @@ const config = {
         styleFolder: 'test/styles/',
         scripts: './src/assets/scripts/**/*.js',
         styles: './src/assets/styles/**/*.scss',
-        html: './src/**/*.html',
+        php: './src/**/*.php',
         images: './src/assets/images/**/*.+(png|jpg|gif|svg)',
     },
     styleguides: {
@@ -205,7 +205,7 @@ gulp.task('minify:sass', function () {
 
 // Html
 gulp.task('minify:html', () => {
-    return gulp.src(config.development.html)
+    return gulp.src(config.development.php)
         .pipe(useref())
         .pipe(htmlmin({
             collapseWhitespace: true,
@@ -244,7 +244,7 @@ const watch = [
 ];
 gulp.task('watch', watch, function () {
     gulp.watch(config.development.styles, ['lint:sass']);
-    gulp.watch(config.development.html, browserSync.reload);
+    gulp.watch(config.development.php, browserSync.reload);
     gulp.watch(config.development.scripts, ['lint:js']);
 });
 

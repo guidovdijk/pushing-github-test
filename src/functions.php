@@ -1,5 +1,4 @@
 <?php
-    add_action('after_setup_theme', 'my_theme_setup');
 
     function my_theme_setup(){
         load_theme_textdomain('my_theme', get_template_directory() . '/languages');
@@ -13,15 +12,16 @@
         );
     }
 
+    add_action('after_setup_theme', 'my_theme_setup');
 
-    add_action('wp_enqueue_scripts', 'my_theme_load_scripts');
 
     function my_theme_load_scripts(){
+        wp_enqueue_style( 'style', get_stylesheet_uri() . '/style.css');
         wp_enqueue_script('jquery');
     }
 
+    add_action('wp_enqueue_scripts', 'my_theme_load_scripts');
 
-    add_action('comment_form_before', 'my_theme_enqueue_comment_reply_script');
 
     function my_theme_enqueue_comment_reply_script(){
         if (get_option('thread_comments')){
@@ -29,8 +29,8 @@
         }
     }
 
+    add_action('comment_form_before', 'my_theme_enqueue_comment_reply_script');
 
-    add_filter('the_title', 'my_theme_title');
 
     function my_theme_title($title){
         if ($title == ''){
@@ -40,15 +40,15 @@
         }
     }
 
+    add_filter('the_title', 'my_theme_title');
 
-    add_filter('wp_title', 'my_theme_filter_wp_title');
 
     function my_theme_filter_wp_title($title){
         return $title . esc_attr(get_bloginfo('name'));
     }
 
+    add_filter('wp_title', 'my_theme_filter_wp_title');
 
-    add_action('widgets_init', 'my_theme_widgets_init');
 
     function my_theme_widgets_init(){
         register_sidebar(array(
@@ -61,6 +61,8 @@
         ));
     }
 
+    add_action('widgets_init', 'my_theme_widgets_init');
+
 
     function my_theme_custom_pings($comment){
         $GLOBALS['comment'] = $comment;
@@ -69,9 +71,9 @@
         <?php
     }
 
-
     add_filter('get_comments_number', 'my_theme_comments_number');
 
+    
     function my_theme_comments_number($count){
         if (!is_admin()){
             global $id;
@@ -81,5 +83,6 @@
             return $count;
         }
     }
+
 
 ?>
