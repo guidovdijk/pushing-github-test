@@ -14,6 +14,8 @@ $text-color: #ffffff;
 $dark-color: #000000;
 $light-color: #ffffff;
 
+$disabled-color: lighten($primary-color, 20%);
+
 // Gradients
 $gradients: (
     chill: (
