@@ -20,6 +20,7 @@ const browserSync = require('browser-sync').create(),
     purgecss = require('gulp-purgecss'),
     runSequence = require('run-sequence'),
     sass = require('gulp-sass'),
+    svgmin = require('gulp-svgmin'),
     useref = require('gulp-useref'),
     webpack = require('webpack'),
     webpackStream = require('webpack-stream'),
@@ -58,6 +59,7 @@ const config = {
         },
         folder: './production',
         images: './production/assets/images',
+        svgs: './production/assets/svgs',
     },
     dist: {
         folder: './src/dist/',
@@ -68,7 +70,8 @@ const config = {
         scripts: './src/assets/scripts/**/*.js',
         styles: './src/assets/styles/**/*.scss',
         php: './src/**/*.php',
-        images: './src/assets/images/**/*.+(png|jpg|gif|svg)',
+        images: './src/assets/images/**/*.+(png|jpg|gif)',
+        svgs: './src/assets/images/**/*.svg',
     },
     styleguides: {
         scss: './.stylelintrc.json',
@@ -105,6 +108,7 @@ const config = {
  *   - minify:sass
  *   - minify:wordpress
  *   - minify:images
+ *   - minify:svgs
  *  
  *  4: BrowserSync
  *  
@@ -230,6 +234,18 @@ gulp.task('minify:images', () => {
         .pipe(gulp.dest(config.production.images));
 });
 
+// Svg's
+gulp.task('minify:svgs', () => {
+    return gulp.src(config.development.svgs)
+        .pipe(plumber({ 
+            errorHandler: notify.onError(
+                ' '
+            )
+        }))
+        .pipe(cache(svgmin()))
+        .pipe(gulp.dest(config.production.svgs));
+});
+
 
 /*
  * 4: BrowserSync
@@ -271,6 +287,7 @@ gulp.task('production', (callback) => {
         'lint:js', 
         'minify:sass', 
         'minify:wordpress', 
+        'minify:svgs', 
         'minify:images'
     ];
     if(clean){

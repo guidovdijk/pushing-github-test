@@ -32,6 +32,7 @@
     "gulp-purgecss": "^1.1.1",
     "gulp-sass": "^4.0.2",
     "gulp-stylelint": "^8.0.0",
+    "gulp-svgmin": "^2.1.0",
     "gulp-useref": "^3.1.5",
     "husky": "^1.1.2",
     "lint-staged": "^8.1.0",
