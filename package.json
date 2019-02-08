@@ -1,7 +1,7 @@
 {
-  "name": "the-valley",
+  "name": "wordpress-theme",
   "version": "1.0.0",
-  "description": "custom eslint",
+  "description": "WordPress theme setup",
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
@@ -21,6 +21,7 @@
     "gulp-eslint": "5.0.0",
     "gulp-group-css-media-queries": "^1.2.2",
     "gulp-gzip": "^1.4.2",
+    "gulp-header": "^2.0.7",
     "gulp-htmlmin": "5.0.1",
     "gulp-if": "2.0.2",
     "gulp-imagemin": "^5.0.3",
@@ -62,7 +63,10 @@
       "pre-commit": "npm run -s precommit && echo '===== COMMIT SUCCESFULL ====='"
     }
   },
-  "author": "Guido",
+  "author": {
+    "name": "Guido",
+    "url": "https://github.com/guidovdijk"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/guidovdijk/pushing-github-test/issues"

@@ -10,6 +10,7 @@ const browserSync = require('browser-sync').create(),
     gulpIf = require('gulp-if'),
     gulpStylelint = require('gulp-stylelint'),
     gzip = require('gulp-gzip'),
+    header = require('gulp-header'),
     htmlmin = require('gulp-htmlmin'),
     imagemin = require('gulp-imagemin'),
     notify = require('gulp-notify'),
@@ -26,6 +27,7 @@ const browserSync = require('browser-sync').create(),
 
 // Own json and webpack
 const directories = require('./create-styling-directory.json'),
+    projectPackage = require('./package.json'),
     eslintStyleGuide = require('./.eslintrc.json'),
     webpackConfig = require('./webpack.config.js');
 
@@ -75,6 +77,16 @@ const config = {
     info: {
         promptMessage: 'Running this command for the second time and up, will override your .scss files. Do you want to continue?',
         errorMessage: 'Error: <%= error.message %>',
+        theme: '/**\n' +
+		' * Theme Name: <%= package.name %>\n' +
+		' * Theme URI: <%= package.repository.url %>\n' +
+		' * GitHub Theme URI: <%= package.repository.url %>\n' +
+		' * Description: <%= package.description %>\n' +
+		' * Version: <%= package.version %>\n' +
+		' * Author: <%= package.author.name %>\n' +
+		' * Author URI: <%= package.author.url %>\n' +
+		' * License: <%= package.license %>\n' +
+		' */',
     }
 };
 
@@ -165,6 +177,7 @@ gulp.task('lint:sass', function () {
         .pipe(prefix({
             browsers: config.production.css.version
         }))
+        .pipe(header(config.info.theme, { package: projectPackage }))
         .pipe(gulp.dest(config.dist.folder))
         .pipe(gulpIf(!prod, browserSync.reload({ stream: true })));
 });
@@ -194,6 +207,7 @@ gulp.task('minify:sass', function () {
         .pipe(gcmq())
         .pipe(prefix(config.production.css.version))
         .pipe(cleanCSS())
+        .pipe(header(config.info.theme, { package: projectPackage }))
         .pipe(gulp.dest(config.production.folder))
         .pipe(gzip())
         .pipe(gulp.dest(config.production.folder));
