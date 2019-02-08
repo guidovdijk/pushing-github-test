@@ -275,6 +275,7 @@ const watch = [
 gulp.task('watch', watch, function () {
     gulp.watch(config.development.assets.styles, ['lint:sass']);
     gulp.watch(config.development.php, browserSync.reload);
+    gulp.watch(config.development.assets.svgs, browserSync.reload);
     gulp.watch(config.development.assets.scripts, ['lint:js']);
 });
 
