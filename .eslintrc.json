@@ -13,10 +13,6 @@
             2,
             4
         ],
-        "array-element-newline": [
-            2,
-            { "minItems": 4 }
-        ],
         "array-bracket-newline": 0,
         "linebreak-style": 0,
         "quotes": [
