@@ -447,6 +447,7 @@ const subFileLoop = (target, parent) => {
 const makeFiles = (filePath, fileContent) => {
     fse.outputFile(filePath, fileContent, err => {
         if (err) {
+            console.log(err);
         }
     });
 };
