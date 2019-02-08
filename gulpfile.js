@@ -20,6 +20,7 @@ const browserSync = require('browser-sync').create(),
     purgecss = require('gulp-purgecss'),
     runSequence = require('run-sequence'),
     sass = require('gulp-sass'),
+    screenshot = require('screenshot-stream'),
     svgmin = require('gulp-svgmin'),
     useref = require('gulp-useref'),
     webpack = require('webpack'),
@@ -47,6 +48,7 @@ const config = {
     },
     suffix: {
         html: '.html',
+        png: '.png',
         js: '.js',
         scss: '.scss',
         css: '.css',
@@ -76,6 +78,16 @@ const config = {
             images: './src/assets/images/**/*.+(png|jpg|gif)',
             svgs: './src/assets/images/**/*.svg',
         },
+    },
+    screenshots: {
+        folder: './screenshots/',
+        sizes: ['320x568', '1000x1024'],
+        pages: [
+            {
+                name: 'index',
+                url: 'http://localhost:3000/index.html'
+            }
+        ],
     },
     styleguides: {
         scss: './.stylelintrc.json',
@@ -124,19 +136,21 @@ const config = {
  *   - webpack
  *  
  *  6: Production
- *    - webpack
- *    - minify:sass
- *    - minify:wordpress
- *    - minify:images
- *    - clean:production
+ *   - webpack
+ *   - minify:sass
+ *   - minify:wordpress
+ *   - minify:images
+ *   - clean:production
  *  
  *  7: Prompting
  *  
- *  8: Custom functions: 
- *    - Make directory
- *      - mkdir
- *      - subFileLoop
- *      - makeFiles
+ *  8: Screenshots
+ * 
+ *  9: Custom functions: 
+ *   - Make directory
+ *     - mkdir
+ *     - subFileLoop
+ *     - makeFiles
 */
 
 
@@ -314,7 +328,52 @@ gulp.task('prompting', () => {
 
 
 /*
- * 8: Custom functions
+ * 8: Screenshot
+*/
+gulp.task('screenshots', () => {
+
+    // Sizes based on Chrome Browser's default device testing sizes
+    const sizes = config.screenshots.sizes;
+    const pages = config.screenshots.pages;
+
+    let pageIndex = 0;
+    let sizeIndex = 0;
+
+    const prepareNextScreenshot = (p, s) => {
+        if (sizeIndex == s.length - 1) {
+            sizeIndex = 0;
+            pageIndex += 1;
+        } else {
+            sizeIndex += 1;
+        }
+        if (p[pageIndex] != undefined) {
+            makeScreenshot(p, s);
+        }
+    };
+
+    const makeScreenshot = (p, s) => {
+        const stream = screenshot(p[pageIndex].url, s[sizeIndex], {
+            crop: false,
+            delay: 2,
+        })
+            .on('finish', () => {
+                prepareNextScreenshot(p, s);
+            })
+            .on('warning', (e) => {
+                console.log('warning: ', e);
+            })
+            .on('error', (e) => {
+                console.log('error: ', e);
+            });
+        stream.pipe(fse.createWriteStream(`${config.screenshots.folder}${p[pageIndex].name}-${s[sizeIndex]}${config.suffix.png}`));
+    };
+
+    makeScreenshot(pages, sizes);
+});
+
+  
+/*
+ * 9: Custom functions
 */
 
 // Make directory
@@ -388,14 +447,6 @@ const subFileLoop = (target, parent) => {
 const makeFiles = (filePath, fileContent) => {
     fse.outputFile(filePath, fileContent, err => {
         if (err) {
-            console.log(err);
         }
     });
 };
-
-
-
-
-
-
-
