@@ -58,8 +58,10 @@ const config = {
             version: ['last 3 versions', 'ie >= 7'],
         },
         folder: './production',
-        images: './production/assets/images',
-        svgs: './production/assets/svgs',
+        assets: {
+            images: './production/assets/images',
+            svgs: './production/assets/svgs',
+        },
     },
     dist: {
         folder: './src/dist/',
@@ -67,11 +69,13 @@ const config = {
     development: {
         folder: './src',
         styleFolder: 'test/styles/',
-        scripts: './src/assets/scripts/**/*.js',
-        styles: './src/assets/styles/**/*.scss',
         php: './src/**/*.php',
-        images: './src/assets/images/**/*.+(png|jpg|gif)',
-        svgs: './src/assets/images/**/*.svg',
+        assets: {
+            scripts: './src/assets/scripts/**/*.js',
+            styles: './src/assets/styles/**/*.scss',
+            images: './src/assets/images/**/*.+(png|jpg|gif)',
+            svgs: './src/assets/images/**/*.svg',
+        },
     },
     styleguides: {
         scss: './.stylelintrc.json',
@@ -142,7 +146,7 @@ const config = {
 
 // Javascript
 gulp.task('lint:js', function () {
-    return gulp.src(config.development.scripts)
+    return gulp.src(config.development.assets.scripts)
         .pipe(plumber({ 
             errorHandler: notify.onError(
                 ' '
@@ -163,7 +167,7 @@ gulp.task('lint:js', function () {
 
 // Sass
 gulp.task('lint:sass', function () {
-    return gulp.src(config.development.styles)
+    return gulp.src(config.development.assets.styles)
         .pipe(plumber({ 
             errorHandler: notify.onError(
                 ''
@@ -201,7 +205,7 @@ gulp.task('prettify', function (callback) {
 
 // Sass
 gulp.task('minify:sass', function () {
-    return gulp.src(config.development.styles)
+    return gulp.src(config.development.assets.styles)
         .pipe(sass())
         .pipe(purgecss({
             content: config.production.css.purge,
@@ -229,21 +233,21 @@ gulp.task('minify:wordpress', () => {
 
 // Images
 gulp.task('minify:images', () => {
-    return gulp.src(config.development.images)
+    return gulp.src(config.development.assets.images)
         .pipe(cache(imagemin()))
-        .pipe(gulp.dest(config.production.images));
+        .pipe(gulp.dest(config.production.assets.images));
 });
 
 // Svg's
 gulp.task('minify:svgs', () => {
-    return gulp.src(config.development.svgs)
+    return gulp.src(config.development.assets.svgs)
         .pipe(plumber({ 
             errorHandler: notify.onError(
                 ' '
             )
         }))
         .pipe(cache(svgmin()))
-        .pipe(gulp.dest(config.production.svgs));
+        .pipe(gulp.dest(config.production.assets.svgs));
 });
 
 
@@ -269,9 +273,9 @@ const watch = [
     'browserSync', 'lint:sass', 'lint:js',
 ];
 gulp.task('watch', watch, function () {
-    gulp.watch(config.development.styles, ['lint:sass']);
+    gulp.watch(config.development.assets.styles, ['lint:sass']);
     gulp.watch(config.development.php, browserSync.reload);
-    gulp.watch(config.development.scripts, ['lint:js']);
+    gulp.watch(config.development.assets.scripts, ['lint:js']);
 });
 
 
@@ -316,7 +320,7 @@ gulp.task('prompting', function () {
 let parentFiles = [];
 
 gulp.task('mkdir', ['prompting'], function () {
-    let pathToFolder = config.development.styleFolder;
+    let pathToFolder = config.development.assets.styleFolder;
     subFileLoop(directories, '');
     parentFiles = parentFiles.join('').replace(/,/g, ' ');
 
@@ -325,7 +329,7 @@ gulp.task('mkdir', ['prompting'], function () {
 
 function subFileLoop(target, parent) {
 
-    let pathToFolder = config.development.styleFolder;
+    let pathToFolder = config.development.assets.styleFolder;
     let fileUrls = [];
     let parents = parent;
 
