@@ -145,7 +145,7 @@ const config = {
 */
 
 // Javascript
-gulp.task('lint:js', function () {
+gulp.task('lint:js', () => {
     return gulp.src(config.development.assets.scripts)
         .pipe(plumber({ 
             errorHandler: notify.onError(
@@ -166,7 +166,7 @@ gulp.task('lint:js', function () {
 });
 
 // Sass
-gulp.task('lint:sass', function () {
+gulp.task('lint:sass', () => {
     return gulp.src(config.development.assets.styles)
         .pipe(plumber({ 
             errorHandler: notify.onError(
@@ -194,7 +194,7 @@ gulp.task('lint:sass', function () {
 /*
  * 2: Prettiers
 */
-gulp.task('prettify', function (callback) {
+gulp.task('prettify', (callback) => {
     runSequence('lint:sass', 'lint:js', callback);
 });
 
@@ -204,7 +204,7 @@ gulp.task('prettify', function (callback) {
 */
 
 // Sass
-gulp.task('minify:sass', function () {
+gulp.task('minify:sass', () => {
     return gulp.src(config.development.assets.styles)
         .pipe(sass())
         .pipe(purgecss({
@@ -272,7 +272,7 @@ gulp.task('browserSync', () => {
 const watch = [
     'browserSync', 'lint:sass', 'lint:js',
 ];
-gulp.task('watch', watch, function () {
+gulp.task('watch', watch, () => {
     gulp.watch(config.development.assets.styles, ['lint:sass']);
     gulp.watch(config.development.php, browserSync.reload);
     gulp.watch(config.development.assets.svgs, browserSync.reload);
@@ -306,7 +306,7 @@ gulp.task('production', (callback) => {
 /*
  * 7: Prompting
 */
-gulp.task('prompting', function () {
+gulp.task('prompting', () => {
     return gulp.src(config.root.allFiles, {
         base: config.root.path
     }).pipe(prompt.confirm(config.info.promptMessage));
@@ -320,7 +320,7 @@ gulp.task('prompting', function () {
 // Make directory
 let parentFiles = [];
 
-gulp.task('mkdir', ['prompting'], function () {
+gulp.task('mkdir', ['prompting'], () => {
     let pathToFolder = config.development.styleFolder;
     subFileLoop(directories, '');
     parentFiles = parentFiles.join('').replace(/,/g, ' ');
@@ -328,7 +328,7 @@ gulp.task('mkdir', ['prompting'], function () {
     makeFiles(pathToFolder + directories.main, parentFiles);
 });
 
-function subFileLoop(target, parent) {
+const subFileLoop = (target, parent) => {
 
     let pathToFolder = config.development.styleFolder;
     let fileUrls = [];
@@ -383,15 +383,15 @@ function subFileLoop(target, parent) {
             fileUrls = [];
         }
     }
-}
+};
 
-function makeFiles(filePath, fileContent) {
+const makeFiles = (filePath, fileContent) => {
     fse.outputFile(filePath, fileContent, err => {
         if (err) {
             console.log(err);
         }
     });
-}
+};
 
 
 
