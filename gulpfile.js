@@ -320,7 +320,7 @@ gulp.task('prompting', function () {
 let parentFiles = [];
 
 gulp.task('mkdir', ['prompting'], function () {
-    let pathToFolder = config.development.assets.styleFolder;
+    let pathToFolder = config.development.styleFolder;
     subFileLoop(directories, '');
     parentFiles = parentFiles.join('').replace(/,/g, ' ');
 
@@ -329,7 +329,7 @@ gulp.task('mkdir', ['prompting'], function () {
 
 function subFileLoop(target, parent) {
 
-    let pathToFolder = config.development.assets.styleFolder;
+    let pathToFolder = config.development.styleFolder;
     let fileUrls = [];
     let parents = parent;
 
