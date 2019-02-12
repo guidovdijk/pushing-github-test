@@ -50,7 +50,9 @@
   "scripts": {
     "precommit": "./node_modules/.bin/lint-staged",
     "prod": "./node_modules/.bin/gulp production --prod",
-    "prod:clean": "./node_modules/.bin/gulp production --prod --clean"
+    "prod:clean": "./node_modules/.bin/gulp production --prod --clean",
+    "fix:scss": "./node_modules/.bin/stylelint --fix",
+    "fix:js": "./node_modules/.bin/eslint --fix"
   },
   "repository": {
     "type": "git",
