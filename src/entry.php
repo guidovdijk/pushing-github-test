@@ -1,40 +1,33 @@
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<article class="article">
 
-    <header>
-        <?php if (is_singular()) { 
+    <header class="article__header">
 
-            echo '<h1>'; 
-
-        } else { 
-
-            echo '<h2>'; 
-
-        } ?>
-
-        <a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" rel="bookmark">
+        <a class="article__header__title" href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" rel="bookmark">
         
             <?php the_title(); ?>
         
         </a>
+
+        <section class="article__content">
+
+            <?php get_template_part('components/entry/entry', 'content'); ?>
+
+        </section>
         
-        <?php if (is_singular()) { 
-
-            echo '</h1>'; 
-
-        } else { 
-
-            echo '</h2>'; 
-
-        } ?> 
-        
-        <?php edit_post_link(); ?>
-
-        <?php if (!is_search()) get_template_part('components/entry/entry', 'meta'); ?>
 
     </header>
 
-    <?php get_template_part('components/entry/entry', ( is_archive() || is_search() ? 'summary' : 'content' )); ?>
+    <section class="article__meta">
 
-    <?php if (!is_search()) get_template_part('components/entry/entry', 'footer'); ?>
+        <?php get_template_part('components/entry/entry', 'meta'); ?>
+
+    </section>
+
+
+    <footer class="article__footer">
+
+        <?php get_template_part('components/entry/entry', 'footer'); ?>
+    
+    </footer> 
 
 </article>

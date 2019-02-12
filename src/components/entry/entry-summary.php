@@ -1,15 +1,11 @@
-<section>
+<?php the_excerpt(); ?>
 
-    <?php the_excerpt(); ?>
+<?php if( is_search() ) : ?>
 
-    <?php if( is_search() ) : ?>
+    <div>
     
-        <div>
-        
-            <?php wp_link_pages(); ?>
-        
-        </div>
+        <?php wp_link_pages(); ?>
     
-    <?php endif; ?>
+    </div>
 
-</section>
+<?php endif; ?>

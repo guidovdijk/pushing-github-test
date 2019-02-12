@@ -1,19 +1,15 @@
-<footer>
+<span>
 
-    <span>
+    <?php _e( 'Categories: ', 'my_theme' ); ?><?php the_category( ', ' ); ?>
 
-        <?php _e( 'Categories: ', 'my_theme' ); ?><?php the_category( ', ' ); ?>
+</span>
 
-    </span>
+<span>
 
-    <span>
+    <?php the_tags(); ?>
 
-        <?php the_tags(); ?>
+</span>
 
-    </span>
-
-    <?php if ( comments_open() ) { 
-        echo '<span>|</span> <span><a href="' . get_comments_link() . '">' . sprintf( __( 'Comments', 'my_theme' ) ) . '</a></span>';
-    } ?>
-
-</footer> 
+<?php if ( comments_open() ) { 
+    echo '<span>|</span> <span><a href="' . get_comments_link() . '">' . sprintf( __( 'Comments', 'my_theme' ) ) . '</a></span>';
+} ?>

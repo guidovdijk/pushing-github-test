@@ -1,17 +1,14 @@
-<section>
+<?php if ( has_post_thumbnail() ) { 
 
-    <?php if ( has_post_thumbnail() ) { 
+    the_post_thumbnail(); 
 
-        the_post_thumbnail(); 
+} ?>
 
-    } ?>
+<?php the_content(); ?>
 
-    <?php the_content(); ?>
+<div>
 
-    <div>
-    
-        <?php wp_link_pages(); ?>
-    
-    </div>
+    <?php wp_link_pages(); ?>
 
-</section>
+</div>
+

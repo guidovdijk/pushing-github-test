@@ -1,31 +1,17 @@
-$post-bg: rgb(173, 216, 230);
-$post--featured-bg: rgb(212, 207, 207);
+.article {
+    &__header {
+        &__title {
 
-.post {
-    background-color: $post-bg;
-
-    &__title {
-        color: $primary-color;
-    }
-
-    &__body {
-        color: $dark-color;
-    }
-
-    &__link {
-        color: $secondary-color;
-    }
-
-    &--featured {
-        background-color: $post--featured-bg;
-        text-align: center;
-
-        .post__title {
-            color: $text-color;
         }
+    }
+
+    &__content {
         
-        .post__body {
-            color: $tertiary-color;
-        }
+    }
+    &__meta {
+        
+    }
+    &__footer {
+        
     }
 }

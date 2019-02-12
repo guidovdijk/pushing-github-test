@@ -11,5 +11,6 @@
     require_once(__DIR__ . '/functions/title.php');
 
     require_once(__DIR__ . '/functions/widgets.php');
-
+    
+    require_once(__DIR__ . '/functions/mavbar.php');
 ?>

@@ -16,37 +16,30 @@
 
 <body <?php body_class(); ?>>
 
-    <header role="banner">
+    <header class='header'>
 
-        <section>
+        <?php if (is_front_page() || is_home() || is_front_page() && is_home()) : ?>
+            <a class="header__home-link" href="<?php echo esc_url(home_url('/')); ?>" title="<?php echo esc_html(get_bloginfo('name')); ?>" rel="home">
+                <?php echo esc_html(get_bloginfo('name')); ?>
+            </a>
+        <?php endif; ?>
 
-            <div><?php if (is_front_page() || is_home() || is_front_page() && is_home()) {
+        <div class="header__description"><?php bloginfo('description'); ?></div>
 
-                    echo '<h1>';
 
-                } ?><a href="<?php echo esc_url(home_url('/')); ?>"
+        <nav class="header__navigation" role="navigation">
 
-                       title="<?php echo esc_html(get_bloginfo('name')); ?>"
-
-                       rel="home"><?php echo esc_html(get_bloginfo('name')); ?></a><?php if (is_front_page() || is_home() || is_front_page() && is_home()) {
-
-                    echo '</h1>';
-
-                } ?></div>
-
-            <div><?php bloginfo('description'); ?></div>
-
-        </section>
-
-        <nav role="navigation">
-
-            <div>
+            <div class="header__navigation__searchform">
 
                 <?php get_search_form(); ?>
 
             </div>
 
-            <?php wp_nav_menu(array('theme_location' => 'main-menu')); ?>
+            <ul class="header__navigation__list">
+
+                <?php wp_nav_menu(array('theme_location' => 'main-menu')); ?>
+
+            </ul>
 
         </nav>
 
